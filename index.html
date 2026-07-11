@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USA Map</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>USA Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="map.css">
-    <link rel="stylesheet" href="animations.css">
     <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="animations.css">
     <link rel="stylesheet" href="panels.css">
     <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="map.css">
     <link rel="stylesheet" href="toolbar.css">
 </head>
 <body>
 
-    <div id="map-container"></div>
+    <div id="topbar"></div>
+    <div id="main">
+        <div id="map-wrap">
+            <svg id="map"></svg>
+        </div>
+    </div>
 
     <script src="data.js"></script>
     <script src="colors.js"></script>
