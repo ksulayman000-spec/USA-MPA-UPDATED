@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>USA Explorer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="layout.css">
     <link rel="stylesheet" href="animations.css">
@@ -15,10 +15,28 @@
 </head>
 <body>
 
-    <div id="topbar"></div>
+    <div id="topbar">
+        <div class="tb-left">
+            <div class="logo">
+                <span class="logo-icon">🗺️</span>
+                <span class="logo-text">USA Explorer</span>
+            </div>
+        </div>
+    </div>
+    
     <div id="main">
         <div id="map-wrap">
             <svg id="map"></svg>
+        </div>
+        <div id="side">
+            <div id="tabs">
+                <button class="tab active" id="tab-info">Info</button>
+            </div>
+            <div id="tab-content">
+                <div id="info-card">
+                    <div class="state-title">Select a State</div>
+                </div>
+            </div>
         </div>
     </div>
 
