@@ -1,0 +1,80 @@
+/* ─────────────────────────────────────────
+   LAYOUT — overall page structure
+   ───────────────────────────────────────── */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── MAP WRAP ── */
+#map-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--ocean);
+  min-width: 0;
+}
+
+svg#map {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ── TRAY (puzzle mode) ── */
+#tray-wrap {
+  padding: 7px 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  display: none;
+}
+
+#tray-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 5px;
+}
+
+#tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  max-height: 68px;
+  overflow-y: auto;
+}
+
+.tc {
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  cursor: grab;
+  padding: 3px 7px;
+  transition: opacity var(--transition);
+}
+.tc:hover { opacity: .8; }
+.tc.placed { opacity: .3; pointer-events: none; }
+
+/* ── SCROLLBAR STYLING ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border2); }
