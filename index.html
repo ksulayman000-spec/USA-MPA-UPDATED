@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>USA Explorer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>USA Explorer Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="layout.css">
     <link rel="stylesheet" href="animations.css">
@@ -12,6 +12,25 @@
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="map.css">
     <link rel="stylesheet" href="toolbar.css">
+
+    <style>
+        /* Essential root colors used by your styles */
+        :root {
+            --bg: #0f1923; --surface: #182433; --surface2: #1e2f42; --border: #2a3f55;
+            --accent: #3b82f6; --accent2: #10b981; --warn: #f59e0b; --danger: #ef4444;
+            --text: #e8f0fe; --text2: #8ba3bc; --text3: #4a6580; --radius: 8px;
+            --font: 'Inter', sans-serif; --ocean: #0b131c;
+        }
+        /* Draw clean backup map blocks since we are in a clean project */
+        .state-block {
+            display: inline-block; padding: 10px 15px; margin: 5px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); cursor: pointer; color: var(--text);
+            font-weight: 600; transition: all 0.2s;
+        }
+        .state-block:hover { border-color: var(--accent); background: var(--border); }
+        #fallback-grid { padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; }
+    </style>
 </head>
 <body>
 
@@ -19,22 +38,24 @@
         <div class="tb-left">
             <div class="logo">
                 <span class="logo-icon">🗺️</span>
-                <span class="logo-text">USA Explorer</span>
+                <span class="logo-text">USA Project Dashboard</span>
             </div>
         </div>
     </div>
     
     <div id="main">
-        <div id="map-wrap">
-            <svg id="map"></svg>
+        <div id="map-wrap" style="overflow-y: auto;">
+            <div id="fallback-grid"></div>
         </div>
+        
         <div id="side">
             <div id="tabs">
-                <button class="tab active" id="tab-info">Info</button>
+                <button class="tab active" id="tab-info">State Details</button>
             </div>
             <div id="tab-content">
                 <div id="info-card">
-                    <div class="state-title">Select a State</div>
+                    <div class="state-title" id="details-title">Click any state item to explore</div>
+                    <div id="details-body" style="margin-top: 10px; color: var(--text2); line-height: 1.6;"></div>
                 </div>
             </div>
         </div>
@@ -42,5 +63,49 @@
 
     <script src="data.js"></script>
     <script src="colors.js"></script>
+
+    <script>
+        // Create the global variable your colors.js script expects so it doesn't crash
+        window.MAP_STATE = { allItems: {} };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById("fallback-grid");
+            const titleElement = document.getElementById("details-title");
+            const bodyElement = document.getElementById("details-body");
+
+            // Verify if your files loaded successfully
+            if (typeof DATA !== 'undefined') {
+                Object.keys(DATA.NAMES).forEach(abbr => {
+                    // Register state item
+                    window.MAP_STATE.allItems[abbr] = { id: abbr, snapped: true };
+                    
+                    // Grab colors from your colors.js file dynamically if they exist
+                    let stateColor = "var(--accent)";
+                    if (typeof COLORS !== 'undefined' && COLORS.classic && COLORS.classic[abbr]) {
+                        stateColor = COLORS.classic[abbr];
+                    }
+
+                    // Create clickable item element
+                    const box = document.createElement("div");
+                    box.className = "state-block";
+                    box.style.borderLeft = `5px solid ${stateColor}`;
+                    box.innerText = `${DATA.EMOJIS[abbr] || '📍'} ${DATA.NAMES[abbr]}`;
+                    
+                    // Click handler to load data onto your info sidebar panels
+                    box.addEventListener("click", () => {
+                        titleElement.innerText = `${DATA.EMOJIS[abbr] || ''} ${DATA.NAMES[abbr]} (${abbr})`;
+                        bodyElement.innerHTML = `
+                            <p><strong>Nickname:</strong> ${DATA.NICKNAMES[abbr] || 'N/A'}</p>
+                            <p><strong>FIPS Code:</strong> ${Object.keys(DATA.FIPS).find(key => DATA.FIPS[key] === abbr) || 'N/A'}</p>
+                        `;
+                    });
+
+                    grid.appendChild(box);
+                });
+            } else {
+                titleElement.innerText = "Error: data.js file could not be detected.";
+            }
+        });
+    </script>
 </body>
 </html>
