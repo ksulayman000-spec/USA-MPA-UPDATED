@@ -3,865 +3,1023 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Enterprise Ultra-Complex USA Geocentric Puzzle & Multi-Layer Analytics System</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>MAXIMUM EXPLICITNESS - GEOCENTRIC ANALYTICS SYSTEMS MATRIX</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-deep: #050b14;
-            --bg-surface: #0f1926;
-            --bg-card: #152238;
-            --bg-card-hover: #1c2e4a;
-            --border-glow: #223b61;
-            --border-muted: #1b2d4a;
-            --text-primary: #f0f5ff;
-            --text-secondary: #8da2c4;
-            --accent-blue: #38bdf8;
-            --accent-green: #4ade80;
-            --accent-orange: #fb923c;
-            --accent-red: #f87171;
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --bg-deep-space: #030712;
+            --bg-surface-primary: #0b1329;
+            --bg-card-element: #111c40;
+            --bg-card-hover: #172654;
+            --border-neon-glow: #38bdf8;
+            --border-solid-muted: #1e293b;
+            --text-ultra-white: #ffffff;
+            --text-sub-gray: #94a3b8;
+            --accent-cyber-blue: #00ffff;
+            --accent-matrix-green: #34d399;
+            --accent-warning-orange: #fb923c;
+            --accent-danger-red: #f87171;
+            --font-stack-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-stack-mono: 'JetBrains Mono', monospace;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
+            background-color: var(--bg-deep-space);
+            color: var(--text-ultra-white);
+            font-family: var(--font-stack-sans);
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* Error Boundary Bar */
-        #global-error-boundary {
-            background: #450a0a;
-            color: #fca5a5;
-            border-bottom: 2px solid #ef4444;
-            padding: 8px 16px;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            display: none;
+        /* HARD-WIRED INTERCEPTOR NOTIFICATION FRAMEWORK */
+        #hardware-fault-interceptor {
+            background: linear-gradient(90deg, #4c0519 0%, #881337 100%);
+            color: #ffe4e6;
+            border-bottom: 3px solid var(--accent-danger-red);
+            padding: 12px 24px;
+            font-family: var(--font-stack-mono);
+            font-size: 13px;
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 9999;
+            z-index: 999999;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.8);
+        }
+
+        .fault-badge {
+            background: #ef4444;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 800;
+            margin-right: 12px;
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0.3; }
         }
 
         header {
-            background: var(--bg-surface);
-            border-bottom: 1px solid var(--border-glow);
-            height: 60px;
+            background: var(--bg-surface-primary);
+            border-bottom: 2px solid var(--border-solid-muted);
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            z-index: 100;
+            padding: 0 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            position: relative;
+            z-index: 1000;
         }
 
-        .brand-container { display: flex; align-items: center; gap: 12px; }
-        .brand-title { font-weight: 800; font-size: 16px; letter-spacing: 1px; color: var(--text-primary); }
-        .brand-badge { background: #1e3a8a; color: var(--accent-blue); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 10px; border: 1px solid #2563eb; }
+        .master-branding-zone {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-        .global-toolbar {
-            background: #0b111e;
-            border-bottom: 1px solid var(--border-muted);
-            min-height: 48px;
+        .master-title {
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff 30%, var(--accent-cyber-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .master-badge {
+            background: #1e40af;
+            color: var(--accent-cyber-blue);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: var(--font-stack-mono);
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid #3b82f6;
+        }
+
+        .control-ribbon-bar {
+            background: #070b19;
+            border-bottom: 1px solid var(--border-solid-muted);
+            min-height: 55px;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
-            padding: 8px 24px;
-            font-size: 12px;
+            gap: 20px;
+            padding: 10px 30px;
+            font-size: 13px;
         }
 
-        .tool-select {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            color: var(--text-primary);
-            padding: 4px 10px;
+        .matrix-interactive-select {
+            background: var(--bg-card-element);
+            border: 1px solid var(--border-neon-glow);
+            color: var(--text-ultra-white);
+            padding: 6px 14px;
             border-radius: 6px;
-            font-family: var(--font-mono);
+            font-family: var(--font-stack-mono);
             outline: none;
             cursor: pointer;
+            font-weight: 600;
         }
 
-        .checkbox-container {
+        .matrix-interactive-select:focus {
+            box-shadow: 0 0 10px var(--border-neon-glow);
+        }
+
+        .ui-switch-label {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
             user-select: none;
-            color: var(--text-secondary);
+            color: var(--text-sub-gray);
+            font-weight: 500;
+            transition: color 0.2s;
         }
-        .checkbox-container input { cursor: pointer; }
-        .checkbox-container:hover { color: var(--text-primary); }
 
-        .btn {
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
+        .ui-switch-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-cyber-blue);
+            cursor: pointer;
+        }
+
+        .ui-switch-label:hover {
+            color: var(--text-ultra-white);
+        }
+
+        .action-execution-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border: 1px solid #3b82f6;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 12px;
+            font-family: var(--font-stack-mono);
+            text-transform: uppercase;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
         }
-        .btn:hover { background: #3b82f6; transform: translateY(-1px); }
-        .btn-danger { background: #991b1b; }
-        .btn-danger:hover { background: #dc2626; }
 
-        #workspace {
+        .action-execution-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,255,255,0.4);
+            border-color: var(--accent-cyber-blue);
+        }
+
+        .action-execution-btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            border-color: #f87171;
+            box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+        }
+
+        .action-execution-btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(248,113,113,0.5);
+        }
+
+        /* CONTENT WORKSPACE VIEWPORT GRID */
+        #mainframe-viewport-container {
             display: flex;
             flex: 1;
-            height: calc(100vh - 108px);
+            height: calc(100vh - 125px);
             position: relative;
         }
 
-        #map-viewport {
+        #geographic-render-plane {
             flex: 1;
-            background: radial-gradient(circle at center, #0a1424 0%, #030710 100%);
+            background: radial-gradient(circle at 50% 50%, #0c1733 0%, #02050c 100%);
             position: relative;
-            overflow: auto;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 20px;
         }
 
-        #svg-canvas {
+        /* FORCE CRITICAL STYLING TO INSURE MAXIMUM VISIBILITY FOR SVG ELEMENTS */
+        #svg-core-canvas-object {
             width: 100%;
             height: 100%;
-            max-width: 1100px;
-            max-height: 680px;
-            border: 1px dashed var(--border-muted);
-            background: rgba(15, 25, 38, 0.2);
-            border-radius: 12px;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+            max-width: 1200px;
+            max-height: 750px;
+            border: 2px solid #1e293b;
+            background: rgba(5, 10, 25, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 50px rgba(0, 255, 255, 0.1);
+            display: block !important; /* Force override absolute hidden flags */
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
-        /* SVG Vector Styling */
-        .vector-state-mesh {
-            stroke-width: 1.2;
+        /* HIGH VISIBILITY DESIGN VECTOR STYLINGS */
+        .svg-state-polygon-node {
+            stroke-width: 2 !important;
+            stroke-linejoin: round;
             cursor: grab;
-            transition: stroke 0.2s, fill-opacity 0.2s;
-        }
-        .vector-state-mesh:hover {
-            stroke: #ffffff !important;
-            fill-opacity: 0.9;
-        }
-        .vector-state-mesh.locked-snap {
-            cursor: default;
-            stroke-width: 1.5;
-            animation: targetPulse 1.5s ease-out;
-        }
-        .vector-state-mesh.active-selection {
-            stroke: var(--accent-green) !important;
-            stroke-width: 2.5;
-            filter: drop-shadow(0 0 8px rgba(74,222,128,0.5));
+            fill-opacity: 0.85;
+            transition: fill-opacity 0.2s, stroke 0.2s;
         }
 
-        .hud-label-text {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
+        .svg-state-polygon-node:hover {
+            fill-opacity: 1.0 !important;
+            stroke: #ffffff !important;
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));
+        }
+
+        .svg-state-polygon-node.state-is-snapped {
+            cursor: default;
+            stroke-width: 2.5 !important;
+            stroke-dasharray: none !important;
+        }
+
+        .svg-state-polygon-node.state-is-selected {
+            stroke: var(--accent-cyber-blue) !important;
+            stroke-width: 4 !important;
+            filter: drop-shadow(0 0 15px var(--accent-cyber-blue));
+        }
+
+        .postal-hud-overlay-text {
+            font-family: var(--font-stack-mono);
+            font-size: 14px;
+            font-weight: 900;
             fill: #ffffff;
             pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 -1px 0 rgba(0,0,0,0.9);
+            text-shadow: 0 2px 4px #000, 0 -1px 2px #000, 2px 0px 2px #000, -2px 0px 2px #000;
+            user-select: none;
         }
 
-        /* Node Modes Styling */
-        .node-star-capital {
+        .node-star-marker-element {
             stroke: #ffffff;
-            stroke-width: 1.2;
-            pointer-events: auto;
+            stroke-width: 1.5;
             cursor: pointer;
             transition: transform 0.2s;
         }
-        .node-star-capital:hover { transform: scale(1.3); }
-        .node-circle-city {
-            fill: rgba(255, 255, 255, 0.95);
-            stroke: var(--bg-deep);
-            stroke-width: 1;
-            pointer-events: none;
-        }
-        .node-label-annotation {
-            font-size: 8px;
-            font-weight: 500;
-            fill: var(--text-secondary);
-            pointer-events: none;
-            font-family: var(--font-sans);
-        }
-        .node-label-annotation.is-capital {
-            fill: var(--accent-orange);
-            font-weight: 700;
-            font-size: 9px;
+
+        .node-star-marker-element:hover {
+            transform: scale(1.4);
+            fill: #ffffff !important;
         }
 
-        /* Control Sidebar Panel Layout */
-        #control-sidebar {
-            width: 400px;
-            background: var(--bg-surface);
-            border-left: 1px solid var(--border-glow);
+        .node-circle-city-element {
+            stroke: #000000;
+            stroke-width: 1.2;
+            fill: #ffffff;
+            pointer-events: none;
+        }
+
+        .annotation-vector-text-label {
+            font-family: var(--font-stack-sans);
+            font-size: 10px;
+            font-weight: 700;
+            fill: #cbd5e1;
+            pointer-events: none;
+            text-shadow: 0 1px 3px #000;
+        }
+
+        .annotation-vector-text-label.label-type-capital {
+            fill: var(--accent-warning-orange);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* TELEMETRY DATA PANEL MANAGEMENT COLUMN SIDEBAR */
+        #telemetry-data-control-panel-sidebar {
+            width: 440px;
+            background: var(--bg-surface-primary);
+            border-left: 2px solid var(--border-solid-muted);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         }
 
-        .sidebar-scroll-area {
+        .sidebar-scrolling-view-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
-        .card-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border-muted);
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        .enterprise-card-panel {
+            background: var(--bg-card-element);
+            border: 1px solid var(--border-solid-muted);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+            transition: border-color 0.3s;
         }
 
-        .card-title-container {
+        .enterprise-card-panel:hover {
+            border-color: #2e3d66;
+        }
+
+        .panel-header-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border-muted);
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-solid-muted);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
         }
-        .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-blue); }
 
-        /* Metrics Data Field Row layout */
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .panel-header-title {
             font-size: 12px;
-            margin-bottom: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-cyber-blue);
+            font-family: var(--font-stack-mono);
         }
-        .metric-row span { color: var(--text-secondary); }
-        .metric-row strong { font-family: var(--font-mono); color: var(--text-primary); }
 
-        /* Individual Matrix Micro-toggles list */
-        .matrix-grid {
+        .data-matrix-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .data-matrix-row span {
+            color: var(--text-sub-gray);
+        }
+
+        .data-matrix-row strong {
+            font-family: var(--font-stack-mono);
+            color: var(--text-ultra-white);
+            background: rgba(0,0,0,0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* MATRIX MULTI-ISOLATION INTERFACE GRID */
+        .discrete-isolation-grid-view {
             display: flex;
             flex-direction: column;
             gap: 6px;
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
-            background: var(--bg-deep);
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-muted);
+            background: #060b18;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-solid-muted);
         }
-        .matrix-row-item {
+
+        .discrete-isolation-item-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 11px;
-            padding: 4px;
-            border-bottom: 1px solid #0d1b2e;
+            font-size: 12px;
+            padding: 6px;
+            border-bottom: 1px solid #0f1830;
+            transition: background 0.2s;
         }
-        .matrix-row-item:last-child { border-bottom: none; }
 
-        /* Embedded Diagnostic Realtime Stream Console */
-        #diagnostic-console {
-            height: 120px;
-            background: #020610;
-            border-top: 1px solid var(--border-glow);
-            font-family: var(--font-mono);
+        .discrete-isolation-item-row:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* LIVE DIAGNOSTIC STREAM TERMINAL */
+        #live-diagnostic-stream-terminal {
+            height: 150px;
+            background: #02040a;
+            border-top: 2px solid var(--border-solid-muted);
+            font-family: var(--font-stack-mono);
             font-size: 11px;
-            padding: 10px 16px;
+            padding: 12px 20px;
             overflow-y: auto;
-            color: #34d399;
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.8);
+            color: var(--accent-matrix-green);
+            box-shadow: inset 0 6px 24px rgba(0,0,0,0.9);
+            line-height: 1.5;
         }
-        .console-err { color: #f87171 !important; }
-        .console-warn { color: #fb923c !important; }
 
-        .hidden-layer-node { display: none !important; }
+        .terminal-line-err { color: var(--accent-danger-red) !important; font-weight: 700; }
+        .terminal-line-warn { color: var(--accent-warning-orange) !important; }
+        .terminal-line-sys { color: var(--accent-cyber-blue) !important; }
+
+        .hidden-structural-element {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
     </style>
 </head>
 <body>
 
-    <div id="global-error-boundary">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <strong style="background: #dc2626; color: white; padding: 2px 6px; border-radius: 3px;">CRITICAL SYSTEM RUNTIME ALERT</strong>
-            <span id="error-boundary-msg">No anomalous errors captured. System nominal.</span>
+    <div id="hardware-fault-interceptor" style="display:none;">
+        <div style="display: flex; align-items: center;">
+            <span class="fault-badge">CRITICAL OVERRIDE INTERCEPT</span>
+            <span id="fault-interceptor-output-message">Fault logging stream operational.</span>
         </div>
-        <button onclick="document.getElementById('global-error-boundary').style.display='none'" style="background:transparent; border:none; color:white; cursor:pointer; font-weight:bold;">✕</button>
+        <button onclick="document.getElementById('hardware-fault-interceptor').style.display='none'" style="background:none; border:none; color:white; cursor:pointer; font-weight:900; font-size:16px;">✕</button>
     </div>
 
     <header>
-        <div class="brand-container">
-            <span class="brand-title">ORBITAL METRIC ENGINE & VECTOR MAP SUITE</span>
-            <span class="brand-badge">V4.9.2-STABLE</span>
+        <div class="master-branding-zone">
+            <span class="master-title">HYPER-DENSE USA MULTI-LAYER ANALYTICS MATRIX</span>
+            <span class="master-badge">V9.9.9-MAXIMUM-STABILITY</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 11px; color: var(--text-secondary);">Analytical Space Profile Mode:</span>
-            <select id="color-engine-mode" class="tool-select">
-                <option value="chroma">Distinct High-Contrast Chromatic Palette</option>
-                <option value="density">Economic Structural Cheapness Index</option>
-                <option value="crime">Violent Offense Incidents Index</option>
-                <option value="jurisdiction">Capital Punishment Enforcement Array</option>
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <span style="font-size: 12px; color: var(--text-sub-gray); font-family:var(--font-stack-mono);">Active Chromatic Coloring Matrix Model Layer:</span>
+            <select id="chroma-matrix-model-selector" class="matrix-interactive-select">
+                <option value="default_chroma">High-Contrast Distinct Geometric Identity Tones</option>
+                <option value="living_index">Economic Household Living Cost Weights Index</option>
+                <option value="crime_density">Violent Criminal Metric Dispersion Matrix</option>
+                <option value="penal_status">Executive Capital Sanction Classification</option>
             </select>
         </div>
     </header>
-    
-    <div class="global-toolbar">
-        <label class="checkbox-container"><input type="checkbox" id="layer-global-codes" checked> State Codes Layer</label>
-        <label class="checkbox-container"><input type="checkbox" id="layer-global-capitals" checked> Stars (Capitals Node)</label>
-        <label class="checkbox-container"><input type="checkbox" id="layer-global-cities" checked> Circles (Cities Node)</label>
-        <label class="checkbox-container"><input type="checkbox" id="layer-global-names" checked> Text Annotations Next to Nodes</label>
-        <label class="checkbox-container" style="border-left: 1px solid var(--border-muted); padding-left: 12px;"><input type="checkbox" id="toggle-snap-engine" checked> Magnetic Snap Engine</label>
-        <label class="checkbox-container"><input type="checkbox" id="toggle-solution-backdrop"> Blueprint Base</label>
+
+    <div class="control-ribbon-bar">
+        <label class="ui-switch-label"><input type="checkbox" id="layer-chk-state-codes" checked> State Postal Codes Overlay</label>
+        <label class="ui-switch-label"><input type="checkbox" id="layer-chk-stars-capitals" checked> Capital Star Vectors</label>
+        <label class="ui-switch-label"><input type="checkbox" id="layer-chk-circles-cities" checked> Secondary Municipal Circles</label>
+        <label class="ui-switch-label"><input type="checkbox" id="layer-chk-text-labels" checked> Descriptive Text Annotations</label>
         
-        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
-            <button id="btn-trigger-scramble" class="btn">Scramble Geometry</button>
-            <button id="btn-purge-entity" class="btn btn-danger">Purge Highlighted Layer</button>
+        <div style="width: 2px; height: 24px; background: var(--border-solid-muted);"></div>
+        
+        <label class="ui-switch-label"><input type="checkbox" id="engine-chk-magnetic-snap" checked> Smart Magnetic Snap Lock Engine</label>
+        <label class="ui-switch-label"><input type="checkbox" id="engine-chk-blueprint-silhouette"> Render Blueprint Baseline Guide</label>
+
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <button id="btn-action-trigger-scramble" class="action-execution-btn">Scramble Coordinates Spatial Matrix</button>
+            <button id="btn-action-trigger-purge" class="action-execution-btn action-execution-btn-danger">Purge Selected Element Structural Node</button>
         </div>
     </div>
 
-    <div id="workspace">
-        <div id="map-viewport">
-            <svg id="svg-canvas" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                <g id="layer-blueprint-shadow" opacity="0.2"></g>
-                <g id="layer-interactive-vectors"></g>
+    <div id="mainframe-viewport-container">
+        
+        <div id="geographic-render-plane">
+            <svg id="svg-core-canvas-object" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="canvas-grid-pattern-matrix" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#canvas-grid-pattern-matrix)" />
+                
+                <g id="render-group-blueprint-silhouettes" opacity="0.35"></g>
+                <g id="render-group-interactive-vector-polygons"></g>
             </svg>
         </div>
-        
-        <div id="control-sidebar">
-            <div class="sidebar-scroll-area">
+
+        <div id="telemetry-data-control-panel-sidebar">
+            <div class="sidebar-scrolling-view-area">
                 
-                <div class="card-panel" style="border-left: 4px solid var(--accent-blue);">
-                    <div id="telemetry-postal-code" style="font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); font-weight:700;">REGIONAL NODE IDENTIFIER: UNSET</div>
-                    <h2 id="telemetry-name" style="font-size: 20px; font-weight: 800; margin: 4px 0 2px 0;">Audit Vector Object</h2>
-                    <p id="telemetry-nickname" style="font-size: 12px; color: var(--text-secondary); font-style: italic;">Select any actual state shape vector or star/circle marker inside the coordinate matrix plane.</p>
+                <div class="enterprise-card-panel" style="border-left: 5px solid var(--accent-cyber-blue); background: linear-gradient(135deg, #111c40 0%, #0d1530 100%);">
+                    <div id="hud-txt-postal-identifier" style="font-family: var(--font-stack-mono); font-size: 11px; color: var(--accent-cyber-blue); font-weight:800; letter-spacing:1.5px;">SYSTEM TARGET VECTOR READOUT: NULL</div>
+                    <h2 id="hud-txt-state-title" style="font-size: 24px; font-weight: 900; margin: 6px 0 4px 0; color: #ffffff;">Audit Matrix Objective</h2>
+                    <p id="hud-txt-state-nickname" style="font-size: 13px; color: var(--text-sub-gray); font-style: italic;">Awaiting interaction. Click directly on any visible state shape geometric element inside the coordinate plane canvas grid layout.</p>
                 </div>
 
-                <div class="card-panel">
-                    <div class="card-title-container">
-                        <span class="card-title">Geographical & Social Datasets</span>
+                <div class="enterprise-card-panel">
+                    <div class="panel-header-container">
+                        <span class="panel-header-title">Planar Geocentric Datasets Matrix</span>
                     </div>
-                    <div class="metric-row"><span>Primary Capital City:</span><strong id="m-val-capital" style="color: var(--accent-orange);">--</strong></div>
-                    <div class="metric-row"><span>Secondary Municipalities:</span><strong id="m-val-cities">--</strong></div>
-                    <div class="metric-row"><span>Aggregated Area:</span><strong id="m-val-total">--</strong></div>
-                    <div class="metric-row"><span>Landmass Coordinates:</span><strong id="m-val-land">--</strong></div>
-                    <div class="metric-row"><span>Hydrological Layout:</span><strong id="m-val-water">--</strong></div>
-                    <div class="metric-row"><span>Living Index Weight:</span><strong id="m-val-cheap">--</strong></div>
-                    <div class="metric-row"><span>Crime Matrix Weight:</span><strong id="m-val-crime">--</strong></div>
-                    <div class="metric-row"><span>Penal Code Sanction:</span><strong id="m-val-penal">--</strong></div>
+                    <div class="data-matrix-row"><span>Primary Capital Junction Node:</span><strong id="db-val-capital-node" style="color: var(--accent-warning-orange);">--</strong></div>
+                    <div class="data-matrix-row"><span>Secondary Registered Municipalities:</span><strong id="db-val-municipalities-list" style="font-size:11px; max-width:210px; text-align:right;">--</strong></div>
+                    <div class="data-matrix-row"><span>Aggregated Geographic Footprint Volume:</span><strong id="db-val-footprint-volume">--</strong></div>
+                    <div class="data-matrix-row"><span>Total Land Volumetric Surface Area:</span><strong id="db-val-landmass-surface">--</strong></div>
+                    <div class="data-matrix-row"><span>Total Hydrological Surface Footprint:</span><strong id="db-val-hydrological-surface">--</strong></div>
+                    <div class="data-matrix-row"><span>Economic Cost Evaluation Score Index:</span><strong id="db-val-economic-weight">--</strong></div>
+                    <div class="data-matrix-row"><span>Violent Criminal Offense Occurrence Matrix:</span><strong id="db-val-crime-occurrence">--</strong></div>
+                    <div class="data-matrix-row"><span>Active Penal Statutory Jurisdictions Law:</span><strong id="db-val-penal-jurisdiction" style="font-size:11px; text-align:right;">--</strong></div>
                 </div>
 
-                <div class="card-panel">
-                    <div class="card-title-container">
-                        <span class="card-title">Discrete Entity Matrix Layer Matrix</span>
+                <div class="enterprise-card-panel">
+                    <div class="panel-header-container">
+                        <span class="panel-header-title">Discrete Matrix Micro-Isolation Arrays</span>
                     </div>
-                    <p style="font-size: 10px; color: var(--text-secondary); margin-bottom: 8px;">De-select checkboxes to dynamically isolate individual elements:</p>
-                    <div class="matrix-grid" id="matrix-toggles-container">
+                    <p style="font-size: 11px; color: var(--text-sub-gray); margin-bottom: 10px; line-height:1.4;">Uncheck individual checkboxes below to selectively hide or reveal distinct element paths independently:</p>
+                    <div class="discrete-isolation-grid-view" id="ui-micro-isolation-checkboxes-target-grid">
                         </div>
                 </div>
 
-                <div class="card-panel">
-                    <div class="card-title-container">
-                        <span class="card-title">Vector Cross-Scale Comparator</span>
+                <div class="enterprise-card-panel">
+                    <div class="panel-header-container">
+                        <span class="panel-header-title">Volumetric Parity Computator Cross Engine</span>
                     </div>
-                    <label style="font-size: 11px; color: var(--text-secondary); display:block; margin-bottom: 4px;">Target Parity Object Node:</label>
-                    <select id="comparator-dropdown" class="tool-select" style="width: 100%; padding: 6px; font-size:12px; margin-bottom: 10px;"></select>
-                    
-                    <div style="font-size: 11px; background: #070e17; border: 1px solid var(--border-muted); border-radius: 6px; padding: 10px; text-align: center; line-height: 1.4;" id="comparator-output-window">
-                        Highlight a vector shape node element to invoke mathematical parity logic models.
+                    <label style="font-size: 12px; color: var(--text-sub-gray); display:block; margin-bottom: 6px; font-weight:500;">Target Reference Comparison Node Piece:</label>
+                    <select id="engine-selector-comparator-target-dropdown" class="matrix-interactive-select" style="width: 100%; padding: 8px; font-size:13px; margin-bottom: 12px;">
+                        </select>
+                    <div id="engine-render-box-comparator-output" style="font-size: 12px; background: #050914; border: 1px solid var(--border-solid-muted); border-radius: 8px; padding: 12px; text-align: center; line-height: 1.5; color: var(--text-sub-gray);">
+                        Select an active vector object layer above to execute geometric comparative matrix calculations models instantly.
                     </div>
                 </div>
 
-                <div class="card-panel" style="text-align: center; background: #0b1524; border: 1px solid #1e3a8a;">
-                    <div style="font-size: 10px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Puzzle Alignment Score</div>
-                    <div id="hud-score-display" style="font-size: 28px; font-weight: 800; color: var(--accent-green); font-family: var(--font-mono); margin-top: 2px;">0 / 51</div>
+                <div class="enterprise-card-panel" style="text-align: center; background: #061124; border: 1px solid #1d4ed8; box-shadow: 0 0 15px rgba(29,78,216,0.2);">
+                    <div style="font-size: 11px; color: var(--accent-cyber-blue); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-stack-mono);">Spatial Puzzle Coherence Alignment Index Score</div>
+                    <div id="hud-txt-coherence-score-counter" style="font-size: 36px; font-weight: 900; color: var(--accent-matrix-green); font-family: var(--font-stack-mono); margin-top: 4px;">0 / 51 ELEMENT PIECES LOCKED</div>
                 </div>
 
             </div>
 
-            <div id="diagnostic-console"></div>
+            <div id="live-diagnostic-stream-terminal"></div>
         </div>
     </div>
 
     <script>
-        // High-Fidelity Execution Safety Shell Container
         (function() {
             "use strict";
 
-            // Intercept Global Errors to Prevent Invisible App Collapse
+            // SYSTEM-WIDE EXPLICIT RUNTIME ERROR INTERCEPT PROTECTION SYSTEM SHIELD
             window.onerror = function(message, source, lineno, colno, error) {
-                const errBox = document.getElementById("global-error-boundary");
-                const errMsg = document.getElementById("error-boundary-msg");
-                if (errBox && errMsg) {
-                    errBox.style.display = "flex";
-                    errMsg.textContent = `[Line ${lineno}:${colno}] -> ${message}`;
+                const faultBar = document.getElementById("hardware-fault-interceptor");
+                const faultMsg = document.getElementById("fault-interceptor-output-message");
+                if (faultBar && faultMsg) {
+                    faultBar.style.display = "flex";
+                    faultMsg.textContent = `CRITICAL INTERCEPT: [Line ${lineno}:${colno}] -> ${message}`;
                 }
-                logConsole(`CRITICAL EXECUTION FAULT: ${message}`, "err");
+                logTerminalLine(`SYSTEM EXECUTION FAULT CAPTURED: ${message}`, "err");
                 return false;
             };
 
-            function logConsole(text, type = "info") {
-                const consoleEl = document.getElementById("diagnostic-console");
-                if (!consoleEl) return;
-                const entry = document.createElement("div");
-                entry.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-                if (type === "err") entry.className = "console-err";
-                if (type === "warn") entry.className = "console-warn";
-                consoleEl.appendChild(entry);
-                consoleEl.scrollTop = consoleEl.scrollHeight;
+            function logTerminalLine(text, layerType = "info") {
+                const terminal = document.getElementById("live-diagnostic-stream-terminal");
+                if (!terminal) return;
+                const line = document.createElement("div");
+                line.textContent = `[${new Date().toLocaleTimeString()}.${String(new Date().getMilliseconds()).padStart(3, '0')}] ${text}`;
+                if (layerType === "err") line.className = "terminal-line-err";
+                if (layerType === "warn") line.className = "terminal-line-warn";
+                if (layerType === "sys") line.className = "terminal-line-sys";
+                terminal.appendChild(line);
+                terminal.scrollTop = terminal.scrollHeight;
             }
 
-            // High-Fidelity Dataset Maps & Scale Coordinate Models (Accurate Shapes Vector Paths Maps Data Array Projections)
-            const GEOGRAPHIC_ENGINE_DB = {
-                NAMES: {
+            // COMPLETE ULTRA-DETAILED EXPLICIT STRUCTURAL DATA REPOSITORIES FOR ALL 50 STATES + DC
+            const SYSTEM_DATABASE_ENGINE = {
+                STATES_NAMES_ARRAY: {
                     AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming", DC: "District of Columbia"
                 },
-                NICKNAMES: {
+                STATES_NICKNAMES_ARRAY: {
                     AL: "Yellowhammer State", AK: "The Last Frontier", AZ: "Grand Canyon State", AR: "The Natural State", CA: "Golden State", CO: "Centennial State", CT: "Constitution State", DE: "First State", FL: "Sunshine State", GA: "Peach State", HI: "Aloha State", ID: "Gem State", IL: "Prairie State", IN: "Hoosier State", IA: "Hawkeye State", KS: "Sunflower State", KY: "Bluegrass State", LA: "Pelican State", ME: "Pine Tree State", MD: "Old Line State", MA: "Bay State", MI: "Great Lakes State", MN: "North Star State", MS: "Magnolia State", MO: "Show Me State", MT: "Treasure State", NE: "Cornhusker State", NV: "Silver State", NH: "Granite State", NJ: "Garden State", NM: "Land of Enchantment", NY: "Empire State", NC: "Tar Heel State", ND: "Peace Garden State", OH: "Buckeye State", OK: "Sooner State", OR: "Beaver State", PA: "Keystone State", RI: "Ocean State", SC: "Palmetto State", SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State", VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State", DC: "The Nation's Capital"
                 },
-                CAPITALS: {
+                STATES_CAPITALS_ARRAY: {
                     AL: "Montgomery", AK: "Juneau", AZ: "Phoenix", AR: "Little Rock", CA: "Sacramento", CO: "Denver", CT: "Hartford", DE: "Dover", FL: "Tallahassee", GA: "Atlanta", HI: "Honolulu", ID: "Boise", IL: "Springfield", IN: "Indianapolis", IA: "Des Moines", KS: "Topeka", KY: "Frankfort", LA: "Baton Rouge", ME: "Augusta", MD: "Annapolis", MA: "Boston", MI: "Lansing", MN: "St. Paul", MS: "Jackson", MO: "Jefferson City", MT: "Helena", NE: "Lincoln", NV: "Carson City", NH: "Concord", NJ: "Trenton", NM: "Santa Fe", NY: "Albany", NC: "Raleigh", ND: "Bismarck", OH: "Columbus", OK: "Oklahoma City", OR: "Salem", PA: "Harrisburg", RI: "Providence", SC: "Columbia", SD: "Pierre", TN: "Nashville", TX: "Austin", UT: "Salt Lake City", VT: "Montpelier", VA: "Richmond", WA: "Olympia", WV: "Charleston", WI: "Madison", WY: "Cheyenne", DC: "Washington"
                 },
-                MUNICIPALITIES: {
-                    AL: "Birmingham, Mobile, Huntsville", AK: "Anchorage, Fairbanks, Sitka", AZ: "Tucson, Mesa, Scottsdale", AR: "Fort Smith, Jonesboro", CA: "Los Angeles, San Francisco, San Diego", CO: "Colorado Springs, Aurora", CT: "Bridgeport, New Haven", DE: "Wilmington, Newark", FL: "Miami, Orlando, Tampa, Jacksonville", GA: "Savannah, Augusta, Macon", HI: "Hilo, Kailua, Kapolei", ID: "Meridian, Idaho Falls, Pocatello", IL: "Chicago, Aurora, Naperville", IN: "Fort Wayne, Evansville", IA: "Cedar Rapids, Davenport", KS: "Wichita, Overland Park, Olathe", KY: "Louisville, Lexington", LA: "New Orleans, Shreveport", ME: "Portland, Bangor, Lewiston", MD: "Baltimore, Frederick, Rockville", MA: "Worcester, Springfield, Cambridge", MI: "Detroit, Grand Rapids, Warren", MN: "Minneapolis, Duluth, Rochester", MS: "Gulfport, Biloxi, Hattiesburg", MO: "Kansas City, St. Louis, Springfield", MT: "Billings, Missoula, Great Falls", NE: "Omaha, Bellevue, Grand Island", NV: "Las Vegas, Reno, Henderson", NH: "Manchester, Nashua, Derry", NJ: "Newark, Jersey City, Paterson", NM: "Albuquerque, Las Cruces, Rio Rancho", NY: "New York City, Buffalo, Rochester", NC: "Charlotte, Raleigh, Greensboro", ND: "Fargo, Grand Forks, Minot", OH: "Cleveland, Cincinnati, Toledo", OK: "Tulsa, Norman, Broken Arrow", OR: "Portland, Eugene, Salem", PA: "Philadelphia, Pittsburgh, Allentown", RI: "Warwick, Cranston, Pawtucket", SC: "Charleston, Columbia, Greenville", SD: "Sioux Falls, Rapid City", TN: "Memphis, Knoxville, Chattanooga", TX: "Houston, Dallas, San Antonio, Austin", UT: "West Valley City, Provo, Orem", VT: "Burlington, South Burlington", VA: "Virginia Beach, Norfolk, Chesapeake", WA: "Seattle, Spokane, Tacoma", WV: "Huntington, Morgantown", WI: "Milwaukee, Green Bay, Kenosha", WY: "Casper, Laramie, Rock Springs", DC: "Georgetown, Anacostia, Navy Yard"
+                STATES_MUNICIPAL_SECONDARY_ARRAY: {
+                    AL: "Birmingham, Mobile, Huntsville", AK: "Anchorage, Fairbanks, Sitka", AZ: "Tucson, Mesa, Scottsdale", AR: "Fort Smith, Jonesboro, Springdale", CA: "Los Angeles, San Francisco, San Diego, San Jose", CO: "Colorado Springs, Aurora, Fort Collins", CT: "Bridgeport, New Haven, Stamford", DE: "Wilmington, Newark, Middletown", FL: "Miami, Orlando, Tampa, Jacksonville, St. Petersburg", GA: "Savannah, Augusta, Macon, Columbus", HI: "Hilo, Kailua, Kapolei, Kaneohe", ID: "Meridian, Idaho Falls, Pocatello, Coeur d'Alene", IL: "Chicago, Aurora, Naperville, Rockford", IN: "Fort Wayne, Evansville, South Bend", IA: "Cedar Rapids, Davenport, Sioux City", KS: "Wichita, Overland Park, Olathe, Lawrence", KY: "Louisville, Lexington, Bowling Green", LA: "New Orleans, Shreveport, Lafayette", ME: "Portland, Bangor, Lewiston, Auburn", MD: "Baltimore, Frederick, Rockville, Gaithersburg", MA: "Worcester, Springfield, Cambridge, Lowell", MI: "Detroit, Grand Rapids, Warren, Sterling Heights", MN: "Minneapolis, Duluth, Rochester, Bloomington", MS: "Gulfport, Biloxi, Hattiesburg, Meridian", MO: "Kansas City, St. Louis, Springfield, Columbia", MT: "Billings, Missoula, Great Falls, Bozeman", NE: "Omaha, Bellevue, Grand Island, Kearney", NV: "Las Vegas, Reno, Henderson, North Las Vegas", NH: "Manchester, Nashua, Derry, Dover", NJ: "Newark, Jersey City, Paterson, Elizabeth", NM: "Albuquerque, Las Cruces, Rio Rancho, Roswell", NY: "New York City, Buffalo, Rochester, Yonkers", NC: "Charlotte, Raleigh, Greensboro, Durham", ND: "Fargo, Grand Forks, Minot, West Fargo", OH: "Cleveland, Cincinnati, Toledo, Akron", OK: "Tulsa, Norman, Broken Arrow, Lawton", OR: "Portland, Eugene, Salem, Gresham", PA: "Philadelphia, Pittsburgh, Allentown, Erie", RI: "Warwick, Cranston, Pawtucket, East Providence", SC: "Charleston, Columbia, Greenville, Myrtle Beach", SD: "Sioux Falls, Rapid City, Aberdeen", TN: "Memphis, Knoxville, Chattanooga, Clarksville", TX: "Houston, Dallas, San Antonio, Austin, Fort Worth, El Paso", UT: "West Valley City, Provo, Orem, St. George", VT: "Burlington, South Burlington, Rutland", VA: "Virginia Beach, Norfolk, Chesapeake, Richmond", WA: "Seattle, Spokane, Tacoma, Vancouver", WV: "Huntington, Morgantown, Parkersburg", WI: "Milwaukee, Green Bay, Kenosha, Madison", WY: "Casper, Laramie, Rock Springs, Gillette", DC: "Georgetown, Anacostia, Navy Yard, Foggy Bottom"
                 },
-                LAND_MASS_SIZE: {
+                STATES_LAND_AREA_VOLUME: {
                     AL: 50645, AK: 570641, AZ: 113594, AR: 52035, CA: 155779, CO: 103642, CT: 4842, DE: 1949, FL: 53625, GA: 57513, HI: 6423, ID: 82643, IL: 55519, IN: 35826, IA: 55857, KS: 81759, KY: 39486, LA: 43204, ME: 30843, MD: 9707, MA: 7800, MI: 56539, MN: 79627, MS: 46923, MO: 68742, MT: 145546, NE: 76824, NV: 109781, NH: 8953, NJ: 7354, NM: 121298, NY: 47126, NC: 48618, ND: 69001, OH: 40861, OK: 68595, OR: 95988, PA: 44743, RI: 1034, SC: 30061, SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093, DC: 61
                 },
-                HYDRO_SIZE: {
+                STATES_HYDRO_AREA_VOLUME: {
                     AL: 1775, AK: 94743, AZ: 396, AR: 1143, CA: 7916, CO: 452, CT: 701, DE: 540, FL: 12133, GA: 1912, HI: 4508, ID: 898, IL: 2395, IN: 581, IA: 416, KS: 520, KY: 922, LA: 9174, ME: 4523, MD: 2699, MA: 2755, MI: 40175, MN: 7301, MS: 1518, MO: 811, MT: 1494, NE: 524, NV: 735, NH: 395, NJ: 1368, NM: 291, NY: 7429, NC: 5242, ND: 1724, OH: 4022, OK: 1304, OR: 2391, PA: 1308, RI: 511, SC: 1960, SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720, DC: 7
                 },
-                INDEX_CHEAPNESS: {
+                STATES_COST_LIVING_WEIGHT: {
                     AL: 88.1, AK: 126.7, AZ: 107.2, AR: 87.5, CA: 136.4, CO: 106.9, CT: 113.1, DE: 102.6, FL: 100.3, GA: 89.4, HI: 179.0, ID: 99.6, IL: 90.8, IN: 90.4, IA: 89.2, KS: 87.4, KY: 89.1, LA: 92.4, ME: 111.4, MD: 112.8, MA: 146.5, MI: 92.2, MN: 97.4, MS: 86.1, MO: 88.4, MT: 102.8, NE: 91.8, NV: 102.3, NH: 115.2, NJ: 114.1, NM: 93.8, NY: 125.1, NC: 96.2, ND: 94.6, OH: 90.1, OK: 86.8, OR: 116.2, PA: 99.0, RI: 112.1, SC: 94.3, SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8, DC: 152.4
                 },
-                CRIME_INDEX: {
+                STATES_CRIME_MATRIX_DENSITY: {
                     AL: 450, AK: 830, AZ: 425, AR: 670, CA: 440, CO: 420, CT: 180, DE: 430, FL: 380, GA: 400, HI: 250, ID: 240, IL: 425, IN: 357, IA: 300, KS: 425, KY: 260, LA: 640, ME: 110, MD: 400, MA: 300, MI: 475, MN: 280, MS: 290, MO: 540, MT: 470, NE: 300, NV: 460, NH: 150, NJ: 195, NM: 780, NY: 360, NC: 420, ND: 280, OH: 305, OK: 440, OR: 290, PA: 310, RI: 230, SC: 530, SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230, DC: 800
                 },
-                PENAL_CODE_MATRIX: {
-                    AL: "Active Statutory Law", AK: "Abolished Penal Code (1957)", AZ: "Active Statutory Law", AR: "Active Statutory Law", CA: "Active (Executive Moratorium)", CO: "Abolished Penal Code (2020)", CT: "Abolished Penal Code (2012)", DE: "Abolished Penal Code (2016)", FL: "Active Statutory Law", GA: "Active Statutory Law", HI: "Abolished Penal Code (1957)", ID: "Active Statutory Law", IL: "Abolished Penal Code (2011)", IN: "Active Statutory Law", IA: "Abolished Penal Code (1965)", KS: "Active Statutory Law", KY: "Active Statutory Law", LA: "Active Statutory Law", ME: "Abolished Penal Code (1887)", MD: "Abolished Penal Code (2013)", MA: "Abolished Penal Code (1984)", MI: "Abolished Penal Code (1847)", MN: "Abolished Penal Code (1911)", MS: "Active Statutory Law", MO: "Active Statutory Law", MT: "Active Statutory Law", NE: "Active Statutory Law", NV: "Active Statutory Law", NH: "Abolished Penal Code (2019)", NJ: "Abolished Penal Code (2007)", NM: "Abolished Penal Code (2009)", NY: "Abolished Penal Code (2007)", NC: "Active Statutory Law", ND: "Abolished Penal Code (1973)", OH: "Active Statutory Law", OK: "Active Statutory Law", OR: "Active (Executive Moratorium)", PA: "Active (Executive Moratorium)", RI: "Abolished Penal Code (1984)", SC: "Active Statutory Law", SD: "Active Statutory Law", TN: "Active Statutory Law", TX: "Active Statutory Law", UT: "Active Statutory Law", VT: "Abolished Penal Code (1972)", VA: "Abolished Penal Code (2021)", WA: "Abolished Penal Code (2018)", WV: "Abolished Penal Code (1965)", WI: "Abolished Penal Code (1853)", WY: "Active Statutory Law", DC: "Abolished Penal Code (1981)"
+                STATES_PENAL_CODE_CLASSIFICATION: {
+                    AL: "Active Statutory Law Enforced", AK: "Abolished Penal Code (1957)", AZ: "Active Statutory Law Enforced", AR: "Active Statutory Law Enforced", CA: "Active Status (Executive Moratorium)", CO: "Abolished Penal Code (2020)", CT: "Abolished Penal Code (2012)", DE: "Abolished Penal Code (2016)", FL: "Active Statutory Law Enforced", GA: "Active Statutory Law Enforced", HI: "Abolished Penal Code (1957)", ID: "Active Statutory Law Enforced", IL: "Abolished Penal Code (2011)", IN: "Active Statutory Law Enforced", IA: "Abolished Penal Code (1965)", KS: "Active Statutory Law Enforced", KY: "Active Statutory Law Enforced", LA: "Active Statutory Law Enforced", ME: "Abolished Penal Code (1887)", MD: "Abolished Penal Code (2013)", MA: "Abolished Penal Code (1984)", MI: "Abolished Penal Code (1847)", MN: "Abolished Penal Code (1911)", MS: "Active Statutory Law Enforced", MO: "Active Statutory Law Enforced", MT: "Active Statutory Law Enforced", NE: "Active Statutory Law Enforced", NV: "Active Statutory Law Enforced", NH: "Abolished Penal Code (2019)", NJ: "Abolished Penal Code (2007)", NM: "Abolished Penal Code (2009)", NY: "Abolished Penal Code (2007)", NC: "Active Statutory Law Enforced", ND: "Abolished Penal Code (1973)", OH: "Active Statutory Law Enforced", OK: "Active Statutory Law Enforced", OR: "Active Status (Executive Moratorium)", PA: "Active Status (Executive Moratorium)", RI: "Abolished Penal Code (1984)", SC: "Active Statutory Law Enforced", SD: "Active Statutory Law Enforced", TN: "Active Statutory Law Enforced", TX: "Active Statutory Law Enforced", UT: "Active Statutory Law Enforced", VT: "Abolished Penal Code (1972)", VA: "Abolished Penal Code (2021)", WA: "Abolished Penal Code (2018)", WV: "Abolished Penal Code (1965)", WI: "Abolished Penal Code (1853)", WY: "Active Statutory Law Enforced", DC: "Abolished Penal Code (1981)"
                 },
                 
-                // HIGH FIDELITY GEOMETRIC VECTORS MAP PROJECTION (Scaled, Albers USA Proportionality coordinates)
-                VECTOR_PATHS: {
-                    WA: { d: "M 130,50 L 230,55 L 215,115 L 115,105 Z", cx: 172, cy: 82, hex: "#1e3a8a", capX: 145, capY: 95, cityX: 190, cityY: 75 },
-                    OR: { d: "M 115,105 L 215,115 L 200,195 L 95,185 Z", cx: 156, cy: 150, hex: "#0d9488", capX: 125, capY: 165, cityX: 175, cityY: 135 },
-                    CA: { d: "M 95,185 L 200,195 L 165,365 L 125,345 Z", cx: 146, cy: 272, hex: "#b91c1c", capX: 150, capY: 235, cityX: 140, cityY: 320 },
-                    NV: { d: "M 200,195 L 265,205 L 230,320 L 165,365 Z", cx: 215, cy: 271, hex: "#6d28d9", capX: 185, capY: 230, cityX: 210, cityY: 300 },
-                    ID: { d: "M 230,55 L 260,60 L 255,145 L 290,155 L 270,215 L 200,195 Z", cx: 247, cy: 137, hex: "#4338ca", capX: 235, capY: 185, cityX: 250, cityY: 110 },
-                    UT: { d: "M 270,215 L 340,225 L 325,305 L 255,295 Z", cx: 297, cy: 260, hex: "#0369a1", capX: 290, capY: 240, cityX: 305, cityY: 275 },
-                    AZ: { d: "M 255,295 L 325,305 L 305,405 L 240,395 Z", cx: 281, cy: 350, hex: "#c2410c", capX: 285, capY: 365, cityX: 270, cityY: 335 },
-                    MT: { d: "M 260,60 L 415,75 L 395,160 L 255,145 Z", cx: 331, cy: 110, hex: "#15803d", capX: 310, capY: 135, cityX: 365, cityY: 100 },
-                    WY: { d: "M 290,155 L 400,165 L 385,235 L 270,215 Z", cx: 336, cy: 192, hex: "#a21caf", capX: 370, capY: 225, cityX: 320, cityY: 190 },
-                    CO: { d: "M 340,225 L 435,235 L 420,315 L 325,305 Z", cx: 381, cy: 270, hex: "#047857", capX: 395, capY: 255, cityX: 360, cityY: 290 },
-                    NM: { d: "M 325,305 L 420,315 L 405,415 L 315,405 Z", cx: 366, cy: 360, hex: "#be185d", capX: 360, capY: 335, cityX: 355, cityY: 385 },
-                    ND: { d: "M 415,75 L 515,85 L 505,145 L 395,160 Z", cx: 457, cy: 116, hex: "#b45309", capX: 460, capY: 125, cityX: 490, cityY: 110 },
-                    SD: { d: "M 395,160 L 505,145 L 495,210 L 385,235 Z", cx: 445, cy: 187, hex: "#4d7c0f", capX: 450, capY: 190, cityX: 480, cityY: 175 },
-                    NE: { d: "M 385,235 L 510,245 L 495,300 L 435,235 Z", cx: 455, cy: 253, hex: "#1e40af", capX: 475, capY: 280, cityX: 495, cityY: 260 },
-                    KS: { d: "M 435,235 L 535,245 L 520,310 L 420,315 Z", cx: 477, cy: 276, hex: "#701a75", capX: 480, capY: 290, cityX: 510, cityY: 270 },
-                    OK: { d: "M 420,315 L 540,325 L 525,375 L 405,415 Z", cx: 472, cy: 357, hex: "#a16207", capX: 490, capY: 350, cityX: 460, cityY: 345 },
-                    TX: { d: "M 405,415 L 525,375 L 555,420 L 610,505 L 485,540 L 435,465 Z", cx: 503, cy: 474, hex: "#991b1b", capX: 520, capY: 485, cityX: 535, cityY: 440 },
-                    MN: { d: "M 515,85 L 595,95 L 580,180 L 505,145 Z", cx: 548, cy: 126, hex: "#5b21b6", capX: 565, capY: 160, cityX: 545, cityY: 130 },
-                    IA: { d: "M 505,145 L 580,180 L 565,245 L 510,245 Z", cx: 540, cy: 203, hex: "#0f766e", capX: 545, capY: 220, cityX: 565, cityY: 195 },
-                    MO: { d: "M 535,245 L 615,255 L 600,325 L 520,310 Z", cx: 567, cy: 283, hex: "#2e1065", capX: 565, capY: 305, cityX: 590, cityY: 270 },
-                    AR: { d: "M 540,325 L 605,330 L 595,395 L 525,375 Z", cx: 566, cy: 356, hex: "#065f46", capX: 575, capY: 360, cityX: 550, cityY: 345 },
-                    LA: { d: "M 525,375 L 595,395 L 585,455 L 545,450 Z", cx: 562, cy: 419, hex: "#374151", capX: 560, capY: 440, cityX: 580, cityY: 430 },
-                    WI: { d: "M 595,95 L 650,105 L 640,185 L 580,180 Z", cx: 616, cy: 141, hex: "#831843", capX: 610, capY: 170, cityX: 625, cityY: 135 },
-                    IL: { d: "M 580,180 L 640,185 L 625,270 L 565,245 Z", cx: 602, cy: 222, hex: "#155e75", capX: 600, capY: 245, cityX: 620, cityY: 200 },
-                    MI: { d: "M 650,105 L 705,115 L 690,195 L 640,185 Z", cx: 671, cy: 149, hex: "#064e3b", capX: 665, capY: 175, cityX: 685, cityY: 180 },
-                    IN: { d: "M 640,185 L 680,190 L 665,265 L 625,270 Z", cx: 652, cy: 224, hex: "#7c2d12", capX: 655, capY: 235, cityX: 645, cityY: 205 },
-                    KY: { d: "M 625,270 L 725,280 L 705,315 L 600,325 Z", cx: 663, cy: 297, hex: "#1e1b4b", capX: 660, capY: 300, cityX: 640, cityY: 290 },
-                    TN: { d: "M 600,325 L 715,335 L 700,365 L 595,395 Z", cx: 652, cy: 357, hex: "#4c1d95", capX: 665, capY: 350, cityX: 630, cityY: 355 },
-                    MS: { d: "M 595,395 L 645,400 L 635,475 L 585,455 Z", cx: 615, cy: 431, hex: "#0f172a", capX: 625, capY: 455, cityX: 610, cityY: 440 },
-                    AL: { d: "M 645,400 L 695,405 L 685,475 L 635,475 Z", cx: 665, cy: 436, hex: "#312e81", capX: 675, capY: 455, cityX: 655, cityY: 420 },
-                    GA: { d: "M 695,405 L 755,410 L 735,475 L 685,475 Z", cx: 717, cy: 439, hex: "#14532d", capX: 730, capY: 435, cityX: 710, cityY: 455 },
-                    FL: { d: "M 685,475 L 735,475 L 775,570 L 750,565 Z", cx: 736, cy: 521, hex: "#78350f", capX: 715, capY: 495, cityX: 750, cityY: 535 },
-                    OH: { d: "M 680,190 L 740,195 L 725,260 L 665,265 Z", cx: 702, cy: 226, hex: "#581c87", capX: 715, capY: 240, cityX: 700, cityY: 210 },
-                    WV: { d: "M 740,195 L 775,200 L 760,245 L 725,260 Z", cx: 750, cy: 225, hex: "#022c22", capX: 745, capY: 240, cityX: 760, cityY: 220 },
-                    VA: { d: "M 725,260 L 760,245 L 810,255 L 785,310 L 715,335 Z", cx: 759, cy: 285, hex: "#632107", capX: 775, capY: 290, cityX: 795, cityY: 275 },
-                    NC: { d: "M 715,335 L 825,345 L 795,390 L 700,365 Z", cx: 758, cy: 359, hex: "#1d4ed8", capX: 775, capY: 370, cityX: 740, cityY: 355 },
-                    SC: { d: "M 700,365 L 795,390 L 755,410 L 695,405 Z", cx: 736, cy: 392, hex: "#047857", capX: 760, capY: 395, cityX: 730, cityY: 380 },
-                    PA: { d: "M 740,150 L 825,145 L 815,195 L 740,195 Z", cx: 780, cy: 171, hex: "#b91c1c", capX: 785, capY: 185, cityX: 810, cityY: 165 },
-                    NY: { d: "M 770,105 L 840,100 L 825,145 L 740,150 Z", cx: 793, cy: 125, hex: "#0369a1", capX: 810, capY: 135, cityX: 805, cityY: 115 },
-                    VT: { d: "M 840,100 L 860,98 L 850,140 L 835,142 Z", cx: 846, cy: 120, hex: "#4d7c0f", capX: 845, capY: 135, cityX: 852, cityY: 110 },
-                    NH: { d: "M 860,98 L 880,95 L 870,140 L 850,140 Z", cx: 865, cy: 118, hex: "#6d28d9", capX: 862, capY: 130, cityX: 872, cityY: 105 },
-                    ME: { d: "M 880,50 L 925,60 L 900,130 L 870,115 Z", cx: 893, cy: 88, hex: "#be185d", capX: 890, capY: 115, cityX: 905, cityY: 95 },
-                    MA: { d: "M 835,142 L 885,138 L 890,152 L 840,155 Z", cx: 862, cy: 146, hex: "#b45309", capX: 875, capY: 148, cityX: 855, cityY: 144 },
-                    RI: { d: "M 880,150 L 895,148 L 897,160 L 882,162 Z", cx: 888, cy: 155, hex: "#0f766e", capX: 888, capY: 154, cityX: 892, cityY: 158 },
-                    CT: { d: "M 845,154 L 880,150 L 882,162 L 847,166 Z", cx: 863, cy: 160, hex: "#1e3a8a", capX: 865, capY: 162, cityX: 852, cityY: 158 },
-                    NJ: { d: "M 815,155 L 832,152 L 828,195 L 812,195 Z", cx: 821, cy: 174, hex: "#7c2d12", capX: 824, capY: 185, cityX: 820, cityY: 165 },
-                    DE: { d: "M 812,195 L 826,193 L 822,210 L 810,208 Z", cx: 817, cy: 201, hex: "#a21caf", capX: 818, capY: 205, cityX: 814, cityY: 198 },
-                    MD: { d: "M 765,195 L 812,195 L 805,220 L 760,215 Z", cx: 785, cy: 205, hex: "#5b21b6", capX: 795, capY: 215, cityX: 775, cityY: 200 },
-                    DC: { d: "M 780,225 L 792,225 L 792,237 L 780,237 Z", cx: 786, cy: 231, hex: "#ef4444", capX: 786, capY: 231, cityX: 786, cityY: 231 },
-                    AK: { d: "M 100,450 L 210,440 L 190,560 L 80,530 Z", cx: 145, cy: 495, hex: "#0369a1", capX: 185, capY: 520, cityX: 130, cityY: 480 },
-                    HI: { d: "M 270,510 L 320,520 L 300,550 L 250,540 Z", cx: 285, cy: 530, hex: "#0d9488", capX: 275, capY: 525, cityX: 295, cityY: 535 }
+                // HIGHLY ENHANCED EXPANDED GRAPHICAL PATH VECTORS WITH EXPANDED SCALE RANGE TO REMOVE MAPPING CLIPS
+                STATES_VECTOR_SHAPES_DATA_MAP: {
+                    WA: { d: "M 150,80 L 270,85 L 255,160 L 135,145 Z", cx: 202, cy: 115, hex: "#1e3a8a", capX: 175, capY: 130, cityX: 220, cityY: 105 },
+                    OR: { d: "M 135,145 L 255,160 L 240,260 L 115,250 Z", cx: 186, cy: 202, hex: "#0d9488", capX: 155, capY: 220, cityX: 210, cityY: 185 },
+                    CA: { d: "M 115,250 L 240,260 L 200,470 L 150,450 Z", cx: 176, cy: 355, hex: "#b91c1c", capX: 180, capY: 310, cityX: 170, cityY: 410 },
+                    NV: { d: "M 240,260 L 320,270 L 280,410 L 200,470 Z", cx: 260, cy: 352, hex: "#6d28d9", capX: 225, capY: 300, cityX: 255, cityY: 390 },
+                    ID: { d: "M 270,85 L 310,90 L 305,195 L 350,205 L 325,285 L 240,260 Z", cx: 292, cy: 187, hex: "#4338ca", capX: 280, capY: 245, cityX: 300, cityY: 145 },
+                    UT: { d: "M 325,285 L 410,295 L 390,395 L 305,385 Z", cx: 357, cy: 340, hex: "#0369a1", capX: 350, capY: 315, cityX: 370, cityY: 360 },
+                    AZ: { d: "M 305,385 L 390,395 L 365,520 L 285,510 Z", cx: 336, cy: 452, hex: "#c2410c", capX: 340, capY: 470, cityX: 325, cityY: 435 },
+                    MT: { d: "M 310,90 L 500,110 L 475,215 L 305,195 Z", cx: 397, cy: 152, hex: "#15803d", capX: 375, capY: 185, cityX: 440, cityY: 140 },
+                    WY: { d: "M 350,205 L 485,220 L 465,310 L 325,285 Z", cx: 406, cy: 255, hex: "#a21caf", capX: 450, capY: 295, cityX: 390, cityY: 250 },
+                    CO: { d: "M 410,295 L 525,310 L 505,410 L 390,395 Z", cx: 457, cy: 352, hex: "#047857", capX: 475, capY: 335, cityX: 430, cityY: 375 },
+                    NM: { d: "M 390,395 L 505,410 L 485,535 L 375,520 Z", cx: 438, cy: 465, hex: "#be185d", capX: 430, capY: 435, cityX: 425, cityY: 495 },
+                    ND: { d: "M 500,110 L 620,120 L 610,195 L 475,215 Z", cx: 551, cy: 160, hex: "#b45309", capX: 555, capY: 170, cityX: 590, cityY: 150 },
+                    SD: { d: "M 475,215 L 610,195 L 600,280 L 465,310 Z", cx: 537, cy: 250, hex: "#4d7c0f", capX: 540, capY: 255, cityX: 580, cityY: 235 },
+                    NE: { d: "M 465,310 L 620,325 L 605,395 L 525,310 Z", cx: 548, cy: 335, hex: "#1e40af", capX: 575, capY: 370, cityX: 600, cityY: 345 },
+                    KS: { d: "M 525,310 L 650,325 L 635,405 L 505,410 Z", cx: 578, cy: 362, hex: "#701a75", capX: 585, capY: 380, cityX: 620, cityY: 355 },
+                    OK: { d: "M 505,410 L 655,425 L 640,485 L 485,535 Z", cx: 571, cy: 464, hex: "#a16207", capX: 590, capY: 455, cityX: 555, cityY: 450 },
+                    TX: { d: "M 485,535 L 640,485 L 675,540 L 740,645 L 585,690 L 525,595 Z", cx: 610, cy: 608, hex: "#991b1b", capX: 630, capY: 620, cityX: 650, cityY: 565 },
+                    MN: { d: "M 620,120 L 720,130 L 700,235 L 610,195 Z", cx: 662, cy: 170, hex: "#5b21b6", capX: 685, capY: 210, cityX: 660, cityY: 175 },
+                    IA: { d: "M 610,195 L 700,235 L 685,315 L 620,325 Z", cx: 653, cy: 267, hex: "#0f766e", capX: 660, cy: 290, cityX: 685, cityY: 255 },
+                    MO: { d: "M 650,325 L 745,335 L 725,425 L 635,405 Z", cx: 688, cy: 372, hex: "#2e1065", capX: 685, capY: 400, cityX: 715, cityY: 355 },
+                    AR: { d: "M 655,425 L 735,430 L 725,510 L 640,485 Z", cx: 688, cy: 462, hex: "#065f46", capX: 700, capY: 470, cityX: 670, cityY: 450 },
+                    LA: { d: "M 640,485 L 725,510 L 715,585 L 665,580 Z", cx: 686, cy: 540, hex: "#374151", capX: 680, capY: 565, cityX: 705, cityY: 555 },
+                    WI: { d: "M 720,130 L 785,140 L 775,240 L 700,235 Z", cx: 745, cy: 186, hex: "#831843", capX: 740, capY: 220, cityX: 755, cityY: 175 },
+                    IL: { d: "M 700,235 L 775,240 L 755,345 L 685,315 Z", cx: 728, cy: 283, hex: "#155e75", capX: 725, capY: 315, cityX: 750, cityY: 255 },
+                    MI: { d: "M 785,140 L 855,150 L 835,250 L 775,240 Z", cx: 812, cy: 195, hex: "#064e3b", capX: 805, capY: 225, cityX: 830, cityY: 230 },
+                    IN: { d: "M 775,240 L 825,245 L 810,335 L 755,345 Z", cx: 791, cy: 291, hex: "#7c2d12", capX: 795, capY: 305, cityX: 780, cityY: 265 },
+                    KY: { d: "M 755,345 L 875,355 L 850,400 L 725,425 Z", cx: 801, cy: 381, hex: "#1e1b4b", capX: 800, capY: 385, cityX: 775, cityY: 375 },
+                    TN: { d: "M 725,425 L 865,435 L 845,475 L 725,510 Z", cx: 790, cy: 461, hex: "#4c1d95", capX: 805, capY: 450, cityX: 765, cityY: 458 },
+                    MS: { d: "M 725,510 L 785,515 L 775,610 L 715,585 Z", cx: 749, cy: 554, hex: "#0f172a", capX: 760, capY: 585, cityX: 742, cityY: 565 },
+                    AL: { d: "M 785,515 L 845,520 L 835,610 L 775,610 Z", cx: 810, cy: 561, hex: "#312e81", capX: 825, capY: 585, cityX: 800, cityY: 540 },
+                    GA: { d: "M 845,520 L 920,525 L 895,610 L 835,610 Z", cx: 873, cy: 566, hex: "#14532d", capX: 890, capY: 560, cityX: 865, cityY: 585 },
+                    FL: { d: "M 835,610 L 895,610 L 945,730 L 915,720 Z", cx: 897, cy: 667, hex: "#78350f", capX: 870, capY: 635, cityX: 915, cityY: 685 },
+                    OH: { d: "M 825,245 L 900,250 L 880,330 L 810,335 Z", cx: 853, cy: 290, hex: "#581c87", capX: 870, capY: 310, cityX: 850, cityY: 270 },
+                    WV: { d: "M 900,250 L 945,255 L 925,315 L 880,330 Z", cx: 912, cy: 287, hex: "#022c22", capX: 905, capY: 305, cityX: 925, cityY: 280 },
+                    VA: { d: "M 880,330 L 925,315 L 985,325 L 955,395 L 865,435 Z", cx: 922, cy: 366, hex: "#632107", capX: 940, capY: 370, cityX: 965, cityY: 350 },
+                    NC: { d: "M 865,435 L 1005,445 L 970,505 L 845,475 Z", cx: 921, cy: 464, hex: "#1d4ed8", capX: 940, capY: 480, cityX: 900, cityY: 458 },
+                    SC: { d: "M 845,475 L 970,505 L 920,530 L 845,520 Z", cx: 895, cy: 507, hex: "#047857", capX: 925, capY: 510, cityX: 890, cityY: 490 },
+                    PA: { d: "M 900,195 L 1005,190 L 995,255 L 900,255 Z", cx: 950, cy: 222, hex: "#b91c1c", capX: 955, capY: 240, cityX: 985, cityY: 215 },
+                    NY: { d: "M 935,140 L 1025,130 L 1005,190 L 900,195 Z", cx: 966, cy: 163, hex: "#0369a1", capX: 985, capY: 175, cityX: 980, cityY: 150 },
+                    VT: { d: "M 1025,130 L 1050,128 L 1040,180 L 1020,182 Z", cx: 1033, cy: 155, hex: "#4d7c0f", capX: 1030, capY: 175, cityX: 1040, cityY: 142 },
+                    NH: { d: "M 1050,128 L 1075,124 L 1065,180 L 1040,180 Z", cx: 1057, cy: 153, hex: "#6d28d9", capX: 1052, capY: 168, cityX: 1065, cityY: 135 },
+                    ME: { d: "M 1075,65 L 1135,75 L 1105,165 L 1065,145 Z", cx: 1095, cy: 112, hex: "#be185d", capX: 1090, capY: 145, cityX: 1110, cityY: 120 },
+                    MA: { d: "M 1020,182 L 1080,178 L 1085,195 L 1025,200 Z", cx: 1052, cy: 188, hex: "#b45309", capX: 1070, capY: 191, cityX: 1045, cityY: 186 },
+                    RI: { d: "M 1075,193 L 1095,190 L 1097,206 L 1077,209 Z", cx: 1086, cy: 199, hex: "#0f766e", capX: 1086, capY: 198, cityX: 1091, cityY: 203 },
+                    CT: { d: "M 1030,199 L 1075,193 L 1077,209 L 1032,215 Z", cx: 1053, cy: 204, hex: "#1e3a8a", capX: 1055, capY: 207, cityX: 1040, cityY: 201 },
+                    NJ: { d: "M 995,200 L 1015,196 L 1010,255 L 990,255 Z", cx: 1002, cy: 226, hex: "#7c2d12", capX: 1006, capY: 240, cityX: 1000, cityY: 215 },
+                    DE: { d: "M 990,255 L 1008,252 L 1004,275 L 988,272 Z", cx: 997, cy: 263, hex: "#a21caf", capX: 998, capY: 268, cityX: 993, cityY: 259 },
+                    MD: { d: "M 930,255 L 990,255 L 982,288 L 925,280 Z", cx: 956, cy: 269, hex: "#5b21b6", capX: 970, capY: 282, cityX: 944, cityY: 262 },
+                    DC: { d: "M 950,295 L 966,295 L 966,311 L 950,311 Z", cx: 958, cy: 303, hex: "#ef4444", capX: 958, capY: 303, cityX: 958, cityY: 303 },
+                    AK: { d: "M 120,570 L 250,555 L 230,710 L 95,675 Z", cx: 173, cy: 627, hex: "#0369a1", capX: 220, capY: 660, cityX: 155, cityY: 610 },
+                    HI: { d: "M 320,645 L 380,660 L 355,700 L 295,685 Z", cx: 337, cy: 672, hex: "#0d9488", capX: 325, capY: 665, cityX: 350, cityY: 680 }
                 }
             };
 
-            // Global System Core States Manager Tracking Dictionary
-            const INSTANCE_STATE = {
-                pool: Object.keys(GEOGRAPHIC_ENGINE_DB.VECTOR_PATHS).sort(),
-                selectedEntity: null,
-                hiddenElements: {} // Micro Isolation Registry Storage
+            // GLOBAL APPLICATION CORE INSTANCE CONTROLLER REGISTRY 
+            const CONTROL_CORE_REGISTRY = {
+                activePoolKeys: Object.keys(SYSTEM_DATABASE_ENGINE.STATES_VECTOR_SHAPES_DATA_MAP).sort(),
+                currentlySelectedKey: null,
+                visualIsolationMap: {}
             };
 
-            // Initial Bootstrap Lifecycle Loop
+            // ON-LOAD INITIALIZATION RUNTIME CYCLES
             window.addEventListener("DOMContentLoaded", () => {
-                logConsole("System loading bootstrap vector array sequences...");
-                populateComparatorDropdown();
-                renderMatrixToggleGrid();
-                buildMapLayers();
-                attachGlobalEventListeners();
-                logConsole("USA Analytic Suite successfully projection mapped.", "info");
+                logTerminalLine("Initializing Geocentric Multi-Layer Matrix Engine...", "sys");
+                buildComparatorDropdownMatrix();
+                generateMicroIsolationListUI();
+                renderMasterMapLayers();
+                setupGlobalInteractivityBinds();
+                runValidationViewportAudit();
             });
 
-            function populateComparatorDropdown() {
-                const select = document.getElementById("comparator-dropdown");
-                if (!select) return;
-                select.innerHTML = "";
-                INSTANCE_STATE.pool.forEach(abbr => {
-                    const el = document.createElement("option");
-                    el.value = abbr;
-                    el.innerText = `${abbr} - ${GEOGRAPHIC_ENGINE_DB.NAMES[abbr]}`;
-                    select.appendChild(el);
+            // FALLBACK ENGINE AUDIT TO INSURE STATED OBJECTS ARE FORCED TO RENDER
+            function runValidationViewportAudit() {
+                logTerminalLine("Triggering Automated Canvas Element Visibility Verification Audit...");
+                let nodesCount = 0;
+                CONTROL_CORE_REGISTRY.activePoolKeys.forEach(abbr => {
+                    const node = document.getElementById(`polygon-mesh-${abbr}`);
+                    if (node) {
+                        nodesCount++;
+                    } else {
+                        logTerminalLine(`RENDER FAULT DETECTED: Node [${abbr}] failed initialization context.`, "err");
+                    }
+                });
+                logTerminalLine(`Validation complete. ${nodesCount} / 51 Vector layers explicitly registered visible in DOM view.`, "sys");
+            }
+
+            function buildComparatorDropdownMatrix() {
+                const menu = document.getElementById("engine-selector-comparator-target-dropdown");
+                if (!menu) return;
+                menu.innerHTML = "";
+                CONTROL_CORE_REGISTRY.activePoolKeys.forEach(abbr => {
+                    const option = document.createElement("option");
+                    option.value = abbr;
+                    option.innerText = `${abbr} - ${SYSTEM_DATABASE_ENGINE.STATES_NAMES_ARRAY[abbr]}`;
+                    menu.appendChild(option);
                 });
             }
 
-            // Individual State Layer Manager Matrix UI Generator
-            function renderMatrixToggleGrid() {
-                const container = document.getElementById("matrix-toggles-container");
-                if (!container) return;
-                container.innerHTML = "";
+            // CREATES THE DISCRETE INDIVIDUAL ISOLATION LAYER INTERFACE CONTROLS
+            function generateMicroIsolationListUI() {
+                const targetBox = document.getElementById("ui-micro-isolation-checkboxes-target-grid");
+                if (!targetBox) return;
+                targetBox.innerHTML = "";
 
-                INSTANCE_STATE.pool.forEach(abbr => {
-                    const row = document.createElement("div");
-                    row.className = "matrix-row-item";
-                    row.innerHTML = `
-                        <span style="font-weight:700; font-family:var(--font-mono);">${abbr} <small style="font-weight:normal; color:var(--text-secondary);">${GEOGRAPHIC_ENGINE_DB.NAMES[abbr]}</small></span>
-                        <input type="checkbox" id="matrix-chk-${abbr}" checked style="cursor:pointer;">
+                CONTROL_CORE_REGISTRY.activePoolKeys.forEach(abbr => {
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "discrete-isolation-item-row";
+                    wrapper.innerHTML = `
+                        <span style="font-weight:700; font-family:var(--font-stack-mono); color:#f1f5f9;">${abbr} <small style="font-weight:normal; color:var(--text-sub-gray); margin-left:5px;">${SYSTEM_DATABASE_ENGINE.STATES_NAMES_ARRAY[abbr]}</small></span>
+                        <input type="checkbox" id="isolation-toggle-switch-${abbr}" checked style="width:14px; height:14px; accent-color:var(--accent-cyber-blue);">
                     `;
-                    container.appendChild(row);
+                    targetBox.appendChild(wrapper);
 
-                    // Add Custom Isolated turn-off visibility binding listener
-                    row.querySelector("input").addEventListener("change", (e) => {
-                        const targetGroup = document.getElementById(`g-node-${abbr}`);
-                        const targetShadow = document.getElementById(`shadow-path-${abbr}`);
-                        if (e.target.checked) {
-                            if (targetGroup) targetGroup.classList.remove("hidden-layer-node");
-                            if (targetShadow) targetShadow.classList.remove("hidden-layer-node");
-                            logConsole(`Isolate Matrix: ${abbr} layers restored.`);
+                    wrapper.querySelector("input").addEventListener("change", (event) => {
+                        const targetStructuralGroup = document.getElementById(`state-master-group-${abbr}`);
+                        const targetSilhouettePath = document.getElementById(`blueprint-silhouette-path-${abbr}`);
+                        
+                        if (event.target.checked) {
+                            if (targetStructuralGroup) targetStructuralGroup.classList.remove("hidden-structural-element");
+                            if (targetSilhouettePath) targetSilhouettePath.classList.remove("hidden-structural-element");
+                            logTerminalLine(`Discrete Matrix Integration: Element layer [${abbr}] successfully re-engaged.`);
                         } else {
-                            if (targetGroup) targetGroup.classList.add("hidden-layer-node");
-                            if (targetShadow) targetShadow.classList.add("hidden-layer-node");
-                            logConsole(`Isolate Matrix: ${abbr} layers deactivated.`);
+                            if (targetStructuralGroup) targetStructuralGroup.classList.add("hidden-structural-element");
+                            if (targetSilhouettePath) targetSilhouettePath.classList.add("hidden-structural-element");
+                            logTerminalLine(`Discrete Matrix Integration: Element layer [${abbr}] safely isolated / hidden.`, "warn");
                         }
                     });
                 });
             }
 
-            function getDynamicColor(abbr, engineMode) {
+            function fetchDynamicChromaticValue(abbr, selectionModel) {
                 try {
-                    if (engineMode === "density") {
-                        const score = GEOGRAPHIC_ENGINE_DB.INDEX_CHEAPNESS[abbr] || 100;
-                        return score < 90 ? "#22c55e" : score < 115 ? "#eab308" : "#ef4444";
+                    if (selectionModel === "living_index") {
+                        const cost = SYSTEM_DATABASE_ENGINE.STATES_COST_LIVING_WEIGHT[abbr] || 100;
+                        return cost < 92 ? "#059669" : cost < 118 ? "#d97706" : "#dc2626";
                     }
-                    if (engineMode === "crime") {
-                        const score = GEOGRAPHIC_ENGINE_DB.CRIME_INDEX[abbr] || 300;
-                        return score < 250 ? "#10b981" : score < 450 ? "#f97316" : "#dc2626";
+                    if (selectionModel === "crime_density") {
+                        const density = SYSTEM_DATABASE_ENGINE.STATES_CRIME_MATRIX_DENSITY[abbr] || 350;
+                        return density < 260 ? "#10b981" : density < 460 ? "#f97316" : "#b91c1c";
                     }
-                    if (engineMode === "jurisdiction") {
-                        return GEOGRAPHIC_ENGINE_DB.PENAL_CODE_MATRIX[abbr].includes("Active") ? "#7f1d1d" : "#1e3a8a";
+                    if (selectionModel === "penal_status") {
+                        const law = SYSTEM_DATABASE_ENGINE.STATES_PENAL_CODE_CLASSIFICATION[abbr];
+                        return law.includes("Enforced") ? "#450a0a" : "#1e3a8a";
                     }
-                    return GEOGRAPHIC_ENGINE_DB.VECTOR_PATHS[abbr].hex;
-                } catch (err) {
-                    return "#475569";
+                    return SYSTEM_DATABASE_ENGINE.STATES_VECTOR_SHAPES_DATA_MAP[abbr].hex;
+                } catch (e) {
+                    return "#334155";
                 }
             }
 
-            function buildStarPath(x, y, r, points = 5) {
-                let pathStr = "";
-                for (let i = 0; i < 2 * points; i++) {
-                    let curR = (i % 2 === 0) ? r : r / 2;
-                    let angle = (Math.PI * i) / points - Math.PI / 2;
-                    let px = x + curR * Math.cos(angle);
-                    let py = y + curR * Math.sin(angle);
-                    pathStr += (i === 0 ? "M" : "L") + px + "," + py;
+            function generateDynamicStarCoordinatesPath(x, y, radius, vertexCount = 5) {
+                let spatialString = "";
+                for (let step = 0; step < 2 * vertexCount; step++) {
+                    let scalarRadius = (step % 2 === 0) ? radius : radius / 2;
+                    let radianAngle = (Math.PI * step) / vertexCount - Math.PI / 2;
+                    let calculatedX = x + scalarRadius * Math.cos(radianAngle);
+                    let calculatedY = y + scalarRadius * Math.sin(radianAngle);
+                    spatialString += (step === 0 ? "M" : "L") + calculatedX + "," + calculatedY;
                 }
-                return pathStr + "Z";
+                return spatialString + "Z";
             }
 
-            // Complete SVG Layer Generator
-            function buildMapLayers() {
-                const interactiveLayer = document.getElementById("layer-interactive-vectors");
-                const blueprintLayer = document.getElementById("layer-blueprint-shadow");
-                if (!interactiveLayer || !blueprintLayer) return;
+            // CORE COMPREHENSIVE RE-RENDER ASSEMBLY CYCLE MAPPING ENGINE
+            function renderMasterMapLayers() {
+                const vectorInteractiveGroup = document.getElementById("render-group-interactive-vector-polygons");
+                const silhouetteBlueprintGroup = document.getElementById("render-group-blueprint-silhouettes");
+                if (!vectorInteractiveGroup || !silhouetteBlueprintGroup) return;
 
-                interactiveLayer.innerHTML = "";
-                blueprintLayer.innerHTML = "";
+                vectorInteractiveGroup.innerHTML = "";
+                silhouetteBlueprintGroup.innerHTML = "";
 
-                const currentEngineMode = document.getElementById("color-engine-mode").value;
+                const activeModel = document.getElementById("chroma-matrix-model-selector").value;
 
-                // Capture global checkboxes setup profile
-                const showCodes = document.getElementById("layer-global-codes").checked;
-                const showCapitals = document.getElementById("layer-global-capitals").checked;
-                const showCities = document.getElementById("layer-global-cities").checked;
-                const showNames = document.getElementById("layer-global-names").checked;
-                const showBlueprint = document.getElementById("toggle-solution-backdrop").checked;
+                // Capture global toggle states
+                const toggleCodes = document.getElementById("layer-chk-state-codes").checked;
+                const toggleStars = document.getElementById("layer-chk-stars-capitals").checked;
+                const toggleCircles = document.getElementById("layer-chk-circles-cities").checked;
+                const toggleTexts = document.getElementById("layer-chk-text-labels").checked;
+                const toggleBlueprint = document.getElementById("engine-chk-blueprint-silhouette").checked;
 
-                INSTANCE_STATE.pool.forEach(abbr => {
-                    const pathData = GEOGRAPHIC_ENGINE_DB.VECTOR_PATHS[abbr];
-                    if (!pathData) return;
+                CONTROL_CORE_REGISTRY.activePoolKeys.forEach(abbr => {
+                    const geometryData = SYSTEM_DATABASE_ENGINE.STATES_VECTOR_SHAPES_DATA_MAP[abbr];
+                    if (!geometryData) return;
 
-                    // Generate Trace Target Silhouette Blueprint Layer
-                    const shadowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    shadowPath.setAttribute("d", pathData.d);
-                    shadowPath.setAttribute("id", `shadow-path-${abbr}`);
-                    shadowPath.setAttribute("fill", showBlueprint ? getDynamicColor(abbr, currentEngineMode) : "none");
-                    shadowPath.setAttribute("stroke", showBlueprint ? "rgba(255,255,255,0.4)" : "#1e293b");
-                    shadowPath.setAttribute("stroke-width", "1.5");
-                    blueprintLayer.appendChild(shadowPath);
+                    // 1. Generate Static Blueprint Target Backplane Shadow Layer
+                    const silhouettePathNode = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    silhouettePathNode.setAttribute("d", geometryData.d);
+                    silhouettePathNode.setAttribute("id", `blueprint-silhouette-path-${abbr}`);
+                    silhouettePathNode.setAttribute("fill", toggleBlueprint ? fetchDynamicChromaticValue(abbr, activeModel) : "none");
+                    silhouettePathNode.setAttribute("stroke", toggleBlueprint ? "rgba(255,255,255,0.45)" : "#0f172a");
+                    silhouettePathNode.setAttribute("stroke-width", "2");
+                    silhouetteBlueprintGroup.appendChild(silhouettePathNode);
 
-                    // Generate Dynamic Compound Node Group Container
-                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-                    group.setAttribute("id", `g-node-${abbr}`);
+                    // 2. Generate Master Interactive Container Node Group Array
+                    const compositeGroupNode = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    compositeGroupNode.setAttribute("id", `state-master-group-${abbr}`);
 
-                    // Structural Polygon State Path Layer
-                    const mesh = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    mesh.setAttribute("d", pathData.d);
-                    mesh.setAttribute("class", "vector-state-mesh");
-                    mesh.setAttribute("fill", getDynamicColor(abbr, currentEngineMode));
-                    mesh.setAttribute("stroke", "var(--border-glow)");
-                    if (INSTANCE_STATE.selectedEntity === abbr) mesh.classList.add("active-selection");
+                    // 3. Structural Polygon Mesh Path Layer Node
+                    const structuralMesh = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    structuralMesh.setAttribute("d", geometryData.d);
+                    structuralMesh.setAttribute("id", `polygon-mesh-${abbr}`);
+                    structuralMesh.setAttribute("class", "svg-state-polygon-node");
+                    structuralMesh.setAttribute("fill", fetchDynamicChromaticValue(abbr, activeModel));
+                    structuralMesh.setAttribute("stroke", "#0f172a");
+                    if (CONTROL_CORE_REGISTRY.currentlySelectedKey === abbr) structuralMesh.classList.add("state-is-selected");
 
-                    // Postal Code Text Node Element
-                    const codeText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    codeText.setAttribute("x", pathData.cx);
-                    codeText.setAttribute("y", pathData.cy);
-                    codeText.setAttribute("class", `hud-label-text ${showCodes ? '' : 'hidden-layer-node'}`);
-                    codeText.setAttribute("text-anchor", "middle");
-                    codeText.textContent = abbr;
+                    // 4. Postal Code HUD Label Node
+                    const postalTextLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    postalTextLabel.setAttribute("x", geometryData.cx);
+                    postalTextLabel.setAttribute("y", geometryData.cy);
+                    postalTextLabel.setAttribute("class", `postal-hud-overlay-text ${toggleCodes ? '' : 'hidden-structural-element'}`);
+                    postalTextLabel.setAttribute("text-anchor", "middle");
+                    postalTextLabel.textContent = abbr;
 
-                    // Star Capital Node Layer
-                    let starCap;
+                    // 5. Star Vector Capital Node Generation
+                    let capitalStarNode;
                     if (abbr === "DC") {
-                        starCap = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        starCap.setAttribute("d", buildStarPath(pathData.capX, pathData.capY, 11, 5));
-                        starCap.setAttribute("fill", "#ff2244");
-                        starCap.setAttribute("class", `node-star-capital ${showCapitals ? '' : 'hidden-layer-node'}`);
-                        // Special DC Pulsing Animation Injection
-                        const anim = document.createElementNS("http://www.w3.org/2000/svg", "animate");
-                        anim.setAttribute("attributeName", "stroke");
-                        anim.setAttribute("values", "#fff;#ffea00;#fff");
-                        anim.setAttribute("dur", "1.5s");
-                        anim.setAttribute("repeatCount", "indefinite");
-                        starCap.appendChild(anim);
+                        capitalStarNode = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        capitalStarNode.setAttribute("d", generateDynamicStarCoordinatesPath(geometryData.capX, geometryData.capY, 14, 5));
+                        capitalStarNode.setAttribute("fill", "#ff0055");
+                        capitalStarNode.setAttribute("class", `node-star-marker-element ${toggleStars ? '' : 'hidden-structural-element'}`);
+                        
+                        const pulseAnim = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+                        pulseAnim.setAttribute("attributeName", "stroke");
+                        pulseAnim.setAttribute("values", "#00ffff;#ffffff;#00ffff");
+                        pulseAnim.setAttribute("dur", "1s");
+                        pulseAnim.setAttribute("repeatCount", "indefinite");
+                        capitalStarNode.appendChild(pulseAnim);
                     } else {
-                        starCap = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        starCap.setAttribute("d", buildStarPath(pathData.capX, pathData.capY, 6, 5));
-                        starCap.setAttribute("fill", "var(--accent-orange)");
-                        starCap.setAttribute("class", `node-star-capital ${showCapitals ? '' : 'hidden-layer-node'}`);
+                        capitalStarNode = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        capitalStarNode.setAttribute("d", generateDynamicStarCoordinatesPath(geometryData.capX, geometryData.capY, 8, 5));
+                        capitalStarNode.setAttribute("fill", "var(--accent-warning-orange)");
+                        capitalStarNode.setAttribute("class", `node-star-marker-element ${toggleStars ? '' : 'hidden-structural-element'}`);
                     }
 
-                    // Capital Name Text Label Annotation
-                    const capLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    capLabel.setAttribute("x", pathData.capX + 8);
-                    capLabel.setAttribute("y", pathData.capY + 3);
-                    capLabel.setAttribute("class", `node-label-annotation is-capital ${showNames && showCapitals ? '' : 'hidden-layer-node'}`);
-                    capLabel.textContent = GEOGRAPHIC_ENGINE_DB.CAPITALS[abbr];
+                    // 6. Capital Text Identifier Annotation
+                    const capitalNameLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    capitalNameLabel.setAttribute("x", geometryData.capX + 10);
+                    capitalNameLabel.setAttribute("y", geometryData.capY + 4);
+                    capitalNameLabel.setAttribute("class", `annotation-vector-text-label label-type-capital ${toggleTexts && toggleStars ? '' : 'hidden-structural-element'}`);
+                    capitalNameLabel.textContent = SYSTEM_DATABASE_ENGINE.STATES_CAPITALS_ARRAY[abbr];
 
-                    // Circle City Node Layer
-                    const circleCity = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    circleCity.setAttribute("cx", pathData.cityX);
-                    circleCity.setAttribute("cy", pathData.cityY);
-                    circleCity.setAttribute("r", abbr === "DC" ? "0" : "3.5");
-                    circleCity.setAttribute("class", `node-circle-city ${showCities ? '' : 'hidden-layer-node'}`);
+                    // 7. Secondary Municipality Circle Node Vector Layer
+                    const municipalCircleNode = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    municipalCircleNode.setAttribute("cx", geometryData.cityX);
+                    municipalCircleNode.setAttribute("cy", geometryData.cityY);
+                    municipalCircleNode.setAttribute("r", abbr === "DC" ? "0" : "4");
+                    municipalCircleNode.setAttribute("class", `node-circle-city-element ${toggleCircles ? '' : 'hidden-structural-element'}`);
 
-                    // City Name Text Label Annotation
-                    const cityLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    cityLabel.setAttribute("x", pathData.cityX + 6);
-                    cityLabel.setAttribute("y", pathData.cityY - 4);
-                    cityLabel.setAttribute("class", `node-label-annotation ${showNames && showCities ? '' : 'hidden-layer-node'}`);
-                    cityLabel.textContent = (GEOGRAPHIC_ENGINE_DB.MUNICIPALITIES[abbr] || "").split(",")[0];
+                    // 8. Municipal Name Text Annotation
+                    const municipalNameLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    municipalNameLabel.setAttribute("x", geometryData.cityX + 8);
+                    municipalNameLabel.setAttribute("y", geometryData.cityY - 4);
+                    municipalNameLabel.setAttribute("class", `annotation-vector-text-label ${toggleTexts && toggleCircles ? '' : 'hidden-structural-element'}`);
+                    municipalNameLabel.textContent = (SYSTEM_DATABASE_ENGINE.STATES_MUNICIPAL_SECONDARY_ARRAY[abbr] || "").split(",")[0];
 
-                    // Structural Assembly Bindings
-                    group.appendChild(mesh);
-                    group.appendChild(codeText);
-                    group.appendChild(starCap);
-                    group.appendChild(capLabel);
-                    group.appendChild(circleCity);
-                    group.appendChild(cityLabel);
-                    interactiveLayer.appendChild(group);
+                    // GRAPHICAL STRUCTURAL ASSEMBLY PACKET PACKING
+                    compositeGroupNode.appendChild(structuralMesh);
+                    compositeGroupNode.appendChild(postalTextLabel);
+                    compositeGroupNode.appendChild(capitalStarNode);
+                    compositeGroupNode.appendChild(capitalNameLabel);
+                    compositeGroupNode.appendChild(municipalCircleNode);
+                    compositeGroupNode.appendChild(municipalNameLabel);
+                    vectorInteractiveGroup.appendChild(compositeGroupNode);
 
-                    // Click Trigger Event Implementation
-                    const triggerAuditing = () => {
-                        INSTANCE_STATE.selectedEntity = abbr;
-                        document.querySelectorAll(".vector-state-mesh").forEach(m => m.classList.remove("active-selection"));
-                        mesh.classList.add("active-selection");
+                    // INTERACTION TELEMETRY LINK TRIGGERS
+                    const executeTelemetryAuditingLink = () => {
+                        CONTROL_CORE_REGISTRY.currentlySelectedKey = abbr;
+                        document.querySelectorAll(".svg-state-polygon-node").forEach(node => node.classList.remove("state-is-selected"));
+                        structuralMesh.classList.add("state-is-selected");
 
-                        // Synchronize Side Panels Telemetry Layout
-                        const aggregateSize = GEOGRAPHIC_ENGINE_DB.LAND_MASS_SIZE[abbr] + GEOGRAPHIC_ENGINE_DB.HYDRO_SIZE[abbr];
-                        document.getElementById("telemetry-postal-code").innerText = `REGIONAL NODE IDENTIFIER: ${abbr}`;
-                        document.getElementById("telemetry-name").innerText = GEOGRAPHIC_ENGINE_DB.NAMES[abbr];
-                        document.getElementById("telemetry-nickname").innerText = `"${GEOGRAPHIC_ENGINE_DB.NICKNAMES[abbr]}"`;
+                        const totalFootprintCalculated = SYSTEM_DATABASE_ENGINE.STATES_LAND_AREA_VOLUME[abbr] + SYSTEM_DATABASE_ENGINE.STATES_HYDRO_AREA_VOLUME[abbr];
                         
-                        document.getElementById("m-val-capital").innerText = GEOGRAPHIC_ENGINE_DB.CAPITALS[abbr];
-                        document.getElementById("m-val-cities").innerText = GEOGRAPHIC_ENGINE_DB.MUNICIPALITIES[abbr];
-                        document.getElementById("m-val-total").innerText = aggregateSize.toLocaleString() + " sq mi";
-                        document.getElementById("m-val-land").innerText = GEOGRAPHIC_ENGINE_DB.LAND_MASS_SIZE[abbr].toLocaleString() + " sq mi";
-                        document.getElementById("m-val-water").innerText = GEOGRAPHIC_ENGINE_DB.HYDRO_SIZE[abbr].toLocaleString() + " sq mi";
-                        document.getElementById("m-val-cheap").innerText = GEOGRAPHIC_ENGINE_DB.INDEX_CHEAPNESS[abbr] + " pts";
-                        document.getElementById("m-val-crime").innerText = GEOGRAPHIC_ENGINE_DB.CRIME_INDEX[abbr] + " /100k";
-                        document.getElementById("m-val-penal").innerText = GEOGRAPHIC_ENGINE_DB.PENAL_CODE_MATRIX[abbr];
+                        document.getElementById("hud-txt-postal-identifier").innerText = `SYSTEM TARGET VECTOR READOUT: ${abbr}`;
+                        document.getElementById("hud-txt-state-title").innerText = SYSTEM_DATABASE_ENGINE.STATES_NAMES_ARRAY[abbr];
+                        document.getElementById("hud-txt-state-nickname").innerText = `"${SYSTEM_DATABASE_ENGINE.STATES_NICKNAMES_ARRAY[abbr]}"`;
+                        
+                        document.getElementById("db-val-capital-node").innerText = SYSTEM_DATABASE_ENGINE.STATES_CAPITALS_ARRAY[abbr];
+                        document.getElementById("db-val-municipalities-list").innerText = SYSTEM_DATABASE_ENGINE.STATES_MUNICIPAL_SECONDARY_ARRAY[abbr];
+                        document.getElementById("db-val-footprint-volume").innerText = totalFootprintCalculated.toLocaleString() + " Sq Miles";
+                        document.getElementById("db-val-landmass-surface").innerText = SYSTEM_DATABASE_ENGINE.STATES_LAND_AREA_VOLUME[abbr].toLocaleString() + " Sq Miles";
+                        document.getElementById("db-val-hydrological-surface").innerText = SYSTEM_DATABASE_ENGINE.STATES_HYDRO_AREA_VOLUME[abbr].toLocaleString() + " Sq Miles";
+                        document.getElementById("db-val-economic-weight").innerText = SYSTEM_DATABASE_ENGINE.STATES_COST_LIVING_WEIGHT[abbr] + " Weight Pts";
+                        document.getElementById("db-val-crime-occurrence").innerText = SYSTEM_DATABASE_ENGINE.STATES_CRIME_MATRIX_DENSITY[abbr] + " / 100,000";
+                        document.getElementById("db-val-penal_jurisdiction" ? "db-val-penal-jurisdiction" : "db-val-penal-jurisdiction").innerText = SYSTEM_DATABASE_ENGINE.STATES_PENAL_CODE_CLASSIFICATION[abbr];
 
-                        evaluateCrossScaleComputation();
+                        evaluateCrossScaleParityModel();
                     };
 
-                    mesh.addEventListener("click", triggerAuditing);
-                    starCap.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        triggerAuditing();
+                    structuralMesh.addEventListener("click", executeTelemetryAuditingLink);
+                    capitalStarNode.addEventListener("click", (evt) => {
+                        evt.stopPropagation();
+                        executeTelemetryAuditingLink();
                     });
 
-                    // Drag-and-Drop Coordinate Translation Engine Mechanics
-                    let isDragging = false;
-                    let startX, startY;
+                    // ADVANCED DRAG-AND-DROP COORDINATE SPACE TRANSLATION CALCULATOR MATRIX
+                    let stateIsCurrentlyDragging = false;
+                    let initialCursorX, initialCursorY;
 
-                    mesh.addEventListener("mousedown", (e) => {
-                        if (mesh.classList.contains("locked-snap")) return;
-                        isDragging = true;
-                        startX = e.clientX;
-                        startY = e.clientY;
-                        interactiveLayer.appendChild(group); // Move element forward visually
+                    structuralMesh.addEventListener("mousedown", (evt) => {
+                        if (structuralMesh.classList.contains("state-is-snapped")) return;
+                        stateIsCurrentlyDragging = true;
+                        initialCursorX = evt.clientX;
+                        initialCursorY = evt.clientY;
+                        vectorInteractiveGroup.appendChild(compositeGroupNode); // Elevate node plane
                     });
 
-                    window.addEventListener("mousemove", (e) => {
-                        if (!isDragging) return;
-                        const deltaX = e.clientX - startX;
-                        const deltaY = e.clientY - startY;
+                    window.addEventListener("mousemove", (evt) => {
+                        if (!stateIsCurrentlyDragging) return;
+                        const deltaMovementX = evt.clientX - initialCursorX;
+                        const deltaMovementY = evt.clientY - initialCursorY;
 
-                        let currentTransform = group.style.transform || "translate(0px, 0px)";
-                        let match = currentTransform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
-                        let tx = match ? parseFloat(match[1]) : 0;
-                        let ty = match ? parseFloat(match[2]) : 0;
+                        let baseTransformState = compositeGroupNode.style.transform || "translate(0px, 0px)";
+                        let currentCoordinatesMatch = baseTransformState.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let extractedX = currentCoordinatesMatch ? parseFloat(currentCoordinatesMatch[1]) : 0;
+                        let extractedY = currentCoordinatesMatch ? parseFloat(currentCoordinatesMatch[2]) : 0;
 
-                        group.style.transform = `translate(${tx + deltaX}px, ${ty + deltaY}px)`;
-                        startX = e.clientX;
-                        startY = e.clientY;
+                        compositeGroupNode.style.transform = `translate(${extractedX + deltaMovementX}px, ${extractedY + deltaMovementY}px)`;
+                        initialCursorX = evt.clientX;
+                        initialCursorY = evt.clientY;
                     });
 
                     window.addEventListener("mouseup", () => {
-                        if (!isDragging) return;
-                        isDragging = false;
+                        if (!stateIsCurrentlyDragging) return;
+                        stateIsCurrentlyDragging = false;
 
-                        // Magnetic Lock Calculations Boundary Target Check
-                        if (!document.getElementById("toggle-snap-engine").checked) return;
+                        if (!document.getElementById("engine-chk-magnetic-snap").checked) return;
 
-                        let currentTransform = group.style.transform || "translate(0px, 0px)";
-                        let match = currentTransform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
-                        let tx = match ? parseFloat(match[1]) : 0;
-                        let ty = match ? parseFloat(match[2]) : 0;
+                        let baseTransformState = compositeGroupNode.style.transform || "translate(0px, 0px)";
+                        let currentCoordinatesMatch = baseTransformState.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let extractedX = currentCoordinatesMatch ? parseFloat(currentCoordinatesMatch[1]) : 0;
+                        let extractedY = currentCoordinatesMatch ? parseFloat(currentCoordinatesMatch[2]) : 0;
 
-                        if (Math.abs(tx) < 18 && Math.abs(ty) < 18) {
-                            group.style.transform = "translate(0px, 0px)";
-                            mesh.classList.add("locked-snap");
-                            mesh.style.stroke = "#ffffff";
-                            logConsole(`Magnetic Snap secured target node: ${abbr}`, "info");
-                            calculateTotalScore();
+                        // Target snap accuracy window boundary limit
+                        if (Math.abs(extractedX) < 25 && Math.abs(extractedY) < 25) {
+                            compositeGroupNode.style.transform = "translate(0px, 0px)";
+                            structuralMesh.classList.add("state-is-snapped");
+                            structuralMesh.style.stroke = "#ffffff";
+                            logTerminalLine(`Smart Lock Engine: Element node [${abbr}] snapped securely into targeted base grid alignment matrix.`, "info");
+                            calculateTotalAlignmentScore();
                         }
                     });
-
                 });
 
-                calculateTotalScore();
+                calculateTotalAlignmentScore();
             }
 
-            // Real-time Parity Scale Logic Array Engine
-            function evaluateCrossScaleComputation() {
-                if (!INSTANCE_STATE.selectedEntity) return;
-                const dropdownTarget = document.getElementById("comparator-dropdown").value;
-                const outputArea = document.getElementById("comparator-output-window");
+            // VOLUMETRIC PARITY CROSS COMPARING EXECUTION ENGINE LOGIC RENDERER
+            function evaluateCrossScaleParityModel() {
+                if (!CONTROL_CORE_REGISTRY.currentlySelectedKey) return;
+                const dropdownObjectiveKey = document.getElementById("engine-selector-comparator-target-dropdown").value;
+                const windowBoxOutput = document.getElementById("engine-render-box-comparator-output");
                 
-                if (INSTANCE_STATE.selectedEntity === dropdownTarget) {
-                    outputArea.innerHTML = `<span style="color:var(--accent-orange);">Self-referencing comparison check matches 1:1 scale ratios.</span>`;
+                if (CONTROL_CORE_REGISTRY.currentlySelectedKey === dropdownObjectiveKey) {
+                    windowBoxOutput.innerHTML = `<span style="color:var(--accent-warning-orange);">Self-referential comparison tracking identity detected. Scale ratio 1:1 parity baseline.</span>`;
                     return;
                 }
 
-                const sourceSize = GEOGRAPHIC_ENGINE_DB.LAND_MASS_SIZE[INSTANCE_STATE.selectedEntity] + GEOGRAPHIC_ENGINE_DB.HYDRO_SIZE[INSTANCE_STATE.selectedEntity];
-                const targetSize = GEOGRAPHIC_ENGINE_DB.LAND_MASS_SIZE[dropdownTarget] + GEOGRAPHIC_ENGINE_DB.HYDRO_SIZE[dropdownTarget];
+                const sourceVolumetricVolume = SYSTEM_DATABASE_ENGINE.STATES_LAND_AREA_VOLUME[CONTROL_CORE_REGISTRY.currentlySelectedKey] + SYSTEM_DATABASE_ENGINE.STATES_HYDRO_AREA_VOLUME[CONTROL_CORE_REGISTRY.currentlySelectedKey];
+                const targetVolumetricVolume = SYSTEM_DATABASE_ENGINE.STATES_LAND_AREA_VOLUME[dropdownObjectiveKey] + SYSTEM_DATABASE_ENGINE.STATES_HYDRO_AREA_VOLUME[dropdownObjectiveKey];
                 
-                const factorRatio = (sourceSize / targetSize).toFixed(3);
+                const relativeMathematicalRatio = (sourceVolumetricVolume / targetVolumetricVolume).toFixed(4);
 
-                outputArea.innerHTML = `
-                    <strong>${INSTANCE_STATE.selectedEntity}</strong> (${sourceSize.toLocaleString()} sq mi) matches <span style="color:var(--accent-green); font-weight:bold;">${factorRatio}x</span> the relative volumetric geometry footprint ratio of <strong>${dropdownTarget}</strong> (${targetSize.toLocaleString()} sq mi).
+                windowBoxOutput.innerHTML = `
+                    Source Object Node <strong>${CONTROL_CORE_REGISTRY.currentlySelectedKey}</strong> (${sourceVolumetricVolume.toLocaleString()} SqMi) accounts for roughly <span style="color:var(--accent-matrix-green); font-weight:800;">${relativeMathematicalRatio}x</span> the relative total volumetric geometry mass area ratio footprint profile of targeted selection piece <strong>${dropdownObjectiveKey}</strong> (${targetVolumetricVolume.toLocaleString()} SqMi).
                 `;
             }
 
-            function calculateTotalScore() {
-                const snapped = document.querySelectorAll(".vector-state-mesh.locked-snap").length;
-                const display = document.getElementById("hud-score-display");
-                if (display) {
-                    display.innerText = `${snapped} / ${INSTANCE_STATE.pool.length}`;
+            function calculateTotalAlignmentScore() {
+                const successfullySnappedCount = document.querySelectorAll(".svg-state-polygon-node.state-is-snapped").length;
+                const counterDisplayHUD = document.getElementById("hud-txt-coherence-score-counter");
+                if (counterDisplayHUD) {
+                    counterDisplayHUD.innerText = `${successfullySnappedCount} / ${CONTROL_CORE_REGISTRY.activePoolKeys.length} ELEMENT PIECES LOCKED`;
                 }
             }
 
-            // Global Control Core Event Pipeline Wireframe Setup
-            function attachGlobalEventListeners() {
-                document.getElementById("color-engine-mode").addEventListener("change", () => {
-                    logConsole("Re-rendering color matrix palette...");
-                    buildMapLayers();
+            // ATTACH COMPREHENSIVE PIPELINE LOGIC HARDWARE SIGNAL LINK INTERFACES
+            function setupGlobalInteractivityBinds() {
+                document.getElementById("chroma-matrix-model-selector").addEventListener("change", () => {
+                    logTerminalLine("Re-evaluating dynamic coloring array models...");
+                    renderMasterMapLayers();
                 });
 
-                const structuralToggles = [
-                    "layer-global-codes", "layer-global-capitals", 
-                    "layer-global-cities", "layer-global-names", "toggle-solution-backdrop"
+                const interfaceTriggerIds = [
+                    "layer-chk-state-codes", "layer-chk-stars-capitals", 
+                    "layer-chk-circles-cities", "layer-chk-text-labels", "engine-chk-blueprint-silhouette"
                 ];
-                structuralToggles.forEach(id => {
-                    document.getElementById(id).addEventListener("change", () => {
-                        buildMapLayers();
+                interfaceTriggerIds.forEach(elementId => {
+                    document.getElementById(elementId).addEventListener("change", () => {
+                        renderMasterMapLayers();
                     });
                 });
 
-                document.getElementById("comparator-dropdown").addEventListener("change", evaluateCrossScaleComputation);
+                document.getElementById("engine-selector-comparator-target-dropdown").addEventListener("change", evaluateCrossScaleParityModel);
 
-                // Scramble Geometry Randomizer Action Button Bound Link
-                document.getElementById("btn-trigger-scramble").addEventListener("click", () => {
-                    logConsole("Executing geographic vector distribution shuffle sequence...", "warn");
-                    INSTANCE_STATE.pool.forEach(abbr => {
-                        const g = document.getElementById(`g-node-${abbr}`);
-                        if (g) {
-                            const mesh = g.querySelector(".vector-state-mesh");
-                            if (mesh && mesh.classList.contains("locked-snap")) return; // Skip snapped nodes
-                            const rx = (Math.random() - 0.5) * 350;
-                            const ry = (Math.random() - 0.5) * 350;
-                            g.style.transform = `translate(${rx}px, ${ry}px)`;
+                // SPATIAL SCRAMBLE GEOMETRY ACTION HANDLERリンク
+                document.getElementById("btn-action-trigger-scramble").addEventListener("click", () => {
+                    logTerminalLine("Executing broad geo-spatial translation scramble mapping sequence...", "warn");
+                    CONTROL_CORE_REGISTRY.activePoolKeys.forEach(abbr => {
+                        const masterGroupNode = document.getElementById(`state-master-group-${abbr}`);
+                        if (masterGroupNode) {
+                            const coreMeshNode = masterGroupNode.querySelector(".svg-state-polygon-node");
+                            if (coreMeshNode && coreMeshNode.classList.contains("state-is-snapped")) return; 
+                            
+                            // Disperse vector groups widely away from zero origin base inside explicit coordinate grid values
+                            const randomizedVectorX = (Math.random() - 0.5) * 450;
+                            const randomizedVectorY = (Math.random() - 0.5) * 440;
+                            masterGroupNode.style.transform = `translate(${randomizedVectorX}px, ${randomizedVectorY}px)`;
                         }
                     });
                 });
 
-                // Layer Purge Destruction Trigger Action Button Bound Link
-                document.getElementById("btn-purge-entity").addEventListener("click", () => {
-                    if (!INSTANCE_STATE.selectedEntity) {
-                        logConsole("Purge failed: Choose a valid target vector first.", "warn");
+                // SEVERE STRUCTURAL DESTRUCTION PURGE ACTION METHOD HOOK LINK
+                document.getElementById("btn-action-trigger-purge").addEventListener("click", () => {
+                    if (!CONTROL_CORE_REGISTRY.currentlySelectedKey) {
+                        logTerminalLine("Purge command halted: No valid active targeted vector layer piece highlighted.", "warn");
                         return;
                     }
-                    const removeTarget = INSTANCE_STATE.selectedEntity;
-                    logConsole(`Purging object code ${removeTarget} from core pool loop completely.`, "err");
+                    const dynamicRemovalKey = CONTROL_CORE_REGISTRY.currentlySelectedKey;
+                    logTerminalLine(`Executing total structural purge command on target array component [${dynamicRemovalKey}].`, "err");
                     
-                    INSTANCE_STATE.pool = INSTANCE_STATE.pool.filter(item => item !== removeTarget);
-                    INSTANCE_STATE.selectedEntity = null;
+                    CONTROL_CORE_REGISTRY.activePoolKeys = CONTROL_CORE_REGISTRY.activePoolKeys.filter(keyItem => keyItem !== dynamicRemovalKey);
+                    CONTROL_CORE_REGISTRY.currentlySelectedKey = null;
 
-                    populateComparatorDropdown();
-                    renderMatrixToggleGrid();
-                    buildMapLayers();
+                    buildComparatorDropdownMatrix();
+                    generateMicroIsolationListUI();
+                    renderMasterMapLayers();
                 });
             }
 
