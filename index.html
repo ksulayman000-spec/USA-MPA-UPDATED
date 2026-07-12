@@ -6,13 +6,6 @@
     <title>Global Orthographic Interactive USA Puzzle Analytics Suite</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="layout.css">
-    <link rel="stylesheet" href="animations.css">
-    <link rel="stylesheet" href="panels.css">
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="map.css">
-    <link rel="stylesheet" href="toolbar.css">
-
     <style>
         :root {
             --bg: #0f1923; 
@@ -73,15 +66,21 @@
         }
         .state-path:hover { stroke: var(--accent); fill-opacity: 0.85; }
         .state-path.snapped { stroke: #fff; cursor: default; }
+        .state-path.selected { stroke: var(--accent2); stroke-width: 2; }
         
-        /* Center Coordinates Abbreviations Locks */
         .state-label { font-size: 10px; font-weight: 800; fill: var(--text); pointer-events: none; text-anchor: middle; transition: opacity 0.15s; }
         .state-label.hidden { opacity: 0; }
 
-        /* Dynamic Node Infrastructure */
         .city-node { fill: #ffffff; stroke: var(--bg); stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
         .capital-node { fill: var(--warn); stroke: #ffffff; stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
+        .national-capital-node { fill: #ef4444; stroke: #ffffff; stroke-width: 1.5; cursor: pointer; pointer-events: auto; animation: pulse-glow 2s infinite; }
         .node-hidden { opacity: 0 !important; }
+
+        @keyframes pulse-glow {
+            0% { stroke-width: 1.5; }
+            50% { stroke-width: 3; stroke: #f59e0b; }
+            100% { stroke-width: 1.5; }
+        }
 
         #sidebar {
             width: var(--sidebar-width); background: var(--surface);
@@ -138,7 +137,7 @@
         </div>
         <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 10px;">
             <label>Limit Pool:</label>
-            <input type="number" id="state-limit" class="control-input" value="50" min="1" max="50" style="width: 45px;">
+            <input type="number" id="state-limit" class="control-input" value="51" min="1" max="51" style="width: 45px;">
             <button class="action-btn" id="btn-apply-limit">Truncate</button>
         </div>
         <button class="action-btn" id="btn-shuffle">Shuffle</button>
@@ -194,7 +193,7 @@
 
             <div class="panel-card" style="margin-top: auto; text-align: center; padding: 8px;">
                 <div style="font-size: 10px; color: var(--text2); text-transform: uppercase;">Puzzle Synced Progress</div>
-                <div style="font-size: 24px; font-weight: 800; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 50</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 51</div>
             </div>
         </div>
     </div>
@@ -214,7 +213,8 @@
                 NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
                 OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
                 SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
-                VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
+                VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+                DC: "District of Columbia"
             },
             NICKNAMES: {
                 AL: "Yellowhammer State", AK: "The Last Frontier", AZ: "Grand Canyon State", AR: "The Natural State", CA: "Golden State",
@@ -226,7 +226,8 @@
                 NM: "Land of Enchantment", NY: "Empire State", NC: "Tar Heel State", ND: "Peace Garden State", OH: "Buckeye State",
                 OK: "Sooner State", OR: "Beaver State", PA: "Keystone State", RI: "Ocean State", SC: "Palmetto State",
                 SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State",
-                VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State"
+                VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State",
+                DC: "The Nation's Capital"
             },
             CAPITALS: {
                 AL: "Montgomery", AK: "Juneau", AZ: "Phoenix", AR: "Little Rock", CA: "Sacramento",
@@ -238,7 +239,8 @@
                 NM: "Santa Fe", NY: "Albany", NC: "Raleigh", ND: "Bismarck", OH: "Columbus",
                 OK: "Oklahoma City", OR: "Salem", PA: "Harrisburg", RI: "Providence", SC: "Columbia",
                 SD: "Pierre", TN: "Nashville", TX: "Austin", UT: "Salt Lake City", VT: "Montpelier",
-                VA: "Richmond", WA: "Olymply", WV: "Charleston", WI: "Madison", WY: "Cheyenne"
+                VA: "Richmond", WA: "Olympia", WV: "Charleston", WI: "Madison", WY: "Cheyenne",
+                DC: "Washington"
             },
             CITIES_LIST: {
                 AL: "Birmingham, Mobile", AK: "Anchorage, Fairbanks", AZ: "Tucson, Mesa", AR: "Fort Smith, Jonesboro", CA: "Los Angeles, San Francisco",
@@ -250,35 +252,40 @@
                 NM: "Albuquerque, Las Cruces", NY: "New York City, Buffalo", NC: "Charlotte, Greensboro", ND: "Fargo, Grand Forks", OH: "Cleveland, Cincinnati",
                 OK: "Tulsa, Norman", OR: "Portland, Eugene", PA: "Philadelphia, Pittsburgh", RI: "Warwick, Cranston", SC: "Charleston, Myrtle Beach",
                 SD: "Sioux Falls, Rapid City", TN: "Memphis, Knoxville", TX: "Houston, Dallas, San Antonio", UT: "West Valley, Provo", VT: "Burlington, South Burlington",
-                VA: "Virginia Beach, Norfolk", WA: "Seattle, Spokane", WV: "Huntington, Morgantown", WI: "Milwaukee, Green Bay", WY: "Casper, Laramie"
+                VA: "Virginia Beach, Norfolk", WA: "Seattle, Spokane", WV: "Huntington, Morgantown", WI: "Milwaukee, Green Bay", WY: "Casper, Laramie",
+                DC: "Georgetown, Anacostia"
             },
             LAND_AREA: {
                 AL: 50645, AK: 570641, AZ: 113594, AR: 52035, CA: 155779, CO: 103642, CT: 4842, DE: 1949, FL: 53625, GA: 57513,
                 HI: 6423, ID: 82643, IL: 55519, IN: 35826, IA: 55857, KS: 81759, KY: 39486, LA: 43204, ME: 30843, MD: 9707,
                 MA: 7800, MI: 56539, MN: 79627, MS: 46923, MO: 68742, MT: 145546, NE: 76824, NV: 109781, NH: 8953, NJ: 7354,
                 NM: 121298, NY: 47126, NC: 48618, ND: 69001, OH: 40861, OK: 68595, OR: 95988, PA: 44743, RI: 1034, SC: 30061,
-                SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093
+                SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093,
+                DC: 61
             },
             WATER_AREA: {
                 AL: 1775, AK: 94743, AZ: 396, AR: 1143, CA: 7916, CO: 452, CT: 701, DE: 540, FL: 12133, GA: 1912,
                 HI: 4508, ID: 898, IL: 2395, IN: 581, IA: 416, KS: 520, KY: 922, LA: 9174, ME: 4523, MD: 2699,
                 MA: 2755, MI: 40175, MN: 7301, MS: 1518, MO: 811, MT: 1494, NE: 524, NV: 735, NH: 395, NJ: 1368,
                 NM: 291, NY: 7429, NC: 5242, ND: 1724, OH: 4022, OK: 1304, OR: 2391, PA: 1308, RI: 511, SC: 1960,
-                SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720
+                SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720,
+                DC: 7
             },
             CHEAPNESS_INDEX: {
                 AL: 88.1, AK: 126.7, AZ: 107.2, AR: 87.5, CA: 136.4, CO: 106.9, CT: 113.1, DE: 102.6, FL: 100.3, GA: 89.4,
                 HI: 179.0, ID: 99.6, IL: 90.8, IN: 90.4, IA: 89.2, KS: 87.4, KY: 89.1, LA: 92.4, ME: 111.4, MD: 112.8,
                 MA: 146.5, MI: 92.2, MN: 97.4, MS: 86.1, MO: 88.4, MT: 102.8, NE: 91.8, NV: 102.3, NH: 115.2, NJ: 114.1,
                 NM: 93.8, NY: 125.1, NC: 96.2, ND: 94.6, OH: 90.1, OK: 86.8, OR: 116.2, PA: 99.0, RI: 112.1, SC: 94.3,
-                SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8
+                SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8,
+                DC: 152.4
             },
             CRIME_RATE: {
                 AL: 450, AK: 830, AZ: 425, AR: 670, CA: 440, CO: 420, CT: 180, DE: 430, FL: 380, GA: 400,
                 HI: 250, ID: 240, IL: 425, IN: 357, IA: 300, KS: 425, KY: 260, LA: 640, ME: 110, MD: 400,
                 MA: 300, MI: 475, MN: 280, MS: 290, MO: 540, MT: 470, NE: 300, NV: 460, NH: 150, NJ: 195,
                 NM: 780, NY: 360, NC: 420, ND: 280, OH: 305, OK: 440, OR: 290, PA: 310, RI: 230, SC: 530,
-                SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230
+                SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230,
+                DC: 800
             },
             DEATH_PENALTY: {
                 AL: "Active", AK: "Abolished (1957)", AZ: "Active", AR: "Active", CA: "Active (Moratorium)",
@@ -290,7 +297,8 @@
                 NM: "Abolished (2009)", NY: "Abolished (2007)", NC: "Active", ND: "Abolished (1973)", OH: "Active",
                 OK: "Active", OR: "Active (Moratorium)", PA: "Active (Moratorium)", RI: "Abolished (1984)", SC: "Active",
                 SD: "Active", TN: "Active", TX: "Active", UT: "Active", VT: "Abolished (1972)",
-                VA: "Abolished (2021)", WA: "Abolished (2018)", WV: "Abolished (1965)", WI: "Abolished (1853)", WY: "Active"
+                VA: "Abolished (2021)", WA: "Abolished (2018)", WV: "Abolished (1965)", WI: "Abolished (1853)", WY: "Active",
+                DC: "Abolished (1981)"
             },
             PATHS: {
                 AL: { d: "M620,310 L645,312 L640,360 L615,355 Z", cx: 630, cy: 332, color: "#4f46e5" },
@@ -342,7 +350,8 @@
                 WA: { d: "M150,50 L250,60 L235,120 L135,110 Z", cx: 192, cy: 85, color: "#22c55e" },
                 WV: { d: "M690,215 L735,220 L725,255 L680,250 Z", cx: 708, cy: 235, color: "#14b8a6" },
                 WI: { d: "M550,130 L605,135 L595,195 L540,190 Z", cx: 572, cy: 162, color: "#a855f7" },
-                WY: { d: "M315,160 L405,170 L395,230 L305,220 Z", cx: 355, cy: 195, color: "#f97316" }
+                WY: { d: "M315,160 L405,170 L395,230 L305,220 Z", cx: 355, cy: 195, color: "#f97316" },
+                DC: { d: "M778,193 L783,190 L786,194 L781,197 Z", cx: 782, cy: 194, color: "#ef4444" }
             }
         };
 
@@ -362,6 +371,7 @@
             let selectedState = null;
             let activeMetric = "total";
             let currentPool = Object.keys(DATA.PATHS).sort();
+            let scoreCount = 0;
 
             Object.keys(DATA.NAMES).sort().forEach(abbr => {
                 const opt = document.createElement("option");
@@ -384,7 +394,6 @@
                 return DATA.PATHS[abbr]?.color || "var(--accent)";
             }
 
-            // High-precision custom SVG Star generator method
             function createStarPath(cx, cy, r, p) {
                 let d = "";
                 for (let i = 0; i < 2 * p; i++) {
@@ -397,6 +406,11 @@
                 return d + "Z";
             }
 
+            function updateScoreCounter() {
+                const snappedCount = document.querySelectorAll(".state-path.snapped").length;
+                document.getElementById("hud-score").innerText = `${snappedCount} / ${currentPool.length}`;
+            }
+
             function buildInteractiveMap() {
                 activeLayer.innerHTML = "";
                 shadowLayer.innerHTML = "";
@@ -407,7 +421,6 @@
                     const pathMeta = DATA.PATHS[abbr];
                     if (!pathMeta) return;
 
-                    // Silhouette Background Trace
                     const shadowShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
                     shadowShape.setAttribute("d", pathMeta.d);
                     shadowShape.setAttribute("fill", chkSolution.checked ? getStateColor(abbr, activeSystem) : "#243b54");
@@ -415,7 +428,6 @@
                     shadowShape.setAttribute("stroke", "#1e2f42");
                     shadowLayer.appendChild(shadowShape);
 
-                    // Dynamic Drag Layer Group
                     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
                     group.setAttribute("id", `node-${abbr}`);
                     
@@ -423,23 +435,29 @@
                     stateShape.setAttribute("d", pathMeta.d);
                     stateShape.setAttribute("class", "state-path");
                     stateShape.setAttribute("fill", getStateColor(abbr, activeSystem));
+                    if (selectedState === abbr) stateShape.classList.add("selected");
 
-                    // Locked Center Abbreviation Labels
                     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
                     label.setAttribute("x", pathMeta.cx);
                     label.setAttribute("y", pathMeta.cy);
                     label.setAttribute("class", `state-label ${chkLabels.checked ? '' : 'hidden'}`);
                     label.textContent = abbr;
 
-                    // Geometric Node Anchors for Capital Star & Major City Hub
-                    const capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    capStar.setAttribute("d", createStarPath(pathMeta.cx - 10, pathMeta.cy + 10, 5, 5));
-                    capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
+                    let capStar;
+                    if (abbr === "DC") {
+                        capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        capStar.setAttribute("d", createStarPath(pathMeta.cx, pathMeta.cy, 8, 5));
+                        capStar.setAttribute("class", `national-capital-node ${nodeVisibilityClass}`);
+                    } else {
+                        capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        capStar.setAttribute("d", createStarPath(pathMeta.cx - 8, pathMeta.cy + 6, 4.5, 5));
+                        capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
+                    }
 
                     const majorCityDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    majorCityDot.setAttribute("cx", pathMeta.cx + 12);
-                    majorCityDot.setAttribute("cy", pathMeta.cy - 8);
-                    majorCityDot.setAttribute("r", "3");
+                    majorCityDot.setAttribute("cx", pathMeta.cx + 10);
+                    majorCityDot.setAttribute("cy", pathMeta.cy - 6);
+                    majorCityDot.setAttribute("r", abbr === "DC" ? "0" : "2.5");
                     majorCityDot.setAttribute("class", `city-node ${nodeVisibilityClass}`);
 
                     group.appendChild(stateShape);
@@ -448,8 +466,11 @@
                     group.appendChild(majorCityDot);
                     activeLayer.appendChild(group);
 
-                    stateShape.addEventListener("click", () => {
+                    const triggerSelection = () => {
                         selectedState = abbr;
+                        document.querySelectorAll(".state-path").forEach(p => p.classList.remove("selected"));
+                        stateShape.classList.add("selected");
+
                         const totalArea = DATA.LAND_AREA[abbr] + DATA.WATER_AREA[abbr];
                         
                         document.getElementById("hud-name").innerText = DATA.NAMES[abbr];
@@ -466,7 +487,10 @@
                         document.getElementById("hud-penalty").innerText = DATA.DEATH_PENALTY[abbr];
                         
                         runScaleComparison();
-                    });
+                    };
+
+                    stateShape.addEventListener("click", triggerSelection);
+                    capStar.addEventListener("click", (e) => { e.stopPropagation(); triggerSelection(); });
 
                     let dragging = false;
                     let mx, my;
@@ -507,6 +531,7 @@
                         }
                     });
                 });
+                updateScoreCounter();
             }
 
             function runScaleComparison() {
@@ -519,7 +544,88 @@
 
                 let srcVal, tgtVal, unit = "";
                 
-                if (activeMetric === "land") {
-                    srcVal = DATA.LAND_AREA[selectedState]; tgtVal = DATA.LAND_AREA[target]; unit = " sq mi";
+                if (activeMetric === "total") {
+                    srcVal = DATA.LAND_AREA[selectedState] + DATA.WATER_AREA[selectedState];
+                    tgtVal = DATA.LAND_AREA[target] + DATA.WATER_AREA[target];
+                    unit = " sq mi";
+                } else if (activeMetric === "land") {
+                    srcVal = DATA.LAND_AREA[selectedState]; 
+                    tgtVal = DATA.LAND_AREA[target]; 
+                    unit = " sq mi";
                 } else if (activeMetric === "water") {
-                    srcVal = DATA.WATER_AREA[selectedState]; tgtVal = DATA.WATER_AREA
+                    srcVal = DATA.WATER_AREA[selectedState]; 
+                    tgtVal = DATA.WATER_AREA[target]; 
+                    unit = " sq mi";
+                } else if (activeMetric === "cheapness") {
+                    srcVal = DATA.CHEAPNESS_INDEX[selectedState]; 
+                    tgtVal = DATA.CHEAPNESS_INDEX[target]; 
+                    unit = "";
+                } else if (activeMetric === "crime") {
+                    srcVal = DATA.CRIME_RATE[selectedState]; 
+                    tgtVal = DATA.CRIME_RATE[target]; 
+                    unit = " incidents";
+                }
+
+                const ratio = tgtVal > 0 ? (srcVal / tgtVal).toFixed(2) : srcVal;
+                outputCompare.innerHTML = `<strong>${DATA.NAMES[selectedState]}</strong> (${srcVal.toLocaleString()}${unit}) matches <strong>${ratio}x</strong> relative index weight against <strong>${DATA.NAMES[target]}</strong> (${tgtVal.toLocaleString()}${unit}).`;
+            }
+
+            // Toggles and Interactive Control Systems Configuration
+            chkLabels.addEventListener("change", () => {
+                document.querySelectorAll(".state-label").forEach(lbl => {
+                    if (chkLabels.checked) lbl.classList.remove("hidden");
+                    else lbl.classList.add("hidden");
+                });
+            });
+
+            chkCities.addEventListener("change", () => {
+                document.querySelectorAll(".city-node, .capital-node, .national-capital-node").forEach(node => {
+                    if (chkCities.checked) node.classList.remove("node-hidden");
+                    else node.classList.add("node-hidden");
+                });
+            });
+
+            colorSystemSelect.addEventListener("change", buildInteractiveMap);
+            chkSolution.addEventListener("change", buildInteractiveMap);
+            selectCompare.addEventListener("change", runScaleComparison);
+
+            metricButtons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    metricButtons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    activeMetric = btn.getAttribute("data-metric");
+                    runScaleComparison();
+                });
+            });
+
+            document.getElementById("btn-shuffle").addEventListener("click", () => {
+                document.querySelectorAll("#map-active-pieces > g").forEach(g => {
+                    if (g.querySelector(".state-path").classList.contains("snapped")) return;
+                    const rx = (Math.random() - 0.5) * 200;
+                    const ry = (Math.random() - 0.5) * 200;
+                    g.style.transform = `translate(${rx}px, ${ry}px)`;
+                });
+            });
+
+            document.getElementById("btn-apply-limit").addEventListener("click", () => {
+                const lim = parseInt(document.getElementById("state-limit").value) || 51;
+                const allKeys = Object.keys(DATA.PATHS).sort();
+                currentPool = allKeys.slice(0, Math.max(1, Math.min(51, lim)));
+                buildInteractiveMap();
+            });
+
+            document.getElementById("btn-delete-state").addEventListener("click", () => {
+                if (!selectedState) return;
+                currentPool = currentPool.filter(k => k !== selectedState);
+                selectedState = null;
+                buildInteractiveMap();
+                document.getElementById("hud-name").innerText = "Select a State Shape";
+                outputCompare.innerText = "Select a state vector node on the map canvas to initiate multi-aspect query runs.";
+            });
+
+            // Initial Bootstrap Lifecycle Run
+            buildInteractiveMap();
+        });
+    </script>
+</body>
+</html>
