@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>USA Map Project Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Global Orthographic Interactive USA Puzzle Analytics Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="layout.css">
     <link rel="stylesheet" href="animations.css">
@@ -14,119 +14,195 @@
     <link rel="stylesheet" href="toolbar.css">
 
     <style>
-        /* Global environment system layout design variables */
         :root {
             --bg: #0f1923; 
             --surface: #182433; 
             --surface2: #1e2f42; 
             --surface3: #243b54;
             --border: #2a3f55; 
-            --border2: #3a5675; 
             --accent: #3b82f6; 
             --accent2: #10b981;
             --warn: #f59e0b; 
             --danger: #ef4444; 
             --text: #e8f0fe; 
             --text2: #8ba3bc;
-            --text3: #4a6580; 
             --radius: 8px; 
-            --radius-lg: 12px; 
-            --radius-full: 9999px;
-            --shadow: 0 4px 24px rgba(0,0,0,.4); 
             --font: 'Inter', sans-serif;
-            --sidebar-width: 320px; 
-            --topbar-height: 48px; 
-            --zrow-height: 36px;
-            --gap-sm: 8px; 
-            --transition: 0.15s ease; 
-            --transition-slow: 0.3s ease; 
-            --ocean: #0b131c;
+            --sidebar-width: 360px;
         }
 
-        /* Interactive tile grid frame structures */
-        .state-app-tile {
-            display: inline-block; 
-            padding: 12px 16px; 
-            margin: 6px;
-            background: var(--surface2); 
-            border: 1px solid var(--border);
-            border-radius: var(--radius); 
-            cursor: pointer; 
-            color: var(--text);
-            font-weight: 600; 
-            transition: all var(--transition);
+        body {
+            margin: 0; padding: 0; background-color: var(--bg); color: var(--text);
+            font-family: var(--font); overflow: hidden; height: 100vh; display: flex; flex-direction: column;
         }
-        .state-app-tile:hover {
-            border-color: var(--accent); 
-            background: var(--surface3);
-            transform: translateY(-2px);
+
+        #topbar {
+            height: 54px; background: var(--surface); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10;
         }
-        #interactive-dashboard-grid { 
-            padding: 20px; 
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center; 
+        .logo-text { font-weight: 800; font-size: 15px; letter-spacing: 0.5px; }
+
+        #zrow {
+            background: var(--surface2); min-height: 44px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 6px 20px; font-size: 11px;
         }
+        .control-group { display: flex; align-items: center; gap: 6px; }
+        .control-input {
+            background: var(--bg); border: 1px solid var(--border); color: var(--text);
+            padding: 4px 6px; border-radius: 4px; font-weight: bold;
+        }
+        .action-btn {
+            background: var(--accent); color: white; border: none; padding: 5px 10px;
+            border-radius: 4px; cursor: pointer; font-weight: 600; transition: opacity 0.15s;
+        }
+        .action-btn:hover { opacity: 0.9; }
+        .action-btn.danger-btn { background: var(--danger); }
+
+        #main { display: flex; flex: 1; height: calc(100vh - 98px); position: relative; }
+
+        #map-container {
+            flex: 1; background: #0b131c; display: flex; align-items: center;
+            justify-content: center; position: relative; padding: 20px; overflow: auto;
+        }
+
+        #map-canvas { width: 100%; max-width: 900px; height: auto; max-height: 560px; }
+
+        .state-path {
+            fill: var(--surface2); stroke: var(--border); stroke-width: 1.2;
+            cursor: grab; transition: fill 0.15s, stroke 0.15s;
+        }
+        .state-path:hover { stroke: var(--accent); fill-opacity: 0.85; }
+        .state-path.snapped { stroke: #fff; cursor: default; }
+        
+        /* Center Coordinates Abbreviations Locks */
+        .state-label { font-size: 10px; font-weight: 800; fill: var(--text); pointer-events: none; text-anchor: middle; transition: opacity 0.15s; }
+        .state-label.hidden { opacity: 0; }
+
+        /* Dynamic Node Infrastructure */
+        .city-node { fill: #ffffff; stroke: var(--bg); stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
+        .capital-node { fill: var(--warn); stroke: #ffffff; stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
+        .node-hidden { opacity: 0 !important; }
+
+        #sidebar {
+            width: var(--sidebar-width); background: var(--surface);
+            border-left: 1px solid var(--border); padding: 16px; display: flex;
+            flex-direction: column; gap: 12px; overflow-y: auto; z-index: 5;
+        }
+        .panel-card {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 12px;
+        }
+        
+        .search-select-box {
+            width: 100%; background: var(--bg); border: 1px solid var(--border);
+            color: var(--text); padding: 6px; border-radius: 4px; font-size: 12px; margin-top: 4px;
+        }
+
+        .metric-tabs { display: flex; gap: 4px; margin-top: 8px; background: var(--bg); padding: 2px; border-radius: 6px; }
+        .m-tab {
+            flex: 1; background: transparent; border: none; color: var(--text2); padding: 5px 2px;
+            font-size: 10px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
+        }
+        .m-tab.active { background: var(--surface3); color: var(--text); border: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
     <div id="topbar">
-        <div class="tb-left">
-            <div class="logo">
-                <span class="logo-icon">🗺️</span>
-                <span class="logo-text">USA Project Dashboard</span>
-            </div>
-            <div class="sep"></div>
-            <div id="modes">
-                <button class="mbtn on" id="mfree">Explore Dataset</button>
-            </div>
+        <div class="logo">
+            <span class="logo-text">GLOBAL PROJECT MATRIX DASHBOARD</span>
+        </div>
+        <div class="control-group">
+            <span style="font-size: 11px; color: var(--text2);">Coloring Grid System:</span>
+            <select id="color-system-select" class="control-input" style="width: 130px;">
+                <option value="classic">Classic Distinctive</option>
+                <option value="cheapness">Cheapness Index</option>
+                <option value="crime">Violent Crime Rate</option>
+                <option value="penalty">Death Penalty Record</option>
+            </select>
         </div>
     </div>
     
     <div id="zrow">
-        <span class="zrow-label">System Control:</span>
-        <button class="zoom-btn" id="zin">+</button>
-        <div class="zoom-val" id="zval">100%</div>
-        <button class="zoom-btn" id="zout">−</button>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-labels" checked> Abbreviations</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-cities" checked> Cities & Capitals</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-snap" checked> Snap Lock</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-solution"> Show Solution</label>
+        </div>
+        <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 10px;">
+            <label>Limit Pool:</label>
+            <input type="number" id="state-limit" class="control-input" value="50" min="1" max="50" style="width: 45px;">
+            <button class="action-btn" id="btn-apply-limit">Truncate</button>
+        </div>
+        <button class="action-btn" id="btn-shuffle">Shuffle</button>
+        <button class="action-btn danger-btn" id="btn-delete-state" style="margin-left: auto;">Delete Selected</button>
     </div>
 
     <div id="main">
-        <div id="map-wrap" style="overflow-y: auto;">
-            <div id="interactive-dashboard-grid"></div>
+        <div id="map-container">
+            <svg id="map-canvas" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
+                <g id="map-shadow-targets" opacity="0.15"></g>
+                <g id="map-active-pieces"></g>
+            </svg>
         </div>
         
-        <div id="side">
-            <div id="tabs">
-                <button class="tab active" id="tab-info">State Data Profile</button>
+        <div id="sidebar">
+            <div class="panel-card" style="border-top: 4px solid var(--accent);">
+                <div style="font-size: 10px; color: var(--text2); font-weight: bold;" id="hud-postal">POSTAL CODE: --</div>
+                <div style="font-size: 20px; font-weight: 800; margin-top: 2px;" id="hud-name">Select a State Shape</div>
+                <div style="font-style: italic; color: var(--text2); font-size: 12px;" id="hud-nickname">Click a path node to parse info...</div>
             </div>
-            <div id="tab-content">
-                <div id="info-card">
-                    <div id="info-color-bar" style="height: 4px; background: var(--accent); margin-bottom: 12px;"></div>
-                    <div class="state-title" id="panel-state-name">Select a State Item</div>
-                    <div class="abbr-badge" id="panel-state-abbr" style="display: inline-block; margin-top: 5px; padding: 4px 8px; background: var(--border); color: var(--text); border-radius: var(--radius); font-size: 12px; font-weight: bold;">--</div>
-                    
-                    <div class="stat-grid" style="margin-top: 15px; display: grid; gap: 10px;">
-                        <div class="stat-box" style="background: var(--surface2); padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);">
-                            <div class="sv" id="stat-nickname" style="font-size: 16px; font-weight: 700; color: var(--text);">N/A</div>
-                            <div class="score-label" style="font-size: 11px; color: var(--text2); text-transform: uppercase; margin-top: 4px;">Official Nickname</div>
-                        </div>
-                        <div class="stat-box" style="background: var(--surface2); padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);">
-                            <div class="sv" id="stat-fips" style="font-size: 16px; font-weight: 700; color: var(--text);">--</div>
-                            <div class="score-label" style="font-size: 11px; color: var(--text2); text-transform: uppercase; margin-top: 4px;">FIPS Index Code</div>
-                        </div>
-                    </div>
+
+            <div class="panel-card">
+                <h4 style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; color: var(--accent);">Physical & Social Metrics</h4>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between;"><span>Capital City:</span><strong id="hud-capital" style="color: var(--warn);">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Major Cities:</span><strong id="hud-major-cities" style="text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">--</strong></div>
+                    <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 4px;"><span>Total Area:</span><strong id="hud-total">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Land Area:</span><strong id="hud-land">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Water Area:</span><strong id="hud-water">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Cheapness Index:</span><strong id="hud-cheapness">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Crime Rate (per 100k):</span><strong id="hud-crime">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Death Penalty Status:</span><strong id="hud-penalty">--</strong></div>
                 </div>
+            </div>
+
+            <div class="panel-card">
+                <h4 style="margin: 0 0 4px 0; font-size: 11px; text-transform: uppercase; color: var(--warn);">Relational Scale Comparator</h4>
+                <label style="font-size: 10px; color: var(--text2);">Search & select target state:</label>
+                <select id="compare-target" class="search-select-box"></select>
+                
+                <div class="metric-tabs">
+                    <button class="m-tab active" data-metric="total">Total Size</button>
+                    <button class="m-tab" data-metric="land">Land Size</button>
+                    <button class="m-tab" data-metric="water">Water Size</button>
+                    <button class="m-tab" data-metric="cheapness">Cheapness</button>
+                    <button class="m-tab" data-metric="crime">Crime Rate</button>
+                </div>
+
+                <div style="margin-top: 10px; padding: 10px; background: var(--bg); border-radius: 4px; font-size: 12px; text-align: center; border: 1px solid var(--border); line-height: 1.4;" id="comparison-output">
+                    Select a state vector node on the map canvas to initiate multi-aspect query runs.
+                </div>
+            </div>
+
+            <div class="panel-card" style="margin-top: auto; text-align: center; padding: 8px;">
+                <div style="font-size: 10px; color: var(--text2); text-transform: uppercase;">Puzzle Synced Progress</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 50</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Set environment layout scopes
         window.MAP_STATE = { allItems: {} };
         window.COLORS = window.COLORS || { classic: {} };
 
-        // Complete dictionary mapping completely alphabetical (A-Z)
         const DATA = {
             NAMES: {
                 AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
@@ -152,78 +228,298 @@
                 SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State",
                 VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State"
             },
-            FIPS: {
-                "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA",
-                "08": "CO", "09": "CT", "10": "DE", "12": "FL", "13": "GA",
-                "15": "HI", "16": "ID", "17": "IL", "18": "IN", "19": "IA",
-                "20": "KS", "21": "KY", "22": "LA", "23": "ME", "24": "MD",
-                "25": "MA", "26": "MI", "27": "MN", "28": "MS", "29": "MO",
-                "30": "MT", "31": "NE", "32": "NV", "33": "NH", "34": "NJ",
-                "35": "NM", "36": "NY", "37": "NC", "38": "ND", "39": "OH",
-                "40": "OK", "41": "OR", "42": "PA", "44": "RI", "45": "SC",
-                "46": "SD", "47": "TN", "48": "TX", "49": "UT", "50": "VT",
-                "51": "VA", "53": "WA", "54": "WV", "55": "WI", "56": "WY"
+            CAPITALS: {
+                AL: "Montgomery", AK: "Juneau", AZ: "Phoenix", AR: "Little Rock", CA: "Sacramento",
+                CO: "Denver", CT: "Hartford", DE: "Dover", FL: "Tallahassee", GA: "Atlanta",
+                HI: "Honolulu", ID: "Boise", IL: "Springfield", IN: "Indianapolis", IA: "Des Moines",
+                KS: "Topeka", KY: "Frankfort", LA: "Baton Rouge", ME: "Augusta", MD: "Annapolis",
+                MA: "Boston", MI: "Lansing", MN: "St. Paul", MS: "Jackson", MO: "Jefferson City",
+                MT: "Helena", NE: "Lincoln", NV: "Carson City", NH: "Concord", NJ: "Trenton",
+                NM: "Santa Fe", NY: "Albany", NC: "Raleigh", ND: "Bismarck", OH: "Columbus",
+                OK: "Oklahoma City", OR: "Salem", PA: "Harrisburg", RI: "Providence", SC: "Columbia",
+                SD: "Pierre", TN: "Nashville", TX: "Austin", UT: "Salt Lake City", VT: "Montpelier",
+                VA: "Richmond", WA: "Olymply", WV: "Charleston", WI: "Madison", WY: "Cheyenne"
+            },
+            CITIES_LIST: {
+                AL: "Birmingham, Mobile", AK: "Anchorage, Fairbanks", AZ: "Tucson, Mesa", AR: "Fort Smith, Jonesboro", CA: "Los Angeles, San Francisco",
+                CO: "Colorado Springs, Aurora", CT: "Bridgeport, New Haven", DE: "Wilmington, Newark", FL: "Miami, Orlando, Tampa", GA: "Savannah, Augusta",
+                HI: "Hilo, Kailua", ID: "Meridian, Idaho Falls", IL: "Chicago, Aurora", IN: "Fort Wayne, Evansville", IA: "Cedar Rapids, Davenport",
+                KS: "Wichita, Overland Park", KY: "Louisville, Lexington", LA: "New Orleans, Shreveport", ME: "Portland, Bangor", MD: "Baltimore, Frederick",
+                MA: "Worcester, Springfield", MI: "Detroit, Grand Rapids", MN: "Minneapolis, Duluth", MS: "Gulfport, Biloxi", MO: "Kansas City, St. Louis",
+                MT: "Billings, Missoula", NE: "Omaha, Bellevue", NV: "Las Vegas, Reno", NH: "Manchester, Nashua", NJ: "Newark, Jersey City",
+                NM: "Albuquerque, Las Cruces", NY: "New York City, Buffalo", NC: "Charlotte, Greensboro", ND: "Fargo, Grand Forks", OH: "Cleveland, Cincinnati",
+                OK: "Tulsa, Norman", OR: "Portland, Eugene", PA: "Philadelphia, Pittsburgh", RI: "Warwick, Cranston", SC: "Charleston, Myrtle Beach",
+                SD: "Sioux Falls, Rapid City", TN: "Memphis, Knoxville", TX: "Houston, Dallas, San Antonio", UT: "West Valley, Provo", VT: "Burlington, South Burlington",
+                VA: "Virginia Beach, Norfolk", WA: "Seattle, Spokane", WV: "Huntington, Morgantown", WI: "Milwaukee, Green Bay", WY: "Casper, Laramie"
+            },
+            LAND_AREA: {
+                AL: 50645, AK: 570641, AZ: 113594, AR: 52035, CA: 155779, CO: 103642, CT: 4842, DE: 1949, FL: 53625, GA: 57513,
+                HI: 6423, ID: 82643, IL: 55519, IN: 35826, IA: 55857, KS: 81759, KY: 39486, LA: 43204, ME: 30843, MD: 9707,
+                MA: 7800, MI: 56539, MN: 79627, MS: 46923, MO: 68742, MT: 145546, NE: 76824, NV: 109781, NH: 8953, NJ: 7354,
+                NM: 121298, NY: 47126, NC: 48618, ND: 69001, OH: 40861, OK: 68595, OR: 95988, PA: 44743, RI: 1034, SC: 30061,
+                SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093
+            },
+            WATER_AREA: {
+                AL: 1775, AK: 94743, AZ: 396, AR: 1143, CA: 7916, CO: 452, CT: 701, DE: 540, FL: 12133, GA: 1912,
+                HI: 4508, ID: 898, IL: 2395, IN: 581, IA: 416, KS: 520, KY: 922, LA: 9174, ME: 4523, MD: 2699,
+                MA: 2755, MI: 40175, MN: 7301, MS: 1518, MO: 811, MT: 1494, NE: 524, NV: 735, NH: 395, NJ: 1368,
+                NM: 291, NY: 7429, NC: 5242, ND: 1724, OH: 4022, OK: 1304, OR: 2391, PA: 1308, RI: 511, SC: 1960,
+                SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720
+            },
+            CHEAPNESS_INDEX: {
+                AL: 88.1, AK: 126.7, AZ: 107.2, AR: 87.5, CA: 136.4, CO: 106.9, CT: 113.1, DE: 102.6, FL: 100.3, GA: 89.4,
+                HI: 179.0, ID: 99.6, IL: 90.8, IN: 90.4, IA: 89.2, KS: 87.4, KY: 89.1, LA: 92.4, ME: 111.4, MD: 112.8,
+                MA: 146.5, MI: 92.2, MN: 97.4, MS: 86.1, MO: 88.4, MT: 102.8, NE: 91.8, NV: 102.3, NH: 115.2, NJ: 114.1,
+                NM: 93.8, NY: 125.1, NC: 96.2, ND: 94.6, OH: 90.1, OK: 86.8, OR: 116.2, PA: 99.0, RI: 112.1, SC: 94.3,
+                SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8
+            },
+            CRIME_RATE: {
+                AL: 450, AK: 830, AZ: 425, AR: 670, CA: 440, CO: 420, CT: 180, DE: 430, FL: 380, GA: 400,
+                HI: 250, ID: 240, IL: 425, IN: 357, IA: 300, KS: 425, KY: 260, LA: 640, ME: 110, MD: 400,
+                MA: 300, MI: 475, MN: 280, MS: 290, MO: 540, MT: 470, NE: 300, NV: 460, NH: 150, NJ: 195,
+                NM: 780, NY: 360, NC: 420, ND: 280, OH: 305, OK: 440, OR: 290, PA: 310, RI: 230, SC: 530,
+                SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230
+            },
+            DEATH_PENALTY: {
+                AL: "Active", AK: "Abolished (1957)", AZ: "Active", AR: "Active", CA: "Active (Moratorium)",
+                CO: "Abolished (2020)", CT: "Abolished (2012)", DE: "Abolished (2016)", FL: "Active", GA: "Active",
+                HI: "Abolished (1957)", ID: "Active", IL: "Abolished (2011)", IN: "Active", IA: "Abolished (1965)",
+                KS: "Active", KY: "Active", LA: "Active", ME: "Abolished (1887)", MD: "Abolished (2013)",
+                MA: "Abolished (1984)", MI: "Abolished (1847)", MN: "Abolished (1911)", MS: "Active", MO: "Active",
+                MT: "Active", NE: "Active", NV: "Active", NH: "Abolished (2019)", NJ: "Abolished (2007)",
+                NM: "Abolished (2009)", NY: "Abolished (2007)", NC: "Active", ND: "Abolished (1973)", OH: "Active",
+                OK: "Active", OR: "Active (Moratorium)", PA: "Active (Moratorium)", RI: "Abolished (1984)", SC: "Active",
+                SD: "Active", TN: "Active", TX: "Active", UT: "Active", VT: "Abolished (1972)",
+                VA: "Abolished (2021)", WA: "Abolished (2018)", WV: "Abolished (1965)", WI: "Abolished (1853)", WY: "Active"
+            },
+            PATHS: {
+                AL: { d: "M620,310 L645,312 L640,360 L615,355 Z", cx: 630, cy: 332, color: "#4f46e5" },
+                AK: { d: "M150,440 L240,430 L220,540 L120,510 Z", cx: 180, cy: 480, color: "#06b6d4" },
+                AZ: { d: "M260,260 L320,270 L305,360 L245,350 Z", cx: 282, cy: 310, color: "#b45309" },
+                AR: { d: "M525,290 L570,292 L565,335 L520,330 Z", cx: 545, cy: 312, color: "#10b981" },
+                CA: { d: "M160,180 L215,200 L175,380 L135,350 Z", cx: 171, cy: 280, color: "#ec4899" },
+                CO: { d: "M340,210 L415,220 L405,280 L330,270 Z", cx: 372, cy: 245, color: "#84cc16" },
+                CT: { d: "M845,152 L865,150 L867,160 L847,162 Z", cx: 856, cy: 156, color: "#a855f7" },
+                DE: { d: "M818,188 L828,186 L830,196 L820,198 Z", cx: 824, cy: 192, color: "#f43f5e" },
+                FL: { d: "M670,380 L710,385 L730,460 L700,455 Z", cx: 698, cy: 420, color: "#eab308" },
+                GA: { d: "M655,315 L695,320 L680,370 L648,362 Z", cx: 670, cy: 342, color: "#3b82f6" },
+                HI: { d: "M280,490 L310,495 L300,515 L270,510 Z", cx: 290, cy: 502, color: "#14b8a6" },
+                ID: { d: "M240,90 L285,100 L270,210 L230,200 Z", cx: 256, cy: 150, color: "#6366f1" },
+                IL: { d: "M575,190 L615,195 L605,260 L565,250 Z", cx: 590, cy: 222, color: "#d946ef" },
+                IN: { d: "M620,195 L650,200 L640,255 L610,250 Z", cx: 630, cy: 225, color: "#f97316" },
+                IA: { d: "M500,180 L565,190 L555,240 L490,230 Z", cx: 528, cy: 205, color: "#06b6d4" },
+                KS: { d: "M425,235 L505,245 L495,290 L415,280 Z", cx: 460, cy: 262, color: "#8b5cf6" },
+                KY: { d: "M615,245 L685,250 L665,280 L600,275 Z", cx: 641, cy: 262, color: "#3b82f6" },
+                LA: { d: "M530,365 L575,370 L570,410 L525,400 Z", cx: 550, cy: 388, color: "#10b981" },
+                ME: { d: "M850,70 L890,80 L875,130 L835,120 Z", cx: 862, cy: 100, color: "#ec4899" },
+                MD: { d: "M780,185 L815,182 L817,192 L782,195 Z", cx: 798, cy: 188, color: "#eab308" },
+                MA: { d: "M835,140 L875,135 L877,150 L837,155 Z", cx: 856, cy: 145, color: "#f43f5e" },
+                MI: { d: "M600,120 L660,130 L645,185 L590,175 Z", cx: 624, cy: 152, color: "#22c55e" },
+                MN: { d: "M480,100 L560,110 L545,180 L465,170 Z", cx: 512, cy: 140, color: "#a855f7" },
+                MS: { d: "M580,315 L615,318 L605,375 L575,370 Z", cx: 594, cy: 345, color: "#64748b" },
+                MO: { d: "M510,235 L580,245 L570,300 L500,290 Z", cx: 540, cy: 268, color: "#f59e0b" },
+                MT: { d: "M290,75 L420,90 L400,170 L275,155 Z", cx: 348, cy: 122, color: "#06b6d4" },
+                NE: { d: "M410,180 L495,190 L485,235 L400,225 Z", cx: 448, cy: 208, color: "#10b981" },
+                NV: { d: "M195,170 L255,180 L225,310 L165,300 Z", cx: 210, cy: 235, color: "#84cc16" },
+                NH: { d: "M825,105 L845,102 L850,140 L830,142 Z", cx: 837, cy: 122, color: "#6366f1" },
+                NJ: { d: "M810,165 L830,162 L833,185 L813,188 Z", cx: 821, cy: 175, color: "#ec4899" },
+                NM: { d: "M320,275 L395,285 L385,370 L310,360 Z", cx: 352, cy: 322, color: "#d946ef" },
+                NY: { d: "M760,120 L820,110 L830,160 L770,170 Z", cx: 795, cy: 135, color: "#3b82f6" },
+                NC: { d: "M690,275 L780,285 L755,320 L675,310 Z", cx: 725, cy: 295, color: "#14b8a6" },
+                ND: { d: "M425,95 L505,105 L495,155 L415,145 Z", cx: 460, cy: 125, color: "#f97316" },
+                OH: { d: "M660,190 L710,195 L695,245 L650,240 Z", cx: 678, cy: 218, color: "#a855f7" },
+                OK: { d: "M410,290 L515,300 L505,340 L400,330 Z", cx: 458, cy: 315, color: "#eab308" },
+                OR: { d: "M140,115 L235,125 L215,210 L120,200 Z", cx: 178, cy: 162, color: "#22c55e" },
+                PA: { d: "M720,160 L785,155 L775,195 L710,200 Z", cx: 748, cy: 178, color: "#f43f5e" },
+                RI: { d: "M860,158 L875,156 L877,166 L862,168 Z", cx: 868, cy: 162, color: "#8b5cf6" },
+                SC: { d: "M685,315 L745,320 L720,350 L665,345 Z", cx: 702, cy: 332, color: "#6366f1" },
+                SD: { d: "M415,148 L500,158 L490,205 L405,195 Z", cx: 452, cy: 175, color: "#06b6d4" },
+                TN: { d: "M600,280 L685,285 L675,310 L590,305 Z", cx: 638, cy: 292, color: "#d946ef" },
+                TX: { d: "M390,345 L500,355 L485,495 L360,460 Z", cx: 435, cy: 420, color: "#ff4444" },
+                UT: { d: "M265,205 L335,215 L320,290 L255,280 Z", cx: 295, cy: 248, color: "#10b981" },
+                VT: { d: "M805,110 L825,108 L830,140 L810,142 Z", cx: 817, cy: 125, color: "#84cc16" },
+                VA: { d: "M695,245 L775,250 L750,285 L680,275 Z", cx: 728, cy: 260, color: "#f59e0b" },
+                WA: { d: "M150,50 L250,60 L235,120 L135,110 Z", cx: 192, cy: 85, color: "#22c55e" },
+                WV: { d: "M690,215 L735,220 L725,255 L680,250 Z", cx: 708, cy: 235, color: "#14b8a6" },
+                WI: { d: "M550,130 L605,135 L595,195 L540,190 Z", cx: 572, cy: 162, color: "#a855f7" },
+                WY: { d: "M315,160 L405,170 L395,230 L305,220 Z", cx: 355, cy: 195, color: "#f97316" }
             }
         };
-    </script>
 
-    <script src="colors.js"></script>
-
-    <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const grid = document.getElementById("interactive-dashboard-grid");
-            const nameDisplay = document.getElementById("panel-state-name");
-            const abbrDisplay = document.getElementById("panel-state-abbr");
-            const nicknameDisplay = document.getElementById("stat-nickname");
-            const fipsDisplay = document.getElementById("stat-fips");
-            const colorBar = document.getElementById("info-color-bar");
+            const activeLayer = document.getElementById("map-active-pieces");
+            const shadowLayer = document.getElementById("map-shadow-targets");
+            const selectCompare = document.getElementById("compare-target");
+            const outputCompare = document.getElementById("comparison-output");
+            const colorSystemSelect = document.getElementById("color-system-select");
+            
+            const chkLabels = document.getElementById("chk-toggle-labels");
+            const chkCities = document.getElementById("chk-toggle-cities");
+            const chkSnap = document.getElementById("chk-toggle-snap");
+            const chkSolution = document.getElementById("chk-toggle-solution");
+            const metricButtons = document.querySelectorAll(".m-tab");
 
-            // Build individual visual selector nodes in pure alphabetical sequence
+            let selectedState = null;
+            let activeMetric = "total";
+            let currentPool = Object.keys(DATA.PATHS).sort();
+
             Object.keys(DATA.NAMES).sort().forEach(abbr => {
-                window.MAP_STATE.allItems[abbr] = { id: abbr, snapped: true };
+                const opt = document.createElement("option");
+                opt.value = abbr; opt.innerText = `${abbr} - ${DATA.NAMES[abbr]}`;
+                selectCompare.appendChild(opt);
+            });
 
-                // Read custom colors array dynamic bindings if active
-                let stateThemeColor = "var(--accent)";
-                if (typeof COLORS !== 'undefined' && COLORS.classic && COLORS.classic[abbr]) {
-                    stateThemeColor = COLORS.classic[abbr];
+            function getStateColor(abbr, system) {
+                if (system === "cheapness") {
+                    const idx = DATA.CHEAPNESS_INDEX[abbr] || 100;
+                    return idx < 90 ? "#10b981" : idx < 105 ? "#f59e0b" : "#ef4444";
+                }
+                if (system === "crime") {
+                    const val = DATA.CRIME_RATE[abbr] || 300;
+                    return val < 250 ? "#22c55e" : val < 450 ? "#eab308" : "#dc2626";
+                }
+                if (system === "penalty") {
+                    return DATA.DEATH_PENALTY[abbr].startsWith("Active") ? "#7f1d1d" : "#1e3a8a";
+                }
+                return DATA.PATHS[abbr]?.color || "var(--accent)";
+            }
+
+            // High-precision custom SVG Star generator method
+            function createStarPath(cx, cy, r, p) {
+                let d = "";
+                for (let i = 0; i < 2 * p; i++) {
+                    let currR = (i % 2 === 0) ? r : r / 2;
+                    let a = (Math.PI * i) / p - Math.PI / 2;
+                    let x = cx + currR * Math.cos(a);
+                    let y = cy + currR * Math.sin(a);
+                    d += (i === 0 ? "M" : "L") + x + "," + y;
+                }
+                return d + "Z";
+            }
+
+            function buildInteractiveMap() {
+                activeLayer.innerHTML = "";
+                shadowLayer.innerHTML = "";
+                const activeSystem = colorSystemSelect.value;
+                const nodeVisibilityClass = chkCities.checked ? '' : 'node-hidden';
+
+                currentPool.forEach(abbr => {
+                    const pathMeta = DATA.PATHS[abbr];
+                    if (!pathMeta) return;
+
+                    // Silhouette Background Trace
+                    const shadowShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    shadowShape.setAttribute("d", pathMeta.d);
+                    shadowShape.setAttribute("fill", chkSolution.checked ? getStateColor(abbr, activeSystem) : "#243b54");
+                    shadowShape.setAttribute("fill-opacity", chkSolution.checked ? "0.6" : "1");
+                    shadowShape.setAttribute("stroke", "#1e2f42");
+                    shadowLayer.appendChild(shadowShape);
+
+                    // Dynamic Drag Layer Group
+                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    group.setAttribute("id", `node-${abbr}`);
+                    
+                    const stateShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    stateShape.setAttribute("d", pathMeta.d);
+                    stateShape.setAttribute("class", "state-path");
+                    stateShape.setAttribute("fill", getStateColor(abbr, activeSystem));
+
+                    // Locked Center Abbreviation Labels
+                    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    label.setAttribute("x", pathMeta.cx);
+                    label.setAttribute("y", pathMeta.cy);
+                    label.setAttribute("class", `state-label ${chkLabels.checked ? '' : 'hidden'}`);
+                    label.textContent = abbr;
+
+                    // Geometric Node Anchors for Capital Star & Major City Hub
+                    const capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    capStar.setAttribute("d", createStarPath(pathMeta.cx - 10, pathMeta.cy + 10, 5, 5));
+                    capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
+
+                    const majorCityDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    majorCityDot.setAttribute("cx", pathMeta.cx + 12);
+                    majorCityDot.setAttribute("cy", pathMeta.cy - 8);
+                    majorCityDot.setAttribute("r", "3");
+                    majorCityDot.setAttribute("class", `city-node ${nodeVisibilityClass}`);
+
+                    group.appendChild(stateShape);
+                    group.appendChild(label);
+                    group.appendChild(capStar);
+                    group.appendChild(majorCityDot);
+                    activeLayer.appendChild(group);
+
+                    stateShape.addEventListener("click", () => {
+                        selectedState = abbr;
+                        const totalArea = DATA.LAND_AREA[abbr] + DATA.WATER_AREA[abbr];
+                        
+                        document.getElementById("hud-name").innerText = DATA.NAMES[abbr];
+                        document.getElementById("hud-postal").innerText = `POSTAL CODE: ${abbr}`;
+                        document.getElementById("hud-nickname").innerText = DATA.NICKNAMES[abbr] || 'None';
+                        document.getElementById("hud-capital").innerText = DATA.CAPITALS[abbr] || 'N/A';
+                        document.getElementById("hud-major-cities").innerText = DATA.CITIES_LIST[abbr] || 'N/A';
+                        document.getElementById("hud-major-cities").title = DATA.CITIES_LIST[abbr] || '';
+                        document.getElementById("hud-total").innerText = totalArea.toLocaleString() + " sq mi";
+                        document.getElementById("hud-land").innerText = DATA.LAND_AREA[abbr].toLocaleString() + " sq mi";
+                        document.getElementById("hud-water").innerText = DATA.WATER_AREA[abbr].toLocaleString() + " sq mi";
+                        document.getElementById("hud-cheapness").innerText = DATA.CHEAPNESS_INDEX[abbr] + " (Base: 100)";
+                        document.getElementById("hud-crime").innerText = DATA.CRIME_RATE[abbr] + " incidents";
+                        document.getElementById("hud-penalty").innerText = DATA.DEATH_PENALTY[abbr];
+                        
+                        runScaleComparison();
+                    });
+
+                    let dragging = false;
+                    let mx, my;
+
+                    stateShape.addEventListener("mousedown", (e) => {
+                        if (stateShape.classList.contains("snapped")) return;
+                        dragging = true;
+                        mx = e.clientX; my = e.clientY;
+                        activeLayer.appendChild(group);
+                    });
+
+                    window.addEventListener("mousemove", (e) => {
+                        if (!dragging) return;
+                        const dx = e.clientX - mx; const dy = e.clientY - my;
+                        let transform = group.style.transform || "translate(0px, 0px)";
+                        let coords = transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let cx = coords ? parseFloat(coords[1]) : 0;
+                        let cy = coords ? parseFloat(coords[2]) : 0;
+
+                        group.style.transform = `translate(${cx + dx}px, ${cy + dy}px)`;
+                        mx = e.clientX; my = e.clientY;
+                    });
+
+                    window.addEventListener("mouseup", () => {
+                        if (!dragging) return;
+                        dragging = false;
+                        
+                        if (!chkSnap.checked) return;
+                        
+                        let coords = group.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let cx = coords ? parseFloat(coords[1]) : 0;
+                        let cy = coords ? parseFloat(coords[2]) : 0;
+
+                        if (Math.abs(cx) < 20 && Math.abs(cy) < 20) {
+                            group.style.transform = "translate(0px, 0px)";
+                            stateShape.classList.add("snapped");
+                            updateScoreCounter();
+                        }
+                    });
+                });
+            }
+
+            function runScaleComparison() {
+                if (!selectedState) return;
+                const target = selectCompare.value;
+                if (selectedState === target) {
+                    outputCompare.innerText = "Self-reference comparison check matches exactly.";
+                    return;
                 }
 
-                const tile = document.createElement("div");
-                tile.className = "state-app-tile";
-                tile.style.borderLeft = `4px solid ${stateThemeColor}`;
-                tile.innerText = DATA.NAMES[abbr];
-
-                // Interface interactive listener modules
-                tile.addEventListener("click", () => {
-                    nameDisplay.innerText = DATA.NAMES[abbr];
-                    abbrDisplay.innerText = `Postal Code: ${abbr}`;
-                    nicknameDisplay.innerText = DATA.NICKNAMES[abbr] || 'None Listed';
-                    
-                    // Match and isolate structural FIPS identifier parameters
-                    const fipsCode = Object.keys(DATA.FIPS).find(key => DATA.FIPS[key] === abbr) || '--';
-                    fipsDisplay.innerText = fipsCode;
-                    
-                    colorBar.style.background = stateThemeColor;
-                });
-
-                grid.appendChild(tile);
-            });
-
-            // Control panel scale module emulation
-            let zoomLevel = 100;
-            document.getElementById("zin").addEventListener("click", () => {
-                zoomLevel = Math.min(zoomLevel + 10, 150);
-                document.getElementById("zval").innerText = zoomLevel + "%";
-                grid.style.transform = `scale(${zoomLevel / 100})`;
-                grid.style.transformOrigin = "top center";
-            });
-            document.getElementById("zout").addEventListener("click", () => {
-                zoomLevel = Math.max(zoomLevel - 10, 70);
-                document.getElementById("zval").innerText = zoomLevel + "%";
-                grid.style.transform = `scale(${zoomLevel / 100})`;
-                grid.style.transformOrigin = "top center";
-            });
-        });
-    </script>
-</body>
-</html>
+                let srcVal, tgtVal, unit = "";
+                
+                if (activeMetric === "land") {
+                    srcVal = DATA.LAND_AREA[selectedState]; tgtVal = DATA.LAND_AREA[target]; unit = " sq mi";
+                } else if (activeMetric === "water") {
+                    srcVal = DATA.WATER_AREA[selectedState]; tgtVal = DATA.WATER_AREA
