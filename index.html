@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -8,20 +8,20 @@
     
     <style>
         :root {
-            --bg: #070c12; 
-            --surface: #0f172a; 
-            --surface2: #1e293b; 
-            --surface3: #334155;
-            --border: #475569; 
+            --bg: #0f1923; 
+            --surface: #182433; 
+            --surface2: #1e2f42; 
+            --surface3: #243b54;
+            --border: #2a3f55; 
             --accent: #3b82f6; 
             --accent2: #10b981;
-            --warn: #eab308; 
+            --warn: #f59e0b; 
             --danger: #ef4444; 
-            --text: #f8fafc; 
-            --text2: #94a3b8;
-            --radius: 12px; 
+            --text: #e8f0fe; 
+            --text2: #8ba3bc;
+            --radius: 8px; 
             --font: 'Inter', sans-serif;
-            --sidebar-width: 440px;
+            --sidebar-width: 360px;
         }
 
         body {
@@ -30,84 +30,69 @@
         }
 
         #topbar {
-            height: 56px; background: var(--surface); border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 10;
-            box-sizing: border-box;
+            height: 54px; background: var(--surface); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10;
         }
-        .logo-text { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #fff; }
+        .logo-text { font-weight: 800; font-size: 15px; letter-spacing: 0.5px; }
 
         #zrow {
-            background: var(--surface2); min-height: 48px; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 6px 24px; font-size: 12px;
-            z-index: 9; box-sizing: border-box;
+            background: var(--surface2); min-height: 44px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 6px 20px; font-size: 11px;
         }
-        .control-group { display: flex; align-items: center; gap: 8px; font-weight: 500; user-select: none; }
+        .control-group { display: flex; align-items: center; gap: 6px; }
         .control-input {
             background: var(--bg); border: 1px solid var(--border); color: var(--text);
-            padding: 6px 10px; border-radius: 6px; font-weight: bold; outline: none; font-size: 11px;
+            padding: 4px 6px; border-radius: 4px; font-weight: bold;
         }
         .action-btn {
-            background: var(--accent); color: white; border: none; padding: 6px 14px;
-            border-radius: 6px; cursor: pointer; font-weight: 700; transition: background 0.15s; font-size: 11px;
+            background: var(--accent); color: white; border: none; padding: 5px 10px;
+            border-radius: 4px; cursor: pointer; font-weight: 600; transition: opacity 0.15s;
         }
-        .action-btn:hover { background: #2563eb; }
+        .action-btn:hover { opacity: 0.9; }
         .action-btn.danger-btn { background: var(--danger); }
-        .action-btn.danger-btn:hover { background: #dc2626; }
 
-        #main { display: flex; flex: 1; height: calc(100vh - 104px); position: relative; overflow: hidden; }
+        #main { display: flex; flex: 1; height: calc(100vh - 98px); position: relative; }
 
         #map-container {
-            flex: 1; background: #020617; position: relative; overflow: hidden;
-            cursor: grab; user-select: none;
-        }
-        #map-container:active { cursor: grabbing; }
-
-        #pan-zoom-content {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            transform-origin: center center; will-change: transform;
+            flex: 1; background: #0b131c; display: flex; align-items: center;
+            justify-content: center; position: relative; padding: 20px; overflow: auto;
         }
 
-        #map-canvas { width: 100%; max-width: 960px; height: 600px; overflow: visible; }
+        #map-canvas { width: 100%; max-width: 960px; height: auto; max-height: 600px; }
 
         .state-path {
-            stroke: #64748b; stroke-width: 1.2;
-            cursor: move; transition: fill 0.12s, stroke 0.12s, fill-opacity 0.12s;
+            stroke: var(--border); stroke-width: 1.2;
+            cursor: grab; transition: fill 0.15s, stroke 0.15s;
         }
-        .state-path:hover { stroke: #ffffff; fill-opacity: 0.9; z-index: 50; }
-        .state-path.snapped { stroke: rgba(255, 255, 255, 0.6); cursor: default; fill-opacity: 1; }
+        .state-path:hover { stroke: var(--accent); fill-opacity: 0.85; }
+        .state-path.snapped { stroke: #fff; cursor: default; }
         
-        .state-label { font-size: 10px; font-weight: 800; fill: var(--text); pointer-events: none; text-anchor: middle; }
+        .state-label { font-size: 10px; font-weight: 800; fill: var(--text); pointer-events: none; text-anchor: middle; transition: opacity 0.15s; }
         .state-label.hidden { opacity: 0; }
 
-        .city-node { fill: #ffffff; stroke: var(--bg); stroke-width: 1; pointer-events: none; }
-        .capital-node { fill: var(--warn); stroke: #ffffff; stroke-width: 1; pointer-events: none; }
+        .city-node { fill: #ffffff; stroke: var(--bg); stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
+        .capital-node { fill: var(--warn); stroke: #ffffff; stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
         .node-hidden { opacity: 0 !important; }
 
         #sidebar {
             width: var(--sidebar-width); background: var(--surface);
-            border-left: 1px solid var(--border); padding: 20px; display: flex;
-            flex-direction: column; gap: 14px; overflow-y: auto; z-index: 5; box-sizing: border-box;
+            border-left: 1px solid var(--border); padding: 16px; display: flex;
+            flex-direction: column; gap: 12px; overflow-y: auto; z-index: 5;
         }
         .panel-card {
             background: var(--surface2); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 14px; box-sizing: border-box;
+            border-radius: var(--radius); padding: 12px;
         }
-        
-        .hud-split-layout { display: grid; grid-template-columns: 110px 1fr; gap: 12px; }
-        .hud-side-tile { background: var(--surface3); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; justify-content: center; }
-        .hud-metric-label { font-size: 9px; color: var(--text2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-        .hud-metric-value { font-size: 12px; font-weight: 600; color: #fff; word-break: break-word; }
-        .hud-highlight { color: var(--warn); font-weight: 800; }
         
         .search-select-box {
             width: 100%; background: var(--bg); border: 1px solid var(--border);
-            color: var(--text); padding: 8px; border-radius: 6px; font-size: 12px; margin-top: 6px; outline: none;
+            color: var(--text); padding: 6px; border-radius: 4px; font-size: 12px; margin-top: 4px;
         }
-        .metric-tabs { display: flex; gap: 4px; margin-top: 10px; background: var(--bg); padding: 2px; border-radius: 6px; flex-wrap: wrap; }
+
+        .metric-tabs { display: flex; gap: 4px; margin-top: 8px; background: var(--bg); padding: 2px; border-radius: 6px; }
         .m-tab {
-            flex: 1; min-width: 70px; background: transparent; border: none; color: var(--text2); padding: 6px 4px;
-            font-size: 9px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; text-align: center;
+            flex: 1; background: transparent; border: none; color: var(--text2); padding: 5px 2px;
+            font-size: 10px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
         }
         .m-tab.active { background: var(--surface3); color: var(--text); border: 1px solid var(--border); }
     </style>
@@ -115,10 +100,12 @@
 <body>
 
     <div id="topbar">
-        <div class="logo"><span class="logo-text">GLOBAL PROJECT MATRIX DASHBOARD</span></div>
+        <div class="logo">
+            <span class="logo-text">GLOBAL PROJECT MATRIX DASHBOARD</span>
+        </div>
         <div class="control-group">
-            <span style="font-size: 12px; color: var(--text2);">Coloring Grid System:</span>
-            <select id="color-system-select" class="control-input">
+            <span style="font-size: 11px; color: var(--text2);">Coloring Grid System:</span>
+            <select id="color-system-select" class="control-input" style="width: 130px;">
                 <option value="classic">Classic Distinctive</option>
                 <option value="cheapness">Cheapness Index</option>
                 <option value="crime">Violent Crime Rate</option>
@@ -128,199 +115,225 @@
     </div>
     
     <div id="zrow">
-        <div class="control-group"><label><input type="checkbox" id="chk-toggle-hud" checked> Active Hover HUD</label></div>
-        <div class="control-group"><label><input type="checkbox" id="chk-toggle-labels" checked> Abbreviations</label></div>
-        <div class="control-group"><label><input type="checkbox" id="chk-toggle-cities" checked> Cities/Capitals</label></div>
-        <div class="control-group"><label><input type="checkbox" id="chk-toggle-snap" checked> Snap Lock</label></div>
-        <div class="control-group"><label><input type="checkbox" id="chk-toggle-solution"> Show Solution</label></div>
-        <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 12px;">
-            <label>Pool Limit:</label>
-            <input type="number" id="state-limit" class="control-input" value="50" min="1" max="50" style="width: 42px;">
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-labels" checked> Abbreviations</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-cities" checked> Cities & Capitals</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-snap" checked> Snap Lock</label>
+        </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-solution"> Show Solution</label>
+        </div>
+        <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 10px;">
+            <label>Limit Pool:</label>
+            <input type="number" id="state-limit" class="control-input" value="50" min="1" max="50" style="width: 45px;">
             <button class="action-btn" id="btn-apply-limit">Truncate</button>
         </div>
-        <button class="action-btn" id="btn-shuffle">Shuffle Array</button>
-        <button class="action-btn danger-btn" id="btn-reset" style="margin-left: auto;">Reset Grid View</button>
+        <button class="action-btn" id="btn-shuffle">Shuffle</button>
+        <button class="action-btn danger-btn" id="btn-delete-state" style="margin-left: auto;">Delete Selected</button>
     </div>
 
     <div id="main">
         <div id="map-container">
-            <div id="pan-zoom-content">
-                <svg id="map-canvas" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                    <g id="map-shadow-targets" opacity="0.2"></g>
-                    <g id="map-active-pieces"></g>
-                </svg>
-            </div>
+            <svg id="map-canvas" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
+                <g id="map-shadow-targets" opacity="0.15"></g>
+                <g id="map-active-pieces"></g>
+            </svg>
         </div>
         
         <div id="sidebar">
             <div class="panel-card" style="border-top: 4px solid var(--accent);">
-                <div style="font-size: 11px; color: var(--text2); font-weight: bold; display: flex; justify-content: space-between;">
-                    <span id="hud-postal">POSTAL CODE: --</span>
-                    <span id="hud-order">ORDER: --</span>
-                </div>
-                <div style="font-size: 22px; font-weight: 800; margin-top: 4px; color: #fff;" id="hud-name">Hover or Select State</div>
-                <div style="font-size: 12px; color: var(--accent2); margin-top: 2px; font-weight: 600;" id="hud-admitted">Union Admittance: --</div>
-                <div style="font-size: 11px; color: var(--text2); font-style: italic; margin-top: 4px;" id="hud-nickname">Nick Name Payload...</div>
+                <div style="font-size: 10px; color: var(--text2); font-weight: bold;" id="hud-postal">POSTAL CODE: --</div>
+                <div style="font-size: 20px; font-weight: 800; margin-top: 2px;" id="hud-name">Select a State Shape</div>
+                <div style="font-style: italic; color: var(--text2); font-size: 12px;" id="hud-nickname">Click a path node to parse info...</div>
             </div>
 
             <div class="panel-card">
-                <div class="hud-split-layout">
-                    <div class="hud-side-tile" style="border-left: 3px solid var(--warn);">
-                        <div class="hud-metric-label">Primary Capital Junction</div>
-                        <div class="hud-metric-value hud-highlight" id="hud-capital">--</div>
-                    </div>
-                    <div class="hud-side-tile" style="border-left: 3px solid var(--accent);">
-                        <div class="hud-metric-label">Secondary Registered Municipalities</div>
-                        <div class="hud-metric-value" id="hud-cities" style="font-size: 11px; line-height: 1.3;">--</div>
-                    </div>
+                <h4 style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; color: var(--accent);">Physical & Social Metrics</h4>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between;"><span>Capital City:</span><strong id="hud-capital" style="color: var(--warn);">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Major Cities:</span><strong id="hud-major-cities" style="text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">--</strong></div>
+                    <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 4px;"><span>Total Area:</span><strong id="hud-total">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Land Area:</span><strong id="hud-land">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Water Area:</span><strong id="hud-water">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Cheapness Index:</span><strong id="hud-cheapness">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Crime Rate (per 100k):</span><strong id="hud-crime">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Death Penalty Status:</span><strong id="hud-penalty">--</strong></div>
                 </div>
             </div>
 
             <div class="panel-card">
-                <div style="font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px;">Geographic & Social Metrics</div>
-                
-                <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
-                    <div>
-                        <div class="hud-metric-label">Aggregated Geographic Footprint Volume</div>
-                        <div class="hud-metric-value" id="hud-footprint">--</div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
-                        <div>
-                            <div class="hud-metric-label">Total Volumetric Land Area</div>
-                            <div class="hud-metric-value" id="hud-land">--</div>
-                        </div>
-                        <div>
-                            <div class="hud-metric-label">Hydrological Surface Footprint</div>
-                            <div class="hud-metric-value" id="hud-hydrological">--</div>
-                        </div>
-                    </div>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
-                        <div class="hud-metric-label">Economic Cost Evaluation Score Index</div>
-                        <div class="hud-metric-value" id="hud-economic">--</div>
-                    </div>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
-                        <div class="hud-metric-label">Violent Criminal Offense Occurrence Matrix</div>
-                        <div class="hud-metric-value" id="hud-criminal">--</div>
-                    </div>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
-                        <div class="hud-metric-label">Active Penal Statutory Jurisdictions Law</div>
-                        <div class="hud-metric-value" id="hud-penal">--</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel-card">
-                <h4 style="margin: 0 0 4px 0; font-size: 11px; text-transform: uppercase; color: var(--warn); letter-spacing: 0.5px;">Relational Scale Comparator</h4>
-                <label style="font-size: 10px; color: var(--text2);">Compare against targeted node profile:</label>
+                <h4 style="margin: 0 0 4px 0; font-size: 11px; text-transform: uppercase; color: var(--warn);">Relational Scale Comparator</h4>
+                <label style="font-size: 10px; color: var(--text2);">Search & select target state:</label>
                 <select id="compare-target" class="search-select-box"></select>
                 
                 <div class="metric-tabs">
                     <button class="m-tab active" data-metric="total">Total Size</button>
                     <button class="m-tab" data-metric="land">Land Size</button>
                     <button class="m-tab" data-metric="water">Water Size</button>
-                    <button class="m-tab" data-metric="cheapness">Economic Index</button>
-                    <button class="m-tab" data-metric="crime">Crime Matrix</button>
+                    <button class="m-tab" data-metric="cheapness">Cheapness</button>
+                    <button class="m-tab" data-metric="crime">Crime Rate</button>
                 </div>
 
-                <div style="margin-top: 10px; padding: 10px; background: var(--bg); border-radius: 6px; font-size: 11px; text-align: center; border: 1px solid var(--border); line-height: 1.4; color: var(--text2);" id="comparison-output">
-                    Interact with a state vectors array component block on the map map viewport to initialize queries.
+                <div style="margin-top: 10px; padding: 10px; background: var(--bg); border-radius: 4px; font-size: 12px; text-align: center; border: 1px solid var(--border); line-height: 1.4;" id="comparison-output">
+                    Select a state vector node on the map canvas to initiate multi-aspect query runs.
                 </div>
             </div>
 
-            <div class="panel-card" style="margin-top: auto; text-align: center; padding: 10px; border-top: 3px solid var(--accent2);">
-                <div style="font-size: 10px; color: var(--text2); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Puzzle Alignment Index</div>
-                <div style="font-size: 26px; font-weight: 900; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 50</div>
+            <div class="panel-card" style="margin-top: auto; text-align: center; padding: 8px;">
+                <div style="font-size: 10px; color: var(--text2); text-transform: uppercase;">Puzzle Synced Progress</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 50</div>
             </div>
         </div>
     </div>
 
     <script>
-        // High fidelity geographic structural metadata data paths matrix with absolute Albers projection geometries mapping true-to-scale boundaries (Comparea)
+        window.MAP_STATE = { allItems: {} };
+        window.COLORS = window.COLORS || { classic: {} };
+
         const DATA = {
             NAMES: {
-                AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
+                AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+                CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia",
+                HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+                KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
+                MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri",
+                MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+                NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
+                OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+                SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+                VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
             },
             NICKNAMES: {
-                AL: "Yellowhammer State", AK: "The Last Frontier", AZ: "Grand Canyon State", AR: "The Natural State", CA: "Golden State", CO: "Centennial State", CT: "Constitution State", DE: "First State", FL: "Sunshine State", GA: "Peach State", HI: "Aloha State", ID: "Gem State", IL: "Prairie State", IN: "Hoosier State", IA: "Hawkeye State", KS: "Sunflower State", KY: "Bluegrass State", LA: "Pelican State", ME: "Pine Tree State", MD: "Old Line State", MA: "Bay State", MI: "Great Lakes State", MN: "North Star State", MS: "Magnolia State", MO: "Show Me State", MT: "Treasure State", NE: "Cornhusker State", NV: "Silver State", NH: "Granite State", NJ: "Garden State", NM: "Land of Enchantment", NY: "Empire State", NC: "Tar Heel State", ND: "Peace Garden State", OH: "Buckeye State", OK: "Sooner State", OR: "Beaver State", PA: "Keystone State", RI: "Ocean State", SC: "Palmetto State", SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State", VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State"
+                AL: "Yellowhammer State", AK: "The Last Frontier", AZ: "Grand Canyon State", AR: "The Natural State", CA: "Golden State",
+                CO: "Centennial State", CT: "Constitution State", DE: "First State", FL: "Sunshine State", GA: "Peach State",
+                HI: "Aloha State", ID: "Gem State", IL: "Prairie State", IN: "Hoosier State", IA: "Hawkeye State",
+                KS: "Sunflower State", KY: "Bluegrass State", LA: "Pelican State", ME: "Pine Tree State", MD: "Old Line State",
+                MA: "Bay State", MI: "Great Lakes State", MN: "North Star State", MS: "Magnolia State", MO: "Show Me State",
+                MT: "Treasure State", NE: "Cornhusker State", NV: "Silver State", NH: "Granite State", NJ: "Garden State",
+                NM: "Land of Enchantment", NY: "Empire State", NC: "Tar Heel State", ND: "Peace Garden State", OH: "Buckeye State",
+                OK: "Sooner State", OR: "Beaver State", PA: "Keystone State", RI: "Ocean State", SC: "Palmetto State",
+                SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State",
+                VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State"
             },
             CAPITALS: {
-                AL: "Montgomery", AK: "Juneau", AZ: "Phoenix", AR: "Little Rock", CA: "Sacramento", CO: "Denver", CT: "Hartford", DE: "Dover", FL: "Tallahassee", GA: "Atlanta", HI: "Honolulu", ID: "Boise", IL: "Springfield", IN: "Indianapolis", IA: "Des Moines", KS: "Topeka", KY: "Frankfort", LA: "Baton Rouge", ME: "Augusta", MD: "Annapolis", MA: "Boston", MI: "Lansing", MN: "St. Paul", MS: "Jackson", MO: "Jefferson City", MT: "Helena", NE: "Lincoln", NV: "Carson City", NH: "Concord", NJ: "Trenton", NM: "Santa Fe", NY: "Albany", NC: "Raleigh", ND: "Bismarck", OH: "Columbus", OK: "Oklahoma City", OR: "Salem", PA: "Harrisburg", RI: "Providence", SC: "Columbia", SD: "Pierre", TN: "Nashville", TX: "Austin", UT: "Salt Lake City", VT: "Montpelier", VA: "Richmond", WA: "Olympia", WV: "Charleston", WI: "Madison", WY: "Cheyenne"
+                AL: "Montgomery", AK: "Juneau", AZ: "Phoenix", AR: "Little Rock", CA: "Sacramento",
+                CO: "Denver", CT: "Hartford", DE: "Dover", FL: "Tallahassee", GA: "Atlanta",
+                HI: "Honolulu", ID: "Boise", IL: "Springfield", IN: "Indianapolis", IA: "Des Moines",
+                KS: "Topeka", KY: "Frankfort", LA: "Baton Rouge", ME: "Augusta", MD: "Annapolis",
+                MA: "Boston", MI: "Lansing", MN: "St. Paul", MS: "Jackson", MO: "Jefferson City",
+                MT: "Helena", NE: "Lincoln", NV: "Carson City", NH: "Concord", NJ: "Trenton",
+                NM: "Santa Fe", NY: "Albany", NC: "Raleigh", ND: "Bismarck", OH: "Columbus",
+                OK: "Oklahoma City", OR: "Salem", PA: "Harrisburg", RI: "Providence", SC: "Columbia",
+                SD: "Pierre", TN: "Nashville", TX: "Austin", UT: "Salt Lake City", VT: "Montpelier",
+                VA: "Richmond", WA: "Olympia", WV: "Charleston", WI: "Madison", WY: "Cheyenne"
             },
             CITIES_LIST: {
-                AL: "Birmingham, Mobile, Huntsville, Tuscaloosa", AK: "Anchorage, Fairbanks, Wasilla, Sitka", AZ: "Tucson, Mesa, Chandler, Scottsdale, Tempe", AR: "Fort Smith, Jonesboro, Fayetteville, Springdale", CA: "Los Angeles, San Francisco, San Diego, San Jose, Fresno", CO: "Colorado Springs, Aurora, Fort Collins, Lakewood", CT: "Bridgeport, New Haven, Stamford, Waterbury", DE: "Wilmington, Newark, Middletown, Smyrna", FL: "Miami, Orlando, Tampa, Jacksonville, St. Petersburg", GA: "Savannah, Augusta, Columbus, Macon, Athens", HI: "Hilo, Kailua, Kaneohe, Kahului", ID: "Meridian, Idaho Falls, Nampa, Pocatello, Caldwell", IL: "Chicago, Aurora, Naperville, Joliet, Rockford", IN: "Fort Wayne, Evansville, South Bend, Carmel, Fishers", IA: "Cedar Rapids, Davenport, Sioux City, Waterloo", KS: "Wichita, Overland Park, Kansas City, Olathe, Lawrence", KY: "Louisville, Lexington, Bowling Green, Owensboro", LA: "New Orleans, Shreveport, Baton Rouge, Lafayette, Kenner", ME: "Portland, Bangor, Lewiston, Auburn, Biddeford", MD: "Baltimore, Frederick, Gaithersburg, Rockville", MA: "Worcester, Springfield, Cambridge, Lowell, Brockton", MI: "Detroit, Grand Rapids, Warren, Sterling Heights, Ann Arbor", MN: "Minneapolis, Duluth, Rochester, Bloomington, Brooklyn Park", MS: "Gulfport, Biloxi, Hattiesburg, Meridian, Southaven", MO: "Kansas City, St. Louis, Springfield, Columbia, Independence", MT: "Billings, Missoula, Great Falls, Bozeman, Butte", NE: "Omaha, Bellevue, Grand Island, Kearney, Fremont", NV: "Las Vegas, Reno, Henderson, North Las Vegas, Sparks", NH: "Manchester, Nashua, Concord, Derry, Dover", NJ: "Newark, Jersey City, Paterson, Elizabeth, Edison", NM: "Albuquerque, Las Cruces, Rio Rancho, Roswell, Farmington", NY: "New York City, Buffalo, Rochester, Yonkers, Syracuse", NC: "Charlotte, Greensboro, Raleigh, Durham, Winston-Salem", ND: "Fargo, Grand Forks, Bismarck, Minot, West Fargo", OH: "Cleveland, Cincinnati, Columbus, Toledo, Akron, Dayton", OK: "Tulsa, Norman, Broken Arrow, Lawton, Edmond", OR: "Portland, Eugene, Salem, Gresham, Hillsboro, Beaverton", PA: "Philadelphia, Pittsburgh, Allentown, Erie, Reading", RI: "Warwick, Cranston, Pawtucket, East Providence", SC: "Charleston, Myrtle Beach, Columbia, Greenville", SD: "Sioux Falls, Rapid City, Aberdeen, Brookings", TN: "Memphis, Knoxville, Chattanooga, Clarksville, Murfreesboro", TX: "Houston, Dallas, San Antonio, Austin, Fort Worth, El Paso", UT: "West Valley, Provo, West Jordan, Orem, Sandy", VT: "Burlington, South Burlington, Rutland, Barre", VA: "Virginia Beach, Norfolk, Chesapeake, Richmond, Newport News", WA: "Seattle, Spokane, Tacoma, Vancouver, Bellevue, Everett", WV: "Huntington, Morgantown, Parkersburg, Wheeling", WI: "Milwaukee, Green Bay, Kenosha, Racine, Appleton", WY: "Casper, Laramie, Gillette, Rock Springs, Sheridan"
-            },
-            ORDER: {
-                AL: "22nd", AK: "49th", AZ: "48th", AR: "25th", CA: "31st", CO: "38th", CT: "5th", DE: "1st", FL: "27th", GA: "4th", HI: "50th", ID: "43rd", IL: "21st", IN: "19th", IA: "29th", KS: "34th", KY: "15th", LA: "18th", ME: "23rd", MD: "7th", MA: "6th", MI: "26th", MN: "32nd", MS: "20th", MO: "24th", MT: "41st", NE: "37th", NV: "36th", NH: "9th", NJ: "3rd", NM: "47th", NY: "11th", NC: "12th", ND: "39th", OH: "17th", OK: "46th", OR: "33rd", PA: "2nd", RI: "13th", SC: "8th", SD: "40th", TN: "16th", TX: "28th", UT: "45th", VT: "14th", VA: "10th", WA: "42nd", WV: "35th", WI: "30th", WY: "44th"
-            },
-            YEAR: {
-                AL: "1819", AK: "1959", AZ: "1912", AR: "1836", CA: "1850", CO: "1876", CT: "1788", DE: "1787", FL: "1845", GA: "1788", HI: "1959", ID: "1890", IL: "1818", IN: "1816", IA: "1846", KS: "1861", KY: "1792", LA: "1812", ME: "1820", MD: "1788", MA: "1788", MI: "1837", MN: "1858", MS: "1817", MO: "1821", MT: "1889", NE: "1867", NV: "1864", NH: "1788", NJ: "1787", NM: "1912", NY: "1788", NC: "1789", ND: "1889", OH: "1803", OK: "1907", OR: "1859", PA: "1787", RI: "1790", SC: "1788", SD: "1889", TN: "1796", TX: "1845", UT: "1896", VT: "1791", VA: "1788", WA: "1889", WV: "1863", WI: "1848", WY: "1890"
+                AL: "Birmingham, Mobile", AK: "Anchorage, Fairbanks", AZ: "Tucson, Mesa", AR: "Fort Smith, Jonesboro", CA: "Los Angeles, San Francisco",
+                CO: "Colorado Springs, Aurora", CT: "Bridgeport, New Haven", DE: "Wilmington, Newark", FL: "Miami, Orlando, Tampa", GA: "Savannah, Augusta",
+                HI: "Hilo, Kailua", ID: "Meridian, Idaho Falls", IL: "Chicago, Aurora", IN: "Fort Wayne, Evansville", IA: "Cedar Rapids, Davenport",
+                KS: "Wichita, Overland Park", KY: "Louisville, Lexington", LA: "New Orleans, Shreveport", ME: "Portland, Bangor", MD: "Baltimore, Frederick",
+                MA: "Worcester, Springfield", MI: "Detroit, Grand Rapids", MN: "Minneapolis, Duluth", MS: "Gulfport, Biloxi", MO: "Kansas City, St. Louis",
+                MT: "Billings, Missoula", NE: "Omaha, Bellevue", NV: "Las Vegas, Reno", NH: "Manchester, Nashua", NJ: "Newark, Jersey City",
+                NM: "Albuquerque, Las Cruces", NY: "New York City, Buffalo", NC: "Charlotte, Greensboro", ND: "Fargo, Grand Forks", OH: "Cleveland, Cincinnati",
+                OK: "Tulsa, Norman", OR: "Portland, Eugene", PA: "Philadelphia, Pittsburgh", RI: "Warwick, Cranston", SC: "Charleston, Myrtle Beach",
+                SD: "Sioux Falls, Rapid City", TN: "Memphis, Knoxville", TX: "Houston, Dallas, San Antonio", UT: "West Valley, Provo", VT: "Burlington, South Burlington",
+                VA: "Virginia Beach, Norfolk", WA: "Seattle, Spokane", WV: "Huntington, Morgantown", WI: "Milwaukee, Green Bay", WY: "Casper, Laramie"
             },
             LAND_AREA: {
-                AL: 50645, AK: 570641, AZ: 113594, AR: 52035, CA: 155779, CO: 103642, CT: 4842, DE: 1949, FL: 53625, GA: 57513, HI: 6423, ID: 82643, IL: 55519, IN: 35826, IA: 55857, KS: 81759, KY: 39486, LA: 43204, ME: 30843, MD: 9707, MA: 7800, MI: 56539, MN: 79627, MS: 46923, MO: 68742, MT: 145546, NE: 76824, NV: 109781, NH: 8953, NJ: 7354, NM: 121298, NY: 47126, NC: 48618, ND: 69001, OH: 40861, OK: 68595, OR: 95988, PA: 44743, RI: 1034, SC: 30061, SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093
+                AL: 50645, AK: 570641, AZ: 113594, AR: 52035, CA: 155779, CO: 103642, CT: 4842, DE: 1949, FL: 53625, GA: 57513,
+                HI: 6423, ID: 82643, IL: 55519, IN: 35826, IA: 55857, KS: 81759, KY: 39486, LA: 43204, ME: 30843, MD: 9707,
+                MA: 7800, MI: 56539, MN: 79627, MS: 46923, MO: 68742, MT: 145546, NE: 76824, NV: 109781, NH: 8953, NJ: 7354,
+                NM: 121298, NY: 47126, NC: 48618, ND: 69001, OH: 40861, OK: 68595, OR: 95988, PA: 44743, RI: 1034, SC: 30061,
+                SD: 75811, TN: 41235, TX: 261232, UT: 82170, VT: 9217, VA: 39490, WA: 66456, WV: 24038, WI: 54158, WY: 97093
             },
             WATER_AREA: {
-                AL: 1775, AK: 94743, AZ: 396, AR: 1143, CA: 7916, CO: 452, CT: 701, DE: 540, FL: 12133, GA: 1912, HI: 4508, ID: 898, IL: 2395, IN: 581, IA: 416, KS: 520, KY: 922, LA: 9174, ME: 4523, MD: 2699, MA: 2755, MI: 40175, MN: 7301, MS: 1518, MO: 811, MT: 1494, NE: 524, NV: 735, NH: 395, NJ: 1368, NM: 291, NY: 7429, NC: 5242, ND: 1724, OH: 4022, OK: 1304, OR: 2391, PA: 1308, RI: 511, SC: 1960, SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720
+                AL: 1775, AK: 94743, AZ: 396, AR: 1143, CA: 7916, CO: 452, CT: 701, DE: 540, FL: 12133, GA: 1912,
+                HI: 4508, ID: 898, IL: 2395, IN: 581, IA: 416, KS: 520, KY: 922, LA: 9174, ME: 4523, MD: 2699,
+                MA: 2755, MI: 40175, MN: 7301, MS: 1518, MO: 811, MT: 1494, NE: 524, NV: 735, NH: 395, NJ: 1368,
+                NM: 291, NY: 7429, NC: 5242, ND: 1724, OH: 4022, OK: 1304, OR: 2391, PA: 1308, RI: 511, SC: 1960,
+                SD: 1308, TN: 926, TX: 7365, UT: 2726, VT: 409, VA: 3232, WA: 4842, WV: 190, WI: 11393, WY: 720
             },
             CHEAPNESS_INDEX: {
-                AL: 88.1, AK: 126.7, AZ: 107.2, AR: 87.5, CA: 136.4, CO: 106.9, CT: 113.1, DE: 102.6, FL: 100.3, GA: 89.4, HI: 179.0, ID: 99.6, IL: 90.8, IN: 90.4, IA: 89.2, KS: 87.4, KY: 89.1, LA: 92.4, ME: 111.4, MD: 112.8, MA: 146.5, MI: 92.2, MN: 97.4, MS: 86.1, MO: 88.4, MT: 102.8, NE: 91.8, NV: 102.3, NH: 115.2, NJ: 114.1, NM: 93.8, NY: 125.1, NC: 96.2, ND: 94.6, OH: 90.1, OK: 86.8, OR: 116.2, PA: 99.0, RI: 112.1, SC: 94.3, SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8
+                AL: 88.1, AK: 126.7, AZ: 107.2, AR: 87.5, CA: 136.4, CO: 106.9, CT: 113.1, DE: 102.6, FL: 100.3, GA: 89.4,
+                HI: 179.0, ID: 99.6, IL: 90.8, IN: 90.4, IA: 89.2, KS: 87.4, KY: 89.1, LA: 92.4, ME: 111.4, MD: 112.8,
+                MA: 146.5, MI: 92.2, MN: 97.4, MS: 86.1, MO: 88.4, MT: 102.8, NE: 91.8, NV: 102.3, NH: 115.2, NJ: 114.1,
+                NM: 93.8, NY: 125.1, NC: 96.2, ND: 94.6, OH: 90.1, OK: 86.8, OR: 116.2, PA: 99.0, RI: 112.1, SC: 94.3,
+                SD: 93.2, TN: 89.9, TX: 91.5, UT: 101.4, VT: 115.9, VA: 100.7, WA: 115.1, WV: 87.7, WI: 96.7, WY: 92.8
             },
             CRIME_RATE: {
-                AL: 450, AK: 830, AZ: 425, AR: 670, CA: 440, CO: 420, CT: 180, DE: 430, FL: 380, GA: 400, HI: 250, ID: 240, IL: 425, IN: 357, IA: 300, KS: 425, KY: 260, LA: 640, ME: 110, MD: 400, MA: 300, MI: 475, MN: 280, MS: 290, MO: 540, MT: 470, NE: 300, NV: 460, NH: 150, NJ: 195, NM: 780, NY: 360, NC: 420, ND: 280, OH: 305, OK: 440, OR: 290, PA: 310, RI: 230, SC: 530, SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230
+                AL: 450, AK: 830, AZ: 425, AR: 670, CA: 440, CO: 420, CT: 180, DE: 430, FL: 380, GA: 400,
+                HI: 250, ID: 240, IL: 425, IN: 357, IA: 300, KS: 425, KY: 260, LA: 640, ME: 110, MD: 400,
+                MA: 300, MI: 475, MN: 280, MS: 290, MO: 540, MT: 470, NE: 300, NV: 460, NH: 150, NJ: 195,
+                NM: 780, NY: 360, NC: 420, ND: 280, OH: 305, OK: 440, OR: 290, PA: 310, RI: 230, SC: 530,
+                SD: 505, TN: 675, TX: 430, UT: 260, VT: 170, VA: 230, WA: 300, WV: 355, WI: 320, WY: 230
             },
             DEATH_PENALTY: {
-                AL: "Active Statutory Execution Law", AK: "Abolished Jurisdictional Policy", AZ: "Active Statutory Execution Law", AR: "Active Statutory Execution Law", CA: "Active Execution Law (Executive Moratorium)", CO: "Abolished Jurisdictional Policy", CT: "Abolished Jurisdictional Policy", DE: "Abolished Jurisdictional Policy", FL: "Active Statutory Execution Law", GA: "Active Statutory Execution Law", HI: "Abolished Jurisdictional Policy", ID: "Active Statutory Execution Law", IL: "Abolished Jurisdictional Policy", IN: "Active Statutory Execution Law", IA: "Abolished Jurisdictional Policy", KS: "Active Statutory Execution Law", KY: "Active Statutory Execution Law", LA: "Active Statutory Execution Law", ME: "Abolished Jurisdictional Policy", MD: "Abolished Jurisdictional Policy", MA: "Abolished Jurisdictional Policy", MI: "Abolished Jurisdictional Policy", MN: "Abolished Jurisdictional Policy", MS: "Active Statutory Execution Law", MO: "Active Statutory Execution Law", MT: "Active Statutory Execution Law", NE: "Active Statutory Execution Law", NV: "Active Statutory Execution Law", NH: "Abolished Jurisdictional Policy", NJ: "Abolished Jurisdictional Policy", NM: "Abolished Jurisdictional Policy", NY: "Abolished Jurisdictional Policy", NC: "Active Statutory Execution Law", ND: "Abolished Jurisdictional Policy", OH: "Active Statutory Execution Law", OK: "Active Statutory Execution Law", OR: "Active Execution Law (Executive Moratorium)", PA: "Active Execution Law (Executive Moratorium)", RI: "Abolished Jurisdictional Policy", SC: "Active Statutory Execution Law", SD: "Active Statutory Execution Law", TN: "Active Statutory Execution Law", TX: "Active Statutory Execution Law", UT: "Active Statutory Execution Law", VT: "Abolished Jurisdictional Policy", VA: "Abolished Jurisdictional Policy", WA: "Abolished Jurisdictional Policy", WV: "Abolished Jurisdictional Policy", WI: "Abolished Jurisdictional Policy", WY: "Active Statutory Execution Law"
+                AL: "Active", AK: "Abolished (1957)", AZ: "Active", AR: "Active", CA: "Active (Moratorium)",
+                CO: "Abolished (2020)", CT: "Abolished (2012)", DE: "Abolished (2016)", FL: "Active", GA: "Active",
+                HI: "Abolished (1957)", ID: "Active", IL: "Abolished (2011)", IN: "Active", IA: "Abolished (1965)",
+                KS: "Active", KY: "Active", LA: "Active", ME: "Abolished (1887)", MD: "Abolished (2013)",
+                MA: "Abolished (1984)", MI: "Abolished (1847)", MN: "Abolished (1911)", MS: "Active", MO: "Active",
+                MT: "Active", NE: "Active", NV: "Active", NH: "Abolished (2019)", NJ: "Abolished (2007)",
+                NM: "Abolished (2009)", NY: "Abolished (2007)", NC: "Active", ND: "Abolished (1973)", OH: "Active",
+                OK: "Active", OR: "Active (Moratorium)", PA: "Active (Moratorium)", RI: "Abolished (1984)", SC: "Active",
+                SD: "Active", TN: "Active", TX: "Active", UT: "Active", VT: "Abolished (1972)",
+                VA: "Abolished (2021)", WA: "Abolished (2018)", WV: "Abolished (1965)", WI: "Abolished (1853)", WY: "Active"
             },
             PATHS: {
-                AL: { d: "M625,320 L650,322 L646,375 L620,370 Z", cx: 635, cy: 345, color: "#4f46e5" },
-                AK: { d: "M140,430 L220,420 L205,510 L120,490 Z", cx: 170, cy: 460, color: "#06b6d4" },
-                AZ: { d: "M260,260 L320,270 L305,360 L245,350 Z", cx: 282, cy: 310, color: "#b45309" },
-                AR: { d: "M525,290 L570,292 L565,345 L520,340 Z", cx: 545, cy: 318, color: "#10b981" },
-                CA: { d: "M160,180 L215,200 L175,380 L135,350 Z", cx: 171, cy: 280, color: "#ec4899" },
-                CO: { d: "M340,210 L415,220 L405,280 L330,270 Z", cx: 372, cy: 245, color: "#84cc16" },
-                CT: { d: "M845,152 L865,150 L867,162 L847,164 Z", cx: 856, cy: 157, color: "#a855f7" },
-                DE: { d: "M818,188 L828,186 L830,196 L820,198 Z", cx: 824, cy: 192, color: "#f43f5e" },
-                FL: { d: "M670,380 L710,385 L730,465 L705,460 Z", cx: 698, cy: 422, color: "#eab308" },
-                GA: { d: "M655,315 L698,320 L685,375 L650,368 Z", cx: 673, cy: 344, color: "#3b82f6" },
-                HI: { d: "M280,490 L310,495 L300,515 L270,510 Z", cx: 290, cy: 502, color: "#14b8a6" },
-                ID: { d: "M240,90 L285,100 L270,210 L230,200 Z", cx: 256, cy: 150, color: "#6366f1" },
-                IL: { d: "M575,190 L615,195 L605,260 L565,250 Z", cx: 590, cy: 222, color: "#d946ef" },
-                IN: { d: "M620,195 L650,200 L640,255 L610,250 Z", cx: 630, cy: 225, color: "#f97316" },
-                IA: { d: "M500,180 L565,190 L555,240 L490,230 Z", cx: 528, cy: 205, color: "#06b6d4" },
-                KS: { d: "M425,235 L505,245 L495,290 L415,280 Z", cx: 460, cy: 262, color: "#8b5cf6" },
-                KY: { d: "M615,245 L685,250 L665,285 L600,280 Z", cx: 641, cy: 265, color: "#3b82f6" },
-                LA: { d: "M530,355 L575,360 L570,410 L525,405 Z", cx: 550, cy: 382, color: "#10b981" },
-                ME: { d: "M850,70 L890,80 L875,130 L835,120 Z", cx: 862, cy: 100, color: "#ec4899" },
-                MD: { d: "M780,185 L815,182 L817,192 L782,195 Z", cx: 798, cy: 188, color: "#eab308" },
-                MA: { d: "M835,140 L875,135 L877,150 L837,155 Z", cx: 856, cy: 145, color: "#f43f5e" },
-                MI: { d: "M600,120 L660,130 L645,185 L590,175 Z", cx: 624, cy: 152, color: "#22c55e" },
-                MN: { d: "M480,100 L560,110 L545,180 L465,170 Z", cx: 512, cy: 140, color: "#a855f7" },
-                MS: { d: "M585,320 L620,323 L612,378 L580,373 Z", cx: 598, cy: 348, color: "#64748b" },
-                MO: { d: "M510,235 L580,245 L570,300 L500,290 Z", cx: 540, cy: 268, color: "#f59e0b" },
-                MT: { d: "M290,75 L420,90 L400,170 L275,155 Z", cx: 348, cy: 122, color: "#06b6d4" },
-                NE: { d: "M410,180 L495,190 L485,235 L400,225 Z", cx: 448, cy: 208, color: "#10b981" },
-                NV: { d: "M195,170 L255,180 L225,310 L165,300 Z", cx: 210, cy: 235, color: "#84cc16" },
-                NH: { d: "M825,105 L845,102 L850,140 L830,142 Z", cx: 837, cy: 122, color: "#6366f1" },
-                NJ: { d: "M810,165 L830,162 L833,185 L813,188 Z", cx: 821, cy: 175, color: "#ec4899" },
-                NM: { d: "M320,275 L395,285 L385,370 L310,360 Z", cx: 352, cy: 322, color: "#d946ef" },
-                NY: { d: "M760,120 L820,110 L830,160 L770,170 Z", cx: 795, cy: 135, color: "#3b82f6" },
-                NC: { d: "M690,275 L780,285 L755,320 L675,310 Z", cx: 725, cy: 295, color: "#14b8a6" },
-                ND: { d: "M425,95 L505,105 L495,155 L415,145 Z", cx: 460, cy: 125, color: "#f97316" },
-                OH: { d: "M660,190 L710,195 L695,245 L650,240 Z", cx: 678, cy: 218, color: "#a855f7" },
-                OK: { d: "M410,290 L515,300 L505,340 L400,330 Z", cx: 458, cy: 315, color: "#eab308" },
-                OR: { d: "M140,115 L235,125 L215,210 L120,200 Z", cx: 178, cy: 162, color: "#22c55e" },
-                PA: { d: "M720,160 L785,155 L775,195 L710,200 Z", cx: 748, cy: 178, color: "#f43f5e" },
-                RI: { d: "M860,158 L875,156 L877,166 L862,168 Z", cx: 868, cy: 162, color: "#8b5cf6" },
-                SC: { d: "M685,315 L745,320 L720,350 L665,345 Z", cx: 702, cy: 332, color: "#6366f1" },
-                SD: { d: "M415,148 L500,158 L490,205 L405,195 Z", cx: 452, cy: 175, color: "#06b6d4" },
-                TN: { d: "M600,280 L685,285 L675,310 L590,305 Z", cx: 638, cy: 292, color: "#d946ef" },
-                TX: { d: "M390,345 L500,355 L485,495 L360,460 Z", cx: 435, cy: 420, color: "#ff4444" },
-                UT: { d: "M265,205 L335,215 L320,290 L255,280 Z", cx: 295, cy: 248, color: "#10b981" },
-                VT: { d: "M805,110 L825,108 L830,140 L810,142 Z", cx: 817, cy: 125, color: "#84cc16" },
-                VA: { d: "M695,245 L775,250 L750,285 L680,275 Z", cx: 728, cy: 260, color: "#f59e0b" },
-                WA: { d: "M150,50 L250,60 L235,120 L135,110 Z", cx: 192, cy: 85, color: "#22c55e" },
-                WV: { d: "M690,215 L735,220 L725,255 L680,250 Z", cx: 708, cy: 235, color: "#14b8a6" },
-                WI: { d: "M550,130 L605,135 L595,195 L540,190 Z", cx: 572, cy: 162, color: "#a855f7" },
-                WY: { d: "M315,160 L405,170 L395,230 L305,220 Z", cx: 355, cy: 195, color: "#f97316" }
+                WA: { d: "M145,52 L224,58 L220,95 L228,106 L218,114 L128,105 L130,95 L145,94 L142,80 L136,75 L145,52 Z", cx: 180, cy: 80, color: "#10b981" },
+                OR: { d: "M128,105 L218,114 L210,158 L221,192 L115,182 L120,150 L112,130 L128,105 Z", cx: 170, cy: 150, color: "#3b82f6" },
+                CA: { d: "M115,182 L221,192 L202,245 L178,310 L158,348 L184,372 L146,368 L122,298 L108,240 L115,182 Z", cx: 160, cy: 260, color: "#f59e0b" },
+                NV: { d: "M218,114 L260,118 L248,225 L210,265 L178,310 L202,245 L221,192 L218,114 Z", cx: 225, cy: 200, color: "#ef4444" },
+                ID: { d: "M224,58 L248,60 L246,95 L288,100 L275,190 L221,192 L218,114 L220,95 L224,58 Z", cx: 245, cy: 120, color: "#8b5cf6" },
+                UT: { d: "M248,190 L308,196 L302,248 L260,244 L248,225 L248,190 Z", cx: 275, cy: 220, color: "#06b6d4" },
+                AZ: { d: "M248,225 L260,244 L302,248 L294,320 L238,312 L248,225 Z", cx: 270, cy: 280, color: "#ec4899" },
+                MT: { d: "M248,60 L385,72 L375,135 L288,126 L288,100 L246,95 L248,60 Z", cx: 320, cy: 95, color: "#14b8a6" },
+                WY: { d: "M288,126 L375,135 L366,192 L278,184 L288,126 Z", cx: 330, cy: 160, color: "#f97316" },
+                CO: { d: "M278,184 L366,192 L358,245 L270,238 L278,184 Z", cx: 320, cy: 215, color: "#10b981" },
+                NM: { d: "M270,238 L358,245 L350,314 L306,310 L306,318 L264,312 L270,238 Z", cx: 310, cy: 275, color: "#a855f7" },
+                ND: { d: "M385,72 L460,78 L454,122 L378,116 L385,72 Z", cx: 420, cy: 95, color: "#3b82f6" },
+                SD: { d: "M378,116 L454,122 L448,166 L372,160 L378,116 Z", cx: 415, cy: 140, color: "#f59e0b" },
+                NE: { d: "M372,160 L448,166 L445,185 L484,188 L475,208 L366,192 L372,160 Z", cx: 420, cy: 185, color: "#ef4444" },
+                KS: { d: "M366,192 L475,208 L466,248 L358,245 L366,192 Z", cx: 415, cy: 225, color: "#6366f1" },
+                OK: { d: "M358,245 L466,248 L462,292 L422,290 L422,265 L354,262 L358,245 Z", cx: 420, cy: 260, color: "#ec4899" },
+                TX: { d: "M354,262 L422,265 L422,290 L462,292 L476,364 L460,392 L442,414 L415,385 L372,374 L328,335 L306,318 L306,310 L350,314 L354,262 Z", cx: 400, cy: 340, color: "#14b8a6" },
+                MN: { d: "M460,78 L524,84 L532,102 L514,115 L525,148 L450,142 L454,122 L460,78 Z", cx: 490, cy: 110, color: "#f97316" },
+                IA: { d: "M450,142 L525,148 L516,195 L445,185 L450,142 Z", cx: 485, cy: 168, color: "#10b981" },
+                MO: { d: "M445,185 L516,195 L528,246 L466,242 L475,208 L445,185 Z", cx: 485, cy: 220, color: "#3b82f6" },
+                AR: { d: "M466,242 L528,246 L518,294 L462,292 L466,242 Z", cx: 495, cy: 270, color: "#f59e0b" },
+                LA: { d: "M462,292 L518,294 L515,322 L544,324 L524,345 L476,340 L476,364 L462,292 Z", cx: 495, cy: 320, color: "#ef4444" },
+                WI: { d: "M524,84 L568,88 L572,138 L544,142 L525,148 L532,102 L524,84 Z", cx: 545, cy: 115, color: "#8b5cf6" },
+                IL: { d: "M525,148 L568,144 L574,212 L528,246 L516,195 L525,148 Z", cx: 548, cy: 190, color: "#06b6d4" },
+                MI: { d: "M568,88 L618,94 L624,142 L592,148 L568,144 L568,88 Z", cx: 595, cy: 115, color: "#ec4899" },
+                IN: { d: "M568,144 L602,148 L596,214 L574,212 L568,144 Z", cx: 585, cy: 180, color: "#14b8a6" },
+                KY: { d: "M528,246 L574,212 L596,214 L635,198 L642,216 L564,242 L528,246 Z", cx: 585, cy: 230, color: "#f97316" },
+                TN: { d: "M564,242 L642,216 L634,252 L554,248 L564,242 Z", cx: 595, cy: 248, color: "#10b981" },
+                MS: { d: "M518,294 L554,296 L548,348 L515,346 L515,322 L518,294 Z", cx: 535, cy: 320, color: "#3b82f6" },
+                AL: { d: "M554,296 L592,300 L586,346 L574,346 L572,352 L548,348 L554,296 Z", cx: 575, cy: 320, color: "#f59e0b" },
+                GA: { d: "M592,300 L632,304 L618,358 L586,346 L592,300 Z", cx: 610, cy: 330, color: "#ef4444" },
+                FL: { d: "M572,352 L586,346 L618,358 L654,414 L644,432 L628,408 L608,368 L572,352 Z", cx: 620, cy: 390, color: "#6366f1" },
+                OH: { d: "M602,148 L652,154 L644,202 L635,198 L596,214 L602,148 Z", cx: 625, cy: 180, color: "#ec4899" },
+                WV: { d: "M644,202 L672,174 L684,196 L658,214 L642,216 L635,198 L644,202 Z", cx: 660, cy: 195, color: "#06b6d4" },
+                VA: { d: "M642,216 L658,214 L684,196 L718,202 L704,234 L634,224 L642,216 Z", cx: 675, cy: 218, color: "#14b8a6" },
+                NC: { d: "M634,252 L704,234 L732,248 L658,272 L634,252 Z", cx: 675, cy: 255, color: "#f97316" },
+                SC: { d: "M658,272 L732,248 L708,284 L658,272 Z", cx: 690, cy: 268, color: "#10b981" },
+                PA: { d: "M652,154 L724,160 L716,192 L672,188 L652,154 Z", cx: 688, cy: 172, color: "#3b82f6" },
+                NY: { d: "M668,114 L714,102 L726,128 L754,142 L748,154 L724,160 L652,154 L668,114 Z", cx: 705, cy: 135, color: "#f59e0b" },
+                VT: { d: "M714,102 L728,100 L724,138 L716,138 L714,102 Z", cx: 720, cy: 120, color: "#ef4444" },
+                NH: { d: "M728,100 L742,98 L748,134 L738,136 L728,100 Z", cx: 735, cy: 118, color: "#6366f1" },
+                ME: { d: "M742,98 L764,68 L788,88 L772,122 L748,114 L742,98 Z", cx: 765, cy: 95, color: "#ec4899" },
+                MA: { d: "M724,138 L756,134 L760,146 L726,148 L724,138 Z", cx: 742, cy: 142, color: "#06b6d4" },
+                RI: { d: "M750,146 L758,146 L756,154 L750,154 L750,146 Z", cx: 754, cy: 150, color: "#14b8a6" },
+                CT: { d: "M726,148 L748,146 L746,156 L728,156 L726,148 Z", cx: 738, cy: 152, color: "#f97316" },
+                NJ: { d: "M716,192 L724,160 L732,164 L722,196 L716,192 Z", cx: 723, cy: 178, color: "#10b981" },
+                DE: { d: "M714,200 L720,200 L718,212 L712,212 L714,200 Z", cx: 716, cy: 206, color: "#3b82f6" },
+                MD: { d: "M672,188 L716,192 L714,208 L694,204 L672,188 Z", cx: 695, cy: 198, color: "#f59e0b" },
+                AK: { d: "M80,440 L210,430 L190,550 L90,520 Z", cx: 140, cy: 485, color: "#06b6d4" },
+                HI: { d: "M260,500 L290,505 L280,525 L250,520 Z", cx: 270, cy: 512, color: "#14b8a6" }
             }
         };
 
@@ -330,69 +343,36 @@
             const selectCompare = document.getElementById("compare-target");
             const outputCompare = document.getElementById("comparison-output");
             const colorSystemSelect = document.getElementById("color-system-select");
-            const panContent = document.getElementById("pan-zoom-content");
-            const container = document.getElementById("map-container");
             
-            const chkToggleHud = document.getElementById("chk-toggle-hud");
             const chkLabels = document.getElementById("chk-toggle-labels");
             const chkCities = document.getElementById("chk-toggle-cities");
             const chkSnap = document.getElementById("chk-toggle-snap");
             const chkSolution = document.getElementById("chk-toggle-solution");
             const metricButtons = document.querySelectorAll(".m-tab");
-            const stateLimitInput = document.getElementById("state-limit");
 
             let selectedState = null;
             let activeMetric = "total";
             let currentPool = Object.keys(DATA.PATHS).sort();
 
-            // Screen space workspace background click-and-hold panning engine parameters
-            let isPanning = false;
-            let startX, startY;
-            let panX = 0, panY = 0;
-
-            container.addEventListener("mousedown", (e) => {
-                if (e.target === container || e.target === panContent || e.target.id === "map-canvas" || e.target.tagName === "g") {
-                    isPanning = true;
-                    startX = e.clientX - panX;
-                    startY = e.clientY - panY;
-                }
+            Object.keys(DATA.NAMES).sort().forEach(abbr => {
+                const opt = document.createElement("option");
+                opt.value = abbr; opt.innerText = `${abbr} - ${DATA.NAMES[abbr]}`;
+                selectCompare.appendChild(opt);
             });
-
-            window.addEventListener("mousemove", (e) => {
-                if (!isPanning) return;
-                panX = e.clientX - startX;
-                panY = e.clientY - startY;
-                panContent.style.transform = `translate(${panX}px, ${panY}px)`;
-            });
-
-            window.addEventListener("mouseup", () => { isPanning = false; });
-
-            function initializeSelectMenu() {
-                selectCompare.innerHTML = "";
-                currentPool.forEach(abbr => {
-                    const opt = document.createElement("option");
-                    opt.value = abbr; opt.innerText = `${abbr} - ${DATA.NAMES[abbr] || "Unknown"}`;
-                    selectCompare.appendChild(opt);
-                });
-            }
 
             function getStateColor(abbr, system) {
-                try {
-                    if (system === "cheapness") {
-                        const idx = DATA.CHEAPNESS_INDEX[abbr] || 100;
-                        return idx < 90 ? "#10b981" : idx < 105 ? "#f59e0b" : "#ef4444";
-                    }
-                    if (system === "crime") {
-                        const val = DATA.CRIME_RATE[abbr] || 300;
-                        return val < 250 ? "#22c55e" : val < 450 ? "#eab308" : "#dc2626";
-                    }
-                    if (system === "penalty") {
-                        return (DATA.DEATH_PENALTY[abbr] || "").startsWith("Active") ? "#7f1d1d" : "#1e3a8a";
-                    }
-                    return DATA.PATHS[abbr]?.color || "#3b82f6";
-                } catch (e) {
-                    return "#3b82f6";
+                if (system === "cheapness") {
+                    const idx = DATA.CHEAPNESS_INDEX[abbr] || 100;
+                    return idx < 90 ? "#10b981" : idx < 105 ? "#f59e0b" : "#ef4444";
                 }
+                if (system === "crime") {
+                    const val = DATA.CRIME_RATE[abbr] || 300;
+                    return val < 250 ? "#22c55e" : val < 450 ? "#eab308" : "#dc2626";
+                }
+                if (system === "penalty") {
+                    return DATA.DEATH_PENALTY[abbr].startsWith("Active") ? "#7f1d1d" : "#1e3a8a";
+                }
+                return DATA.PATHS[abbr]?.color || "var(--accent)";
             }
 
             function createStarPath(cx, cy, r, p) {
@@ -407,260 +387,202 @@
                 return d + "Z";
             }
 
-            function syncHudDataDisplay(abbr) {
-                if (!abbr || !DATA.NAMES[abbr]) return;
-                try {
-                    const totalArea = (DATA.LAND_AREA[abbr] || 0) + (DATA.WATER_AREA[abbr] || 0);
-                    const footPrintVol = Math.floor(totalArea * 1.428);
-
-                    document.getElementById("hud-name").innerText = DATA.NAMES[abbr];
-                    document.getElementById("hud-postal").innerText = `POSTAL CODE: ${abbr}`;
-                    document.getElementById("hud-order").innerText = `ORDER: ${DATA.ORDER[abbr] || "--"}`;
-                    document.getElementById("hud-admitted").innerText = `Union Admittance: ${DATA.YEAR[abbr] || "--"}`;
-                    document.getElementById("hud-nickname").innerText = DATA.NICKNAMES[abbr] || "None";
-                    document.getElementById("hud-capital").innerText = DATA.CAPITALS[abbr] || "N/A";
-                    document.getElementById("hud-cities").innerText = DATA.CITIES_LIST[abbr] || "N/A";
-                    
-                    document.getElementById("hud-footprint").innerText = `${footPrintVol.toLocaleString()} Cubic Index Units`;
-                    document.getElementById("hud-land").innerText = `${(DATA.LAND_AREA[abbr] || 0).toLocaleString()} sq mi`;
-                    document.getElementById("hud-hydrological").innerText = `${(DATA.WATER_AREA[abbr] || 0).toLocaleString()} sq mi`;
-                    document.getElementById("hud-economic").innerText = `${DATA.CHEAPNESS_INDEX[abbr] || "100"} Score Points`;
-                    document.getElementById("hud-criminal").innerText = `${DATA.CRIME_RATE[abbr] || "0"} Matrix Incidents / 100k`;
-                    document.getElementById("hud-penal").innerText = DATA.DEATH_PENALTY[abbr] || "Unmapped Statute Context";
-                } catch(err) {
-                    console.error("Defensive runtime capture loop failure during HUD sync operations: ", err);
-                }
+            function updateScoreCounter() {
+                const snappedCount = document.querySelectorAll(".state-path.snapped").length;
+                document.getElementById("hud-score").innerText = `${snappedCount} / ${currentPool.length}`;
             }
 
             function buildInteractiveMap() {
-                try {
-                    activeLayer.innerHTML = "";
-                    shadowLayer.innerHTML = "";
-                    const activeSystem = colorSystemSelect.value;
-                    const nodeVisibilityClass = chkCities.checked ? '' : 'node-hidden';
+                activeLayer.innerHTML = "";
+                shadowLayer.innerHTML = "";
+                const activeSystem = colorSystemSelect.value;
+                const nodeVisibilityClass = chkCities.checked ? '' : 'node-hidden';
 
-                    currentPool.forEach(abbr => {
-                        const pathMeta = DATA.PATHS[abbr];
-                        if (!pathMeta) return;
+                currentPool.forEach(abbr => {
+                    const pathMeta = DATA.PATHS[abbr];
+                    if (!pathMeta) return;
 
-                        // Baseline Trace Silhouette Placement
-                        const shadowShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        shadowShape.setAttribute("d", pathMeta.d);
-                        shadowShape.setAttribute("fill", chkSolution.checked ? getStateColor(abbr, activeSystem) : "#1e293b");
-                        shadowShape.setAttribute("fill-opacity", chkSolution.checked ? "0.4" : "1");
-                        shadowShape.setAttribute("stroke", "#0f172a");
-                        shadowShape.setAttribute("stroke-width", "1.5");
-                        shadowLayer.appendChild(shadowShape);
+                    const shadowShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    shadowShape.setAttribute("d", pathMeta.d);
+                    shadowShape.setAttribute("fill", chkSolution.checked ? getStateColor(abbr, activeSystem) : "#243b54");
+                    shadowShape.setAttribute("fill-opacity", chkSolution.checked ? "0.6" : "1");
+                    shadowShape.setAttribute("stroke", "#1e2f42");
+                    shadowLayer.appendChild(shadowShape);
 
-                        // Drag Wrap Layer Matrix Components
-                        const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-                        group.setAttribute("id", `node-${abbr}`);
+                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    group.setAttribute("id", `node-${abbr}`);
+                    group.style.transform = "translate(0px, 0px)";
+                    
+                    const stateShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    stateShape.setAttribute("d", pathMeta.d);
+                    stateShape.setAttribute("class", "state-path");
+                    stateShape.setAttribute("fill", getStateColor(abbr, activeSystem));
+
+                    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    label.setAttribute("x", pathMeta.cx);
+                    label.setAttribute("y", pathMeta.cy);
+                    label.setAttribute("class", `state-label ${chkLabels.checked ? '' : 'hidden'}`);
+                    label.textContent = abbr;
+
+                    const capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    capStar.setAttribute("d", createStarPath(pathMeta.cx - 6, pathMeta.cy + 6, 4, 5));
+                    capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
+
+                    const majorCityDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    majorCityDot.setAttribute("cx", pathMeta.cx + 8);
+                    majorCityDot.setAttribute("cy", pathMeta.cy - 4);
+                    majorCityDot.setAttribute("r", "2");
+                    majorCityDot.setAttribute("class", `city-node ${nodeVisibilityClass}`);
+
+                    group.appendChild(stateShape);
+                    group.appendChild(label);
+                    group.appendChild(capStar);
+                    group.appendChild(majorCityDot);
+                    activeLayer.appendChild(group);
+
+                    stateShape.addEventListener("click", () => {
+                        selectedState = abbr;
+                        const totalArea = DATA.LAND_AREA[abbr] + DATA.WATER_AREA[abbr];
                         
-                        const stateShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        stateShape.setAttribute("d", pathMeta.d);
-                        stateShape.setAttribute("class", "state-path");
-                        stateShape.setAttribute("fill", getStateColor(abbr, activeSystem));
-
-                        // Labels Injection Map
-                        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                        label.setAttribute("x", pathMeta.cx);
-                        label.setAttribute("y", pathMeta.cy);
-                        label.setAttribute("class", `state-label ${chkLabels.checked ? '' : 'hidden'}`);
-                        label.textContent = abbr;
-
-                        // Geographic Vector Node Anchors (Star = Capital, Circle = Cities)
-                        const capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        capStar.setAttribute("d", createStarPath(pathMeta.cx - 10, pathMeta.cy + 10, 5, 5));
-                        capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
-
-                        const majorCityDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        majorCityDot.setAttribute("cx", pathMeta.cx + 12);
-                        majorCityDot.setAttribute("cy", pathMeta.cy - 8);
-                        majorCityDot.setAttribute("r", "3");
-                        majorCityDot.setAttribute("class", `city-node ${nodeVisibilityClass}`);
-
-                        group.appendChild(stateShape);
-                        group.appendChild(label);
-                        group.appendChild(capStar);
-                        group.appendChild(majorCityDot);
-                        activeLayer.appendChild(group);
-
-                        // Hover HUD Interaction Hook
-                        stateShape.addEventListener("mouseenter", () => {
-                            if (chkToggleHud.checked) {
-                                syncHudDataDisplay(abbr);
-                            }
-                        });
-
-                        // Standard Drag Engine Event Listeners
-                        stateShape.addEventListener("click", () => {
-                            selectedState = abbr;
-                            syncHudDataDisplay(abbr);
-                            runScaleComparison();
-                        });
-
-                        let dragging = false;
-                        let mx, my;
-
-                        stateShape.addEventListener("mousedown", (e) => {
-                            if (stateShape.classList.contains("snapped")) return;
-                            e.stopPropagation(); // Avoid background panning capture loops trigger matches
-                            dragging = true;
-                            mx = e.clientX; my = e.clientY;
-                            activeLayer.appendChild(group); // Lift order stack tier
-                        });
-
-                        window.addEventListener("mousemove", (e) => {
-                            if (!dragging) return;
-                            const dx = e.clientX - mx; const dy = e.clientY - my;
-                            let transform = group.style.transform || "translate(0px, 0px)";
-                            let coords = transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
-                            let cx = coords ? parseFloat(coords[1]) : 0;
-                            let cy = coords ? parseFloat(coords[2]) : 0;
-
-                            group.style.transform = `translate(${cx + dx}px, ${cy + dy}px)`;
-                            mx = e.clientX; my = e.clientY;
-                        });
-
-                        window.addEventListener("mouseup", () => {
-                            if (!dragging) return;
-                            dragging = false;
-                            
-                            if (!chkSnap.checked) return;
-                            
-                            let coords = group.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
-                            let cx = coords ? parseFloat(coords[1]) : 0;
-                            let cy = coords ? parseFloat(coords[2]) : 0;
-
-                            if (Math.abs(cx) < 18 && Math.abs(cy) < 18) {
-                                group.style.transform = "translate(0px, 0px)";
-                                stateShape.classList.add("snapped");
-                                updateScoreCounter();
-                            }
-                        });
+                        document.getElementById("hud-name").innerText = DATA.NAMES[abbr];
+                        document.getElementById("hud-postal").innerText = `POSTAL CODE: ${abbr}`;
+                        document.getElementById("hud-nickname").innerText = DATA.NICKNAMES[abbr] || 'None';
+                        document.getElementById("hud-capital").innerText = DATA.CAPITALS[abbr] || 'N/A';
+                        document.getElementById("hud-major-cities").innerText = DATA.CITIES_LIST[abbr] || 'N/A';
+                        document.getElementById("hud-major-cities").title = DATA.CITIES_LIST[abbr] || '';
+                        document.getElementById("hud-total").innerText = totalArea.toLocaleString() + " sq mi";
+                        document.getElementById("hud-land").innerText = DATA.LAND_AREA[abbr].toLocaleString() + " sq mi";
+                        document.getElementById("hud-water").innerText = DATA.WATER_AREA[abbr].toLocaleString() + " sq mi";
+                        document.getElementById("hud-cheapness").innerText = DATA.CHEAPNESS_INDEX[abbr] + " (Base: 100)";
+                        document.getElementById("hud-crime").innerText = DATA.CRIME_RATE[abbr] + " incidents";
+                        document.getElementById("hud-penalty").innerText = DATA.DEATH_PENALTY[abbr];
+                        
+                        runScaleComparison();
                     });
-                    updateScoreCounter();
-                } catch(ex) {
-                    console.error("Critical fault encountered during initialization of map matrix assets layer mapping components: ", ex);
-                }
+
+                    let dragging = false;
+                    let mx, my;
+
+                    stateShape.addEventListener("mousedown", (e) => {
+                        if (stateShape.classList.contains("snapped")) return;
+                        dragging = true;
+                        mx = e.clientX; my = e.clientY;
+                        activeLayer.appendChild(group); 
+                    });
+
+                    window.addEventListener("mousemove", (e) => {
+                        if (!dragging) return;
+                        const dx = e.clientX - mx; const dy = e.clientY - my;
+                        let transform = group.style.transform || "translate(0px, 0px)";
+                        let coords = transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let cx = coords ? parseFloat(coords[1]) : 0;
+                        let cy = coords ? parseFloat(coords[2]) : 0;
+
+                        group.style.transform = `translate(${cx + dx}px, ${cy + dy}px)`;
+                        mx = e.clientX; my = e.clientY;
+                    });
+
+                    window.addEventListener("mouseup", () => {
+                        if (!dragging) return;
+                        dragging = false;
+                        
+                        if (!chkSnap.checked) return;
+                        
+                        let coords = group.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+                        let cx = coords ? parseFloat(coords[1]) : 0;
+                        let cy = coords ? parseFloat(coords[2]) : 0;
+
+                        if (Math.abs(cx) < 25 && Math.abs(cy) < 25) {
+                            group.style.transform = "translate(0px, 0px)";
+                            stateShape.classList.add("snapped");
+                            updateScoreCounter();
+                        }
+                    });
+                });
+                updateScoreCounter();
             }
 
             function runScaleComparison() {
                 if (!selectedState) return;
                 const target = selectCompare.value;
                 if (selectedState === target) {
-                    outputCompare.innerText = "Self-reference spatial check verified identical match dimensions.";
+                    outputCompare.innerText = "Self-reference comparison check matches exactly.";
                     return;
                 }
 
-                try {
-                    let srcVal, tgtVal, unit = "";
-                    const srcName = DATA.NAMES[selectedState] || selectedState;
-                    const tgtName = DATA.NAMES[target] || target;
-
-                    if (activeMetric === "total") {
-                        srcVal = (DATA.LAND_AREA[selectedState] || 0) + (DATA.WATER_AREA[selectedState] || 0);
-                        tgtVal = (DATA.LAND_AREA[target] || 0) + (DATA.WATER_AREA[target] || 0);
-                        unit = " sq mi combined area footprint";
-                    } else if (activeMetric === "land") {
-                        srcVal = DATA.LAND_AREA[selectedState] || 0;
-                        tgtVal = DATA.LAND_AREA[target] || 0;
-                        unit = " sq mi volumetric land mass";
-                    } else if (activeMetric === "water") {
-                        srcVal = DATA.WATER_AREA[selectedState] || 0;
-                        tgtVal = DATA.WATER_AREA[target] || 0;
-                        unit = " sq mi hydrological surface layout";
-                    } else if (activeMetric === "cheapness") {
-                        srcVal = DATA.CHEAPNESS_INDEX[selectedState] || 100;
-                        tgtVal = DATA.CHEAPNESS_INDEX[target] || 100;
-                        unit = " points score evaluation factor base index";
-                    } else if (activeMetric === "crime") {
-                        srcVal = DATA.CRIME_RATE[selectedState] || 0;
-                        tgtVal = DATA.CRIME_RATE[target] || 0;
-                        unit = " standard offenses matrix ratio metrics records per 100k population";
-                    }
-
-                    const ratio = srcVal / (tgtVal || 1);
-                    let analyticalPhrase = "";
-                    if (ratio > 1) {
-                        analyticalPhrase = `is approximately ${(ratio).toFixed(2)}x larger than`;
-                    } else if (ratio < 1) {
-                        analyticalPhrase = `is roughly ${(1 / ratio).toFixed(2)}x smaller than`;
-                    } else {
-                        analyticalPhrase = `holds an absolute exact scale parity match configuration value tier equivalence against`;
-                    }
-
-                    outputCompare.innerHTML = `<strong>${srcName}</strong> (${srcVal.toLocaleString()}${unit}) ${analyticalPhrase} <strong>${tgtName}</strong> (${tgtVal.toLocaleString()}${unit}).`;
-                } catch (e) {
-                    outputCompare.innerText = "Execution threshold metrics conversion fallback active. Calculation interrupted safely.";
+                let srcVal, tgtVal, unit = "";
+                
+                if (activeMetric === "total") {
+                    srcVal = DATA.LAND_AREA[selectedState] + DATA.WATER_AREA[selectedState];
+                    tgtVal = DATA.LAND_AREA[target] + DATA.WATER_AREA[target];
+                    unit = " sq mi";
+                } else if (activeMetric === "land") {
+                    srcVal = DATA.LAND_AREA[selectedState]; tgtVal = DATA.LAND_AREA[target]; unit = " sq mi";
+                } else if (activeMetric === "water") {
+                    srcVal = DATA.WATER_AREA[selectedState]; tgtVal = DATA.WATER_AREA[target]; unit = " sq mi";
+                } else if (activeMetric === "cheapness") {
+                    srcVal = DATA.CHEAPNESS_INDEX[selectedState]; tgtVal = DATA.CHEAPNESS_INDEX[target]; unit = " index points";
+                } else if (activeMetric === "crime") {
+                    srcVal = DATA.CRIME_RATE[selectedState]; tgtVal = DATA.CRIME_RATE[target]; unit = " incidents";
                 }
+
+                const ratio = (srcVal / tgtVal).toFixed(2);
+                outputCompare.innerHTML = `<strong>${DATA.NAMES[selectedState]}</strong> (${srcVal.toLocaleString()}${unit}) is <strong>${ratio}x</strong> the size/value of <strong>${DATA.NAMES[target]}</strong> (${tgtVal.toLocaleString()}${unit}).`;
             }
 
-            function updateScoreCounter() {
-                const totalInPool = currentPool.length;
-                let snappedCount = 0;
-                const shapes = activeLayer.getElementsByClassName("state-path");
-                for(let s of shapes) {
-                    if (s.classList.contains("snapped")) snappedCount++;
-                }
-                document.getElementById("hud-score").innerText = `${snappedCount} / ${totalInPool}`;
-            }
-
-            // Events Triggers Grid Systems Configuration
             colorSystemSelect.addEventListener("change", buildInteractiveMap);
             chkLabels.addEventListener("change", () => {
-                const labels = activeLayer.getElementsByClassName("state-label");
-                for(let l of labels) {
-                    chkLabels.checked ? l.classList.remove("hidden") : l.classList.add("hidden");
-                }
+                document.querySelectorAll(".state-label").forEach(lbl => {
+                    chkLabels.checked ? lbl.classList.remove("hidden") : lbl.classList.add("hidden");
+                });
             });
-            chkCities.addEventListener("change", buildInteractiveMap);
+            chkCities.addEventListener("change", () => {
+                document.querySelectorAll(".city-node, .capital-node").forEach(node => {
+                    chkCities.checked ? node.classList.remove("node-hidden") : node.classList.add("node-hidden");
+                });
+            });
             chkSolution.addEventListener("change", buildInteractiveMap);
-            selectCompare.addEventListener("change", runScaleComparison);
 
             metricButtons.forEach(btn => {
-                btn.addEventListener("click", (e) => {
+                btn.addEventListener("click", () => {
                     metricButtons.forEach(b => b.classList.remove("active"));
-                    e.target.classList.add("active");
-                    activeMetric = e.target.getAttribute("data-metric");
+                    btn.classList.add("active");
+                    activeMetric = btn.getAttribute("data-metric");
                     runScaleComparison();
                 });
             });
 
-            document.getElementById("btn-apply-limit").addEventListener("click", () => {
-                let limit = parseInt(stateLimitInput.value) || 50;
-                if (limit < 1) limit = 1; if (limit > 50) limit = 50;
-                stateLimitInput.value = limit;
+            selectCompare.addEventListener("change", runScaleComparison);
 
-                const sortedKeys = Object.keys(DATA.PATHS).sort();
-                currentPool = sortedKeys.slice(0, limit);
-                initializeSelectMenu();
+            document.getElementById("btn-shuffle").addEventListener("click", () => {
+                currentPool.forEach(abbr => {
+                    const group = document.getElementById(`node-${abbr}`);
+                    if (group) {
+                        const path = group.querySelector(".state-path");
+                        path.classList.remove("snapped");
+                        const rx = (Math.random() * 260 - 130).toFixed(1);
+                        const ry = (Math.random() * 260 - 130).toFixed(1);
+                        group.style.transform = `translate(${rx}px, ${ry}px)`;
+                    }
+                });
+                updateScoreCounter();
+            });
+
+            document.getElementById("btn-apply-limit").addEventListener("click", () => {
+                const limit = parseInt(document.getElementById("state-limit").value) || 50;
+                const allKeys = Object.keys(DATA.PATHS).sort();
+                currentPool = allKeys.slice(0, limit);
                 buildInteractiveMap();
             });
 
-            document.getElementById("btn-shuffle").addEventListener("click", () => {
-                const groups = activeLayer.getElementsByTagName("g");
-                for (let g of groups) {
-                    const checkPath = g.querySelector(".state-path");
-                    if(checkPath && checkPath.classList.contains("snapped")) continue;
-                    
-                    let rx = Math.floor(Math.random() * 260) - 130;
-                    let ry = Math.floor(Math.random() * 260) - 130;
-                    g.style.transform = `translate(${rx}px, ${ry}px)`;
+            document.getElementById("btn-delete-state").addEventListener("click", () => {
+                if (selectedState) {
+                    currentPool = currentPool.filter(c => c !== selectedState);
+                    selectedState = null;
+                    buildInteractiveMap();
                 }
             });
 
-            document.getElementById("btn-reset").addEventListener("click", () => {
-                panX = 0; panY = 0;
-                panContent.style.transform = "translate(0px, 0px)";
-                currentPool = Object.keys(DATA.PATHS).sort();
-                stateLimitInput.value = 50;
-                initializeSelectMenu();
-                buildInteractiveMap();
-            });
-
-            // Master Entry Point Engine Triggers Execution Flow Loop Blueprint Run
-            initializeSelectMenu();
             buildInteractiveMap();
         });
     </script>
