@@ -66,21 +66,34 @@
         }
         .state-path:hover { stroke: var(--accent); fill-opacity: 0.85; }
         .state-path.snapped { stroke: #fff; cursor: default; }
-        .state-path.selected { stroke: var(--accent2); stroke-width: 2; }
+        .state-path.selected { stroke: var(--accent2); stroke-width: 2.5; }
         
         .state-label { font-size: 10px; font-weight: 800; fill: var(--text); pointer-events: none; text-anchor: middle; transition: opacity 0.15s; }
         .state-label.hidden { opacity: 0; }
 
+        /* Dynamic Map Layer Classes */
         .city-node { fill: #ffffff; stroke: var(--bg); stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
         .capital-node { fill: var(--warn); stroke: #ffffff; stroke-width: 1; pointer-events: none; transition: opacity 0.15s; }
-        .national-capital-node { fill: #ef4444; stroke: #ffffff; stroke-width: 1.5; cursor: pointer; pointer-events: auto; animation: pulse-glow 2s infinite; }
-        .node-hidden { opacity: 0 !important; }
-
-        @keyframes pulse-glow {
-            0% { stroke-width: 1.5; }
-            50% { stroke-width: 3; stroke: #f59e0b; }
-            100% { stroke-width: 1.5; }
+        
+        /* Distinguishable Interactive National Capital Target */
+        .national-capital-node { 
+            fill: #ff3344; stroke: #ffffff; stroke-width: 1.5; 
+            cursor: pointer; pointer-events: auto;
+            animation: dcPulse 2s infinite ease-in-out; 
+            transition: opacity 0.15s, transform 0.2s;
         }
+        .national-capital-node:hover { transform: scale(1.3); }
+
+        @keyframes dcPulse {
+            0% { stroke-width: 1.5; filter: drop-shadow(0 0 2px rgba(255,51,68,0.6)); }
+            50% { stroke-width: 3.5; stroke: #ffea00; filter: drop-shadow(0 0 8px rgba(255,51,68,0.9)); }
+            100% { stroke-width: 1.5; filter: drop-shadow(0 0 2px rgba(255,51,68,0.6)); }
+        }
+
+        .map-text-node { font-size: 7px; font-weight: 600; fill: #94a3b8; pointer-events: none; transition: opacity 0.15s; }
+        .map-text-node.capital-text { fill: #f59e0b; font-weight: 700; }
+        
+        .node-hidden { opacity: 0 !important; pointer-events: none !important; }
 
         #sidebar {
             width: var(--sidebar-width); background: var(--surface);
@@ -109,12 +122,12 @@
 
     <div id="topbar">
         <div class="logo">
-            <span class="logo-text">GLOBAL PROJECT MATRIX DASHBOARD</span>
+            <span class="logo-text">GLOBAL USA GEOCENTRIC ANALYTICS</span>
         </div>
         <div class="control-group">
             <span style="font-size: 11px; color: var(--text2);">Coloring Grid System:</span>
-            <select id="color-system-select" class="control-input" style="width: 130px;">
-                <option value="classic">Classic Distinctive</option>
+            <select id="color-system-select" class="control-input" style="width: 140px;">
+                <option value="classic">Distinctive Palette</option>
                 <option value="cheapness">Cheapness Index</option>
                 <option value="crime">Violent Crime Rate</option>
                 <option value="penalty">Death Penalty Record</option>
@@ -124,19 +137,25 @@
     
     <div id="zrow">
         <div class="control-group">
-            <label><input type="checkbox" id="chk-toggle-labels" checked> Abbreviations</label>
+            <label><input type="checkbox" id="chk-toggle-labels" checked> State Codes</label>
+        </div>
+        <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 8px;">
+            <label><input type="checkbox" id="chk-toggle-capitals" checked> Show Capitals</label>
         </div>
         <div class="control-group">
-            <label><input type="checkbox" id="chk-toggle-cities" checked> Cities & Capitals</label>
+            <label><input type="checkbox" id="chk-toggle-cities" checked> Show Cities</label>
         </div>
         <div class="control-group">
+            <label><input type="checkbox" id="chk-toggle-city-names" checked> Place Names</label>
+        </div>
+        <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 8px;">
             <label><input type="checkbox" id="chk-toggle-snap" checked> Snap Lock</label>
         </div>
         <div class="control-group">
-            <label><input type="checkbox" id="chk-toggle-solution"> Show Solution</label>
+            <label><input type="checkbox" id="chk-toggle-solution"> Solution Base</label>
         </div>
         <div class="control-group" style="border-left: 1px solid var(--border); padding-left: 10px;">
-            <label>Limit Pool:</label>
+            <label>Pool Limit:</label>
             <input type="number" id="state-limit" class="control-input" value="51" min="1" max="51" style="width: 45px;">
             <button class="action-btn" id="btn-apply-limit">Truncate</button>
         </div>
@@ -155,8 +174,8 @@
         <div id="sidebar">
             <div class="panel-card" style="border-top: 4px solid var(--accent);">
                 <div style="font-size: 10px; color: var(--text2); font-weight: bold;" id="hud-postal">POSTAL CODE: --</div>
-                <div style="font-size: 20px; font-weight: 800; margin-top: 2px;" id="hud-name">Select a State Shape</div>
-                <div style="font-style: italic; color: var(--text2); font-size: 12px;" id="hud-nickname">Click a path node to parse info...</div>
+                <div style="font-size: 20px; font-weight: 800; margin-top: 2px;" id="hud-name">Select Map Entity</div>
+                <div style="font-style: italic; color: var(--text2); font-size: 12px;" id="hud-nickname">Click a state path or node to audit data...</div>
             </div>
 
             <div class="panel-card">
@@ -175,7 +194,7 @@
 
             <div class="panel-card">
                 <h4 style="margin: 0 0 4px 0; font-size: 11px; text-transform: uppercase; color: var(--warn);">Relational Scale Comparator</h4>
-                <label style="font-size: 10px; color: var(--text2);">Search & select target state:</label>
+                <label style="font-size: 10px; color: var(--text2);">Search & select target entity:</label>
                 <select id="compare-target" class="search-select-box"></select>
                 
                 <div class="metric-tabs">
@@ -187,12 +206,12 @@
                 </div>
 
                 <div style="margin-top: 10px; padding: 10px; background: var(--bg); border-radius: 4px; font-size: 12px; text-align: center; border: 1px solid var(--border); line-height: 1.4;" id="comparison-output">
-                    Select a state vector node on the map canvas to initiate multi-aspect query runs.
+                    Select any vector layer entity to calculate regional scale parity logs.
                 </div>
             </div>
 
             <div class="panel-card" style="margin-top: auto; text-align: center; padding: 8px;">
-                <div style="font-size: 10px; color: var(--text2); text-transform: uppercase;">Puzzle Synced Progress</div>
+                <div style="font-size: 10px; color: var(--text2); text-transform: uppercase;">Puzzle Synchronization</div>
                 <div style="font-size: 24px; font-weight: 800; color: var(--accent2); margin-top: 2px;" id="hud-score">0 / 51</div>
             </div>
         </div>
@@ -200,7 +219,6 @@
 
     <script>
         window.MAP_STATE = { allItems: {} };
-        window.COLORS = window.COLORS || { classic: {} };
 
         const DATA = {
             NAMES: {
@@ -351,7 +369,7 @@
                 WV: { d: "M690,215 L735,220 L725,255 L680,250 Z", cx: 708, cy: 235, color: "#14b8a6" },
                 WI: { d: "M550,130 L605,135 L595,195 L540,190 Z", cx: 572, cy: 162, color: "#a855f7" },
                 WY: { d: "M315,160 L405,170 L395,230 L305,220 Z", cx: 355, cy: 195, color: "#f97316" },
-                DC: { d: "M778,193 L783,190 L786,194 L781,197 Z", cx: 782, cy: 194, color: "#ef4444" }
+                DC: { d: "M765,195 L773,195 L773,203 L765,203 Z", cx: 769, cy: 199, color: "#ef4444" }
             }
         };
 
@@ -363,7 +381,9 @@
             const colorSystemSelect = document.getElementById("color-system-select");
             
             const chkLabels = document.getElementById("chk-toggle-labels");
+            const chkCapitals = document.getElementById("chk-toggle-capitals");
             const chkCities = document.getElementById("chk-toggle-cities");
+            const chkCityNames = document.getElementById("chk-toggle-city-names");
             const chkSnap = document.getElementById("chk-toggle-snap");
             const chkSolution = document.getElementById("chk-toggle-solution");
             const metricButtons = document.querySelectorAll(".m-tab");
@@ -371,13 +391,15 @@
             let selectedState = null;
             let activeMetric = "total";
             let currentPool = Object.keys(DATA.PATHS).sort();
-            let scoreCount = 0;
 
-            Object.keys(DATA.NAMES).sort().forEach(abbr => {
-                const opt = document.createElement("option");
-                opt.value = abbr; opt.innerText = `${abbr} - ${DATA.NAMES[abbr]}`;
-                selectCompare.appendChild(opt);
-            });
+            function populateComparisonDropdown() {
+                selectCompare.innerHTML = "";
+                currentPool.forEach(abbr => {
+                    const opt = document.createElement("option");
+                    opt.value = abbr; opt.innerText = `${abbr} - ${DATA.NAMES[abbr]}`;
+                    selectCompare.appendChild(opt);
+                });
+            }
 
             function getStateColor(abbr, system) {
                 if (system === "cheapness") {
@@ -415,12 +437,16 @@
                 activeLayer.innerHTML = "";
                 shadowLayer.innerHTML = "";
                 const activeSystem = colorSystemSelect.value;
-                const nodeVisibilityClass = chkCities.checked ? '' : 'node-hidden';
+
+                const capHidden = !chkCapitals.checked ? 'node-hidden' : '';
+                const cityHidden = !chkCities.checked ? 'node-hidden' : '';
+                const nameHidden = !chkCityNames.checked ? 'node-hidden' : '';
 
                 currentPool.forEach(abbr => {
                     const pathMeta = DATA.PATHS[abbr];
                     if (!pathMeta) return;
 
+                    // Silhouette Background Trace
                     const shadowShape = document.createElementNS("http://www.w3.org/2000/svg", "path");
                     shadowShape.setAttribute("d", pathMeta.d);
                     shadowShape.setAttribute("fill", chkSolution.checked ? getStateColor(abbr, activeSystem) : "#243b54");
@@ -428,6 +454,7 @@
                     shadowShape.setAttribute("stroke", "#1e2f42");
                     shadowLayer.appendChild(shadowShape);
 
+                    // Dynamic Drag Layer Group
                     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
                     group.setAttribute("id", `node-${abbr}`);
                     
@@ -437,36 +464,52 @@
                     stateShape.setAttribute("fill", getStateColor(abbr, activeSystem));
                     if (selectedState === abbr) stateShape.classList.add("selected");
 
+                    // Center Code Labels
                     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
                     label.setAttribute("x", pathMeta.cx);
-                    label.setAttribute("y", pathMeta.cy);
+                    label.setAttribute("y", pathMeta.cy - 4);
                     label.setAttribute("class", `state-label ${chkLabels.checked ? '' : 'hidden'}`);
                     label.textContent = abbr;
 
+                    // Node Anchor Components
                     let capStar;
                     if (abbr === "DC") {
                         capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        capStar.setAttribute("d", createStarPath(pathMeta.cx, pathMeta.cy, 8, 5));
-                        capStar.setAttribute("class", `national-capital-node ${nodeVisibilityClass}`);
+                        capStar.setAttribute("d", createStarPath(pathMeta.cx, pathMeta.cy, 9, 5));
+                        capStar.setAttribute("class", `national-capital-node ${capHidden}`);
                     } else {
                         capStar = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        capStar.setAttribute("d", createStarPath(pathMeta.cx - 8, pathMeta.cy + 6, 4.5, 5));
-                        capStar.setAttribute("class", `capital-node ${nodeVisibilityClass}`);
+                        capStar.setAttribute("d", createStarPath(pathMeta.cx - 12, pathMeta.cy + 10, 5, 5));
+                        capStar.setAttribute("class", `capital-node ${capHidden}`);
                     }
 
+                    const capText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    capText.setAttribute("x", pathMeta.cx - 12);
+                    capText.setAttribute("y", pathMeta.cy + 20);
+                    capText.setAttribute("class", `map-text-node capital-text ${nameHidden} ${capHidden}`);
+                    capText.textContent = DATA.CAPITALS[abbr];
+
                     const majorCityDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    majorCityDot.setAttribute("cx", pathMeta.cx + 10);
-                    majorCityDot.setAttribute("cy", pathMeta.cy - 6);
-                    majorCityDot.setAttribute("r", abbr === "DC" ? "0" : "2.5");
-                    majorCityDot.setAttribute("class", `city-node ${nodeVisibilityClass}`);
+                    majorCityDot.setAttribute("cx", pathMeta.cx + 14);
+                    majorCityDot.setAttribute("cy", pathMeta.cy - 10);
+                    majorCityDot.setAttribute("r", abbr === "DC" ? "0" : "3");
+                    majorCityDot.setAttribute("class", `city-node ${cityHidden}`);
+
+                    const cityText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    cityText.setAttribute("x", pathMeta.cx + 14);
+                    cityText.setAttribute("y", pathMeta.cy - 16);
+                    cityText.setAttribute("class", `map-text-node ${nameHidden} ${cityHidden}`);
+                    cityText.textContent = (DATA.CITIES_LIST[abbr] || "").split(",")[0];
 
                     group.appendChild(stateShape);
                     group.appendChild(label);
                     group.appendChild(capStar);
+                    group.appendChild(capText);
                     group.appendChild(majorCityDot);
+                    group.appendChild(cityText);
                     activeLayer.appendChild(group);
 
-                    const triggerSelection = () => {
+                    const clickTrigger = () => {
                         selectedState = abbr;
                         document.querySelectorAll(".state-path").forEach(p => p.classList.remove("selected"));
                         stateShape.classList.add("selected");
@@ -489,8 +532,11 @@
                         runScaleComparison();
                     };
 
-                    stateShape.addEventListener("click", triggerSelection);
-                    capStar.addEventListener("click", (e) => { e.stopPropagation(); triggerSelection(); });
+                    stateShape.addEventListener("click", clickTrigger);
+                    capStar.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        clickTrigger();
+                    });
 
                     let dragging = false;
                     let mx, my;
@@ -570,7 +616,7 @@
                 outputCompare.innerHTML = `<strong>${DATA.NAMES[selectedState]}</strong> (${srcVal.toLocaleString()}${unit}) matches <strong>${ratio}x</strong> relative index weight against <strong>${DATA.NAMES[target]}</strong> (${tgtVal.toLocaleString()}${unit}).`;
             }
 
-            // Toggles and Interactive Control Systems Configuration
+            // Layer Visibility Toggle Configurations System
             chkLabels.addEventListener("change", () => {
                 document.querySelectorAll(".state-label").forEach(lbl => {
                     if (chkLabels.checked) lbl.classList.remove("hidden");
@@ -578,19 +624,35 @@
                 });
             });
 
-            chkCities.addEventListener("change", () => {
-                document.querySelectorAll(".city-node, .capital-node, .national-capital-node").forEach(node => {
-                    if (chkCities.checked) node.classList.remove("node-hidden");
-                    else node.classList.add("node-hidden");
+            const syncLayerToggles = () => {
+                document.querySelectorAll(".capital-node, .national-capital-node").forEach(n => {
+                    if (chkCapitals.checked) n.classList.remove("node-hidden");
+                    else n.classList.add("node-hidden");
                 });
-            });
+                document.querySelectorAll(".capital-text").forEach(n => {
+                    if (chkCapitals.checked && chkCityNames.checked) n.classList.remove("node-hidden");
+                    else n.classList.add("node-hidden");
+                });
+                document.querySelectorAll(".city-node").forEach(n => {
+                    if (chkCities.checked) n.classList.remove("node-hidden");
+                    else n.classList.add("node-hidden");
+                });
+                document.querySelectorAll(".map-text-node:not(.capital-text)").forEach(n => {
+                    if (chkCities.checked && chkCityNames.checked) n.classList.remove("node-hidden");
+                    else n.classList.add("node-hidden");
+                });
+            };
+
+            chkCapitals.addEventListener("change", syncLayerToggles);
+            chkCities.addEventListener("change", syncLayerToggles);
+            chkCityNames.addEventListener("change", syncLayerToggles);
 
             colorSystemSelect.addEventListener("change", buildInteractiveMap);
             chkSolution.addEventListener("change", buildInteractiveMap);
             selectCompare.addEventListener("change", runScaleComparison);
 
             metricButtons.forEach(btn => {
-                btn.addEventListener("click", (e) => {
+                btn.addEventListener("click", () => {
                     metricButtons.forEach(b => b.classList.remove("active"));
                     btn.classList.add("active");
                     activeMetric = btn.getAttribute("data-metric");
@@ -601,8 +663,8 @@
             document.getElementById("btn-shuffle").addEventListener("click", () => {
                 document.querySelectorAll("#map-active-pieces > g").forEach(g => {
                     if (g.querySelector(".state-path").classList.contains("snapped")) return;
-                    const rx = (Math.random() - 0.5) * 200;
-                    const ry = (Math.random() - 0.5) * 200;
+                    const rx = (Math.random() - 0.5) * 220;
+                    const ry = (Math.random() - 0.5) * 220;
                     g.style.transform = `translate(${rx}px, ${ry}px)`;
                 });
             });
@@ -611,6 +673,7 @@
                 const lim = parseInt(document.getElementById("state-limit").value) || 51;
                 const allKeys = Object.keys(DATA.PATHS).sort();
                 currentPool = allKeys.slice(0, Math.max(1, Math.min(51, lim)));
+                populateComparisonDropdown();
                 buildInteractiveMap();
             });
 
@@ -618,12 +681,14 @@
                 if (!selectedState) return;
                 currentPool = currentPool.filter(k => k !== selectedState);
                 selectedState = null;
+                populateComparisonDropdown();
                 buildInteractiveMap();
-                document.getElementById("hud-name").innerText = "Select a State Shape";
-                outputCompare.innerText = "Select a state vector node on the map canvas to initiate multi-aspect query runs.";
+                document.getElementById("hud-name").innerText = "Select Map Entity";
+                outputCompare.innerText = "Select any vector layer entity to calculate regional scale parity logs.";
             });
 
-            // Initial Bootstrap Lifecycle Run
+            // Initial Bootstrap Lifecycle
+            populateComparisonDropdown();
             buildInteractiveMap();
         });
     </script>
