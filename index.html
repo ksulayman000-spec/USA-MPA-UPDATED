@@ -14,23 +14,59 @@
     <link rel="stylesheet" href="toolbar.css">
 
     <style>
+        /* Global environment system layout design variables */
         :root {
-            --bg: #0f1923; --surface: #182433; --surface2: #1e2f42; --surface3: #243b54;
-            --border: #2a3f55; --accent: #3b82f6; --text: #e8f0fe; --text2: #8ba3bc;
-            --radius: 8px; --font: 'Inter', sans-serif;
+            --bg: #0f1923; 
+            --surface: #182433; 
+            --surface2: #1e2f42; 
+            --surface3: #243b54;
+            --border: #2a3f55; 
+            --border2: #3a5675; 
+            --accent: #3b82f6; 
+            --accent2: #10b981;
+            --warn: #f59e0b; 
+            --danger: #ef4444; 
+            --text: #e8f0fe; 
+            --text2: #8ba3bc;
+            --text3: #4a6580; 
+            --radius: 8px; 
+            --radius-lg: 12px; 
+            --radius-full: 9999px;
+            --shadow: 0 4px 24px rgba(0,0,0,.4); 
+            --font: 'Inter', sans-serif;
+            --sidebar-width: 320px; 
+            --topbar-height: 48px; 
+            --zrow-height: 36px;
+            --gap-sm: 8px; 
+            --transition: 0.15s ease; 
+            --transition-slow: 0.3s ease; 
+            --ocean: #0b131c;
         }
-        /* Interactive tile grid styling inside the workspace */
+
+        /* Interactive tile grid frame structures */
         .state-app-tile {
-            display: inline-block; padding: 12px 16px; margin: 6px;
-            background: var(--surface2); border: 1px solid var(--border);
-            border-radius: var(--radius); cursor: pointer; color: var(--text);
-            font-weight: 600; transition: all 0.15s ease;
+            display: inline-block; 
+            padding: 12px 16px; 
+            margin: 6px;
+            background: var(--surface2); 
+            border: 1px solid var(--border);
+            border-radius: var(--radius); 
+            cursor: pointer; 
+            color: var(--text);
+            font-weight: 600; 
+            transition: all var(--transition);
         }
         .state-app-tile:hover {
-            border-color: var(--accent); background: var(--surface3);
+            border-color: var(--accent); 
+            background: var(--surface3);
             transform: translateY(-2px);
         }
-        #interactive-dashboard-grid { padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; }
+        #interactive-dashboard-grid { 
+            padding: 20px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+        }
     </style>
 </head>
 <body>
@@ -41,9 +77,20 @@
                 <span class="logo-icon">🗺️</span>
                 <span class="logo-text">USA Project Dashboard</span>
             </div>
+            <div class="sep"></div>
+            <div id="modes">
+                <button class="mbtn on" id="mfree">Explore Dataset</button>
+            </div>
         </div>
     </div>
     
+    <div id="zrow">
+        <span class="zrow-label">System Control:</span>
+        <button class="zoom-btn" id="zin">+</button>
+        <div class="zoom-val" id="zval">100%</div>
+        <button class="zoom-btn" id="zout">−</button>
+    </div>
+
     <div id="main">
         <div id="map-wrap" style="overflow-y: auto;">
             <div id="interactive-dashboard-grid"></div>
@@ -55,65 +102,127 @@
             </div>
             <div id="tab-content">
                 <div id="info-card">
-                    <div id="info-color-bar" style="height: 4px; background: var(--accent); margin-bottom: 10px;"></div>
-                    <div class="state-title" id="panel-state-name">Loading items...</div>
-                    <div id="panel-state-body" style="margin-top: 15px; color: var(--text2); line-height: 1.6;"></div>
+                    <div id="info-color-bar" style="height: 4px; background: var(--accent); margin-bottom: 12px;"></div>
+                    <div class="state-title" id="panel-state-name">Select a State Item</div>
+                    <div class="abbr-badge" id="panel-state-abbr" style="display: inline-block; margin-top: 5px; padding: 4px 8px; background: var(--border); color: var(--text); border-radius: var(--radius); font-size: 12px; font-weight: bold;">--</div>
+                    
+                    <div class="stat-grid" style="margin-top: 15px; display: grid; gap: 10px;">
+                        <div class="stat-box" style="background: var(--surface2); padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);">
+                            <div class="sv" id="stat-nickname" style="font-size: 16px; font-weight: 700; color: var(--text);">N/A</div>
+                            <div class="score-label" style="font-size: 11px; color: var(--text2); text-transform: uppercase; margin-top: 4px;">Official Nickname</div>
+                        </div>
+                        <div class="stat-box" style="background: var(--surface2); padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);">
+                            <div class="sv" id="stat-fips" style="font-size: 16px; font-weight: 700; color: var(--text);">--</div>
+                            <div class="score-label" style="font-size: 11px; color: var(--text2); text-transform: uppercase; margin-top: 4px;">FIPS Index Code</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Set environment layout scopes
         window.MAP_STATE = { allItems: {} };
         window.COLORS = window.COLORS || { classic: {} };
+
+        // Complete dictionary mapping completely alphabetical (A-Z)
+        const DATA = {
+            NAMES: {
+                AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+                CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia",
+                HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+                KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
+                MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri",
+                MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+                NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
+                OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+                SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+                VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
+            },
+            NICKNAMES: {
+                AL: "Yellowhammer State", AK: "The Last Frontier", AZ: "Grand Canyon State", AR: "The Natural State", CA: "Golden State",
+                CO: "Centennial State", CT: "Constitution State", DE: "First State", FL: "Sunshine State", GA: "Peach State",
+                HI: "Aloha State", ID: "Gem State", IL: "Prairie State", IN: "Hoosier State", IA: "Hawkeye State",
+                KS: "Sunflower State", KY: "Bluegrass State", LA: "Pelican State", ME: "Pine Tree State", MD: "Old Line State",
+                MA: "Bay State", MI: "Great Lakes State", MN: "North Star State", MS: "Magnolia State", MO: "Show Me State",
+                MT: "Treasure State", NE: "Cornhusker State", NV: "Silver State", NH: "Granite State", NJ: "Garden State",
+                NM: "Land of Enchantment", NY: "Empire State", NC: "Tar Heel State", ND: "Peace Garden State", OH: "Buckeye State",
+                OK: "Sooner State", OR: "Beaver State", PA: "Keystone State", RI: "Ocean State", SC: "Palmetto State",
+                SD: "Mount Rushmore State", TN: "Volunteer State", TX: "Lone Star State", UT: "Beehive State", VT: "Green Mountain State",
+                VA: "The Old Dominion", WA: "Evergreen State", WV: "Mountain State", WI: "Badger State", WY: "Equality State"
+            },
+            FIPS: {
+                "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA",
+                "08": "CO", "09": "CT", "10": "DE", "12": "FL", "13": "GA",
+                "15": "HI", "16": "ID", "17": "IL", "18": "IN", "19": "IA",
+                "20": "KS", "21": "KY", "22": "LA", "23": "ME", "24": "MD",
+                "25": "MA", "26": "MI", "27": "MN", "28": "MS", "29": "MO",
+                "30": "MT", "31": "NE", "32": "NV", "33": "NH", "34": "NJ",
+                "35": "NM", "36": "NY", "37": "NC", "38": "ND", "39": "OH",
+                "40": "OK", "41": "OR", "42": "PA", "44": "RI", "45": "SC",
+                "46": "SD", "47": "TN", "48": "TX", "49": "UT", "50": "VT",
+                "51": "VA", "53": "WA", "54": "WV", "55": "WI", "56": "WY"
+            }
+        };
     </script>
 
-    <script src="data.js"></script>
     <script src="colors.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById("interactive-dashboard-grid");
             const nameDisplay = document.getElementById("panel-state-name");
-            const bodyDisplay = document.getElementById("panel-state-body");
+            const abbrDisplay = document.getElementById("panel-state-abbr");
+            const nicknameDisplay = document.getElementById("stat-nickname");
+            const fipsDisplay = document.getElementById("stat-fips");
+            const colorBar = document.getElementById("info-color-bar");
 
-            // Look for your DATA variable, or fallback to stateData if named differently
-            const activeData = (typeof DATA !== 'undefined') ? DATA : (typeof stateData !== 'undefined' ? stateData : null);
+            // Build individual visual selector nodes in pure alphabetical sequence
+            Object.keys(DATA.NAMES).sort().forEach(abbr => {
+                window.MAP_STATE.allItems[abbr] = { id: abbr, snapped: true };
 
-            if (activeData && activeData.NAMES) {
-                nameDisplay.innerText = "Select a State Item";
-                
-                Object.keys(activeData.NAMES).forEach(abbr => {
-                    window.MAP_STATE.allItems[abbr] = { id: abbr, snapped: true };
+                // Read custom colors array dynamic bindings if active
+                let stateThemeColor = "var(--accent)";
+                if (typeof COLORS !== 'undefined' && COLORS.classic && COLORS.classic[abbr]) {
+                    stateThemeColor = COLORS.classic[abbr];
+                }
 
-                    let stateThemeColor = "var(--accent)";
-                    if (typeof COLORS !== 'undefined' && COLORS.classic && COLORS.classic[abbr]) {
-                        stateThemeColor = COLORS.classic[abbr];
-                    }
+                const tile = document.createElement("div");
+                tile.className = "state-app-tile";
+                tile.style.borderLeft = `4px solid ${stateThemeColor}`;
+                tile.innerText = DATA.NAMES[abbr];
 
-                    const tile = document.createElement("div");
-                    tile.className = "state-app-tile";
-                    tile.style.borderLeft = `4px solid ${stateThemeColor}`;
-                    tile.innerText = `${activeData.EMOJIS?.[abbr] || '📍'} ${activeData.NAMES[abbr]}`;
-
-                    tile.addEventListener("click", () => {
-                        nameDisplay.innerText = `${activeData.EMOJIS?.[abbr] || ''} ${activeData.NAMES[abbr]} (${abbr})`;
-                        bodyDisplay.innerHTML = `
-                            <p><strong>Official Nickname:</strong> ${activeData.NICKNAMES?.[abbr] || 'None Listed'}</p>
-                            <p><strong>FIPS Index Code:</strong> ${Object.keys(activeData.FIPS || {}).find(key => activeData.FIPS[key] === abbr) || '--'}</p>
-                        `;
-                        document.getElementById("info-color-bar").style.background = stateThemeColor;
-                    });
-
-                    grid.appendChild(tile);
+                // Interface interactive listener modules
+                tile.addEventListener("click", () => {
+                    nameDisplay.innerText = DATA.NAMES[abbr];
+                    abbrDisplay.innerText = `Postal Code: ${abbr}`;
+                    nicknameDisplay.innerText = DATA.NICKNAMES[abbr] || 'None Listed';
+                    
+                    // Match and isolate structural FIPS identifier parameters
+                    const fipsCode = Object.keys(DATA.FIPS).find(key => DATA.FIPS[key] === abbr) || '--';
+                    fipsDisplay.innerText = fipsCode;
+                    
+                    colorBar.style.background = stateThemeColor;
                 });
-            } else {
-                nameDisplay.innerText = "Data Connection Error";
-                bodyDisplay.innerHTML = `
-                    <p style="color: var(--danger);">The interface loaded, but it can't read the lists inside your <strong>data.js</strong> file.</p>
-                    <p>Make sure your data file starts exactly with <code>const DATA = {</code> or <code>var DATA = {</code>!</p>
-                `;
-            }
+
+                grid.appendChild(tile);
+            });
+
+            // Control panel scale module emulation
+            let zoomLevel = 100;
+            document.getElementById("zin").addEventListener("click", () => {
+                zoomLevel = Math.min(zoomLevel + 10, 150);
+                document.getElementById("zval").innerText = zoomLevel + "%";
+                grid.style.transform = `scale(${zoomLevel / 100})`;
+                grid.style.transformOrigin = "top center";
+            });
+            document.getElementById("zout").addEventListener("click", () => {
+                zoomLevel = Math.max(zoomLevel - 10, 70);
+                document.getElementById("zval").innerText = zoomLevel + "%";
+                grid.style.transform = `scale(${zoomLevel / 100})`;
+                grid.style.transformOrigin = "top center";
+            });
         });
     </script>
 </body>
